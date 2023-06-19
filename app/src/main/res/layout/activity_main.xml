@@ -6,24 +6,24 @@
     android:layout_height="match_parent"
     tools:context="MainActivity">
 
-<!--  <androidx.viewpager.widget.ViewPager-->
-<!--        android:id="@+id/viewpager"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:layout_above="@+id/rg_tab"-->
-<!--        android:layout_marginBottom="6dp" />-->
 
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/rg_tab"
+        android:layout_marginBottom="7dp" />
 
     <RadioGroup
         android:id="@+id/rg_tab"
         android:layout_width="fill_parent"
         android:layout_height="55dp"
-        android:gravity="center_vertical"
         android:layout_alignParentBottom="true"
+        android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <RadioButton
-            android:id="@+id/rb_msg"
+            android:id="@+id/rb_lock"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -35,7 +35,7 @@
         <!--            android:drawableTop="@drawable/msg_drawable"-->
 
         <RadioButton
-            android:id="@+id/rb_people"
+            android:id="@+id/rb_record"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
