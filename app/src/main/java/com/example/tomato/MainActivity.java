@@ -32,13 +32,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int id) {
                 switch (id) {
-                    case R.id.rb_lock:
+                    case 1000003:
                         mViewPager.setCurrentItem(0);
                         break;
-                    case R.id.rb_record:
+                    case 1000000:
                         mViewPager.setCurrentItem(1);
                         break;
-                    case R.id.rb_me:
+                    case 1000002:
                         mViewPager.setCurrentItem(2);
                         break;
                 }
