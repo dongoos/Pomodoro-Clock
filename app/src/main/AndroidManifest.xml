@@ -21,6 +21,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+<!--        窗口名与标题-->
+            <activity
+                android:name=".ViewPagerInfo"
+                android:label="ViewPager Information">
+            </activity>
+
     </application>
 
 </manifest>
