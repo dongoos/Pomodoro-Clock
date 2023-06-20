@@ -1,17 +1,15 @@
 package com.example.tomato;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,21 +24,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();//初始化数据
-
         //对单选按钮进行监听，选中、未选中
         mRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int id) {
-                switch (id) {
-                    case 1000003:
-                        mViewPager.setCurrentItem(0);
-                        break;
-                    case 1000000:
-                        mViewPager.setCurrentItem(1);
-                        break;
-                    case 1000002:
-                        mViewPager.setCurrentItem(2);
-                        break;
+                if (id == R.id.rb_lock) {
+                    mViewPager.setCurrentItem(0);
+                } else if (id == R.id.rb_record) {
+                    mViewPager.setCurrentItem(1);
+                } else if (id == R.id.rb_me) {
+                    mViewPager.setCurrentItem(2);
                 }
             }
         });
