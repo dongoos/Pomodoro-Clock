@@ -14,6 +14,7 @@ import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import java.util.ArrayList;
 import java.util.List;
+import android.util.Log;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,7 +23,11 @@ public class MainActivity extends AppCompatActivity {
     private RadioButton tab1,tab2,tab3;
     //Your buttons
     private Button bt_info;
+    private Button bt_time;
     private List<View> mViews;   //存放视图
+
+    //create instance of timer to allow for the clicklistener to be elsewhere
+    Timer timerButton = new Timer();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +49,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void updateButtonText(Button x, String newText){
+        x.setText(newText);
+    }
+
     private void initView() {
         //初始化控件
         mViewPager=findViewById(R.id.viewpager);
@@ -59,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Your Views‘ buttons
         bt_info=mViews.get(2).findViewById(R.id.infoButton);
+        bt_time=mViews.get(0).findViewById(R.id.btnStart);
 
 
 
@@ -68,8 +78,18 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent =new Intent(MainActivity.this,ViewPagerInfo.class);
                startActivity(intent);
+
             }
         });
+
+        bt_time.setOnClickListener(timerButton);
+//        bt_time.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Log.i("Testing","IM READY TO CRYYYYYYYYYYYY");
+//
+//            }
+//        });
 
 
 

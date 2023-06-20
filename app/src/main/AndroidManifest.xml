@@ -24,8 +24,15 @@
 <!--        窗口名与标题-->
             <activity
                 android:name=".ViewPagerInfo"
-                android:label="ViewPager Information">
+                android:label="ViewPager Information"
+                >
             </activity>
+
+        <activity
+            android:name=".Timer"
+            android:label="Pomodoro Timer"
+            >
+        </activity>
 
     </application>
 
