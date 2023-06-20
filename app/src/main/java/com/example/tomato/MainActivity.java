@@ -1,10 +1,12 @@
 package com.example.tomato;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,7 +19,9 @@ public class MainActivity extends AppCompatActivity {
 
     private ViewPager mViewPager;
     private RadioGroup mRadioGroup;
-    private RadioButton tab1,tab2,tab3;  //three button
+    private RadioButton tab1,tab2,tab3;
+    //Your buttons
+    private Button bt_info;
     private List<View> mViews;   //存放视图
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +57,24 @@ public class MainActivity extends AppCompatActivity {
         mViews.add(LayoutInflater.from(this).inflate(R.layout.activity_record,null));
         mViews.add(LayoutInflater.from(this).inflate(R.layout.activity_me,null));
 
-        mViewPager.setAdapter(new MyViewPagerAdapter());//设置一个适配器
+        //Your Views‘ buttons
+        bt_info=mViews.get(2).findViewById(R.id.infoButton);
+
+
+
+        //ButtonListener
+        bt_info.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent =new Intent(MainActivity.this,ViewPagerInfo.class);
+               startActivity(intent);
+            }
+        });
+
+
+
+        //设置一个适配器
+        mViewPager.setAdapter(new MyViewPagerAdapter());
         //对viewpager监听，让分页和底部图标保持一起滑动
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
