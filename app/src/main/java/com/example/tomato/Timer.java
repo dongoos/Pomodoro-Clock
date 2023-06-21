@@ -4,6 +4,7 @@ package com.example.tomato;
 import android.app.Activity;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Button;
 import android.os.CountDownTimer;
@@ -26,40 +27,38 @@ public class Timer extends Activity implements View.OnClickListener {
 
     private Button btnInfo;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_lock);
-
-       // timer = LayoutInflater.from(this).inflate(R.layout.activity_lock,null).findViewById(R.id.timer);
-        btnStart =  findViewById(R.id.btnStart);
+    private ProgressBar timeProgress;
 
 
-//        btnStart.setOnClickListener(new View.OnClickListener() {
+
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
 //
-//        });
-
-
-    }
+//        super.onCreate(savedInstanceState);
+//        setContentView(R.layout.activity_lock);
+//
+//
+//        btnStart =  findViewById(R.id.btnStart);
+//
+//
+////        btnStart.setOnClickListener(new View.OnClickListener() {
+////
+////        });
+//
+//    }
     @Override
     public void onClick(View v) {
+
+        btnStart = MainActivity.getBtnT();
+        timer = MainActivity.getTimer();
+
         Log.i("test","Testing it button click works");
-        if( btnStart != null){
-            Log.i("testing","WOrk?");
-            btnStart.setText("CLicked");
-            Log.i("testing","FInished?");
 
-        }else{
-            Log.i("testing","Can't find VIew");
-        }
-
-//        MainActivity.updateButtonText(btnStart,"HIIII WORKKKKK");
-//                if (timerRunning) {
-//                    stopTimer();
-//                } else {
-//                    startTimer();
-//                }
+                if (timerRunning) {
+                    stopTimer();
+                } else {
+                    startTimer();
+                }
     }
 
 

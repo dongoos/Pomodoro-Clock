@@ -15,6 +15,7 @@ import androidx.viewpager.widget.ViewPager;
 import java.util.ArrayList;
 import java.util.List;
 import android.util.Log;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -23,7 +24,8 @@ public class MainActivity extends AppCompatActivity {
     private RadioButton tab1,tab2,tab3;
     //Your buttons
     private Button bt_info;
-    private Button bt_time;
+    private static Button bt_time;
+    private static TextView timer;
     private List<View> mViews;   //存放视图
 
     //create instance of timer to allow for the clicklistener to be elsewhere
@@ -49,12 +51,14 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public static void updateButtonText(Button x, String newText){
-        //Log.i("Testing","HIIII");
-        //x.setText(newText);
 
+    //get function to allow for the button to be used outside
+    public static Button getBtnT(){
+        return bt_time;
     }
-
+    public static TextView getTimer(){
+        return timer;
+    }
 
     private void initView() {
         //初始化控件
@@ -72,31 +76,24 @@ public class MainActivity extends AppCompatActivity {
         //Your Views‘ buttons
         bt_info=mViews.get(2).findViewById(R.id.infoButton);
         bt_time=mViews.get(0).findViewById(R.id.btnStart);
-
+        //TextViews
+        timer=mViews.get(0).findViewById(R.id.timer);
 
 
         //ButtonListener
         bt_info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                updateButtonText(bt_info,"Heyo please work");
-//                Intent intent =new Intent(MainActivity.this,ViewPagerInfo.class);
-//               startActivity(intent);
+                Intent intent =new Intent(MainActivity.this,ViewPagerInfo.class);
+                startActivity(intent);
+
 
 
             }
         });
 
+
         bt_time.setOnClickListener(timerButton);
-//        bt_time.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Log.i("Testing","IM READY TO CRYYYYYYYYYYYY");
-//
-//            }
-//        });
-
-
 
         //设置一个适配器
         mViewPager.setAdapter(new MyViewPagerAdapter());
