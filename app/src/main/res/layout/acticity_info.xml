@@ -23,9 +23,9 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingTop="10dp">
-<!--头像-->
-            <ImageView
-                android:id="@+id/iv_avatar"
+        <!--头像-->
+            <ImageButton
+                android:id="@+id/btn_avatar"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_gravity="center"
@@ -67,14 +67,14 @@
             android:textColor="#C222DD"/>
 
         <TextView
-            android:id="@+id/tv_user"
+            android:id="@+id/tv_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="20dp"
             android:text="null"
             android:textColor="#C222DD"/>
         <ImageButton
-            android:id="@+id/btn_user"
+            android:id="@+id/btn_name"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:backgroundTint="@color/white"
@@ -115,7 +115,7 @@
             android:textColor="#C222DD"/>
 
         <TextView
-            android:id="@+id/tv_label"
+            android:id="@+id/tv_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="20dp"
@@ -125,7 +125,7 @@
         <ImageButton
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:id="@+id/btn_label"
+            android:id="@+id/btn_email"
             android:backgroundTint="@color/white"
             android:scaleType="centerInside"
             android:src="@drawable/right"/>
@@ -148,23 +148,13 @@
         android:orientation="horizontal"
         android:padding="5dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_weight="1"
+        <Button
+            android:id="@+id/changePassword"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:gravity="center"
-            android:text="changePassword"
-            android:textColor="#C222DD" />
-
-        <ImageButton
-            android:id="@+id/btn_another_label"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:backgroundTint="@color/white"
-            android:scaleType="centerInside"
-            android:src="@drawable/right"/>
-
+            android:text="changepassword"
+            android:textColor="#2196F3"/>
 
 
     </LinearLayout>
@@ -177,24 +167,13 @@
         android:orientation="horizontal"
         android:padding="5dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_weight="1"
-            android:text="login"
-            android:gravity="center"
-            android:textColor="#C222DD"/>
-
-
-        <ImageButton
-            android:layout_width="40dp"
+        <Button
+            android:id="@+id/signup"
+            android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:id="@+id/btn_signup_label"
-            android:backgroundTint="@color/white"
-            android:scaleType="centerInside"
-            android:src="@drawable/right"/>
-
+            android:gravity="center"
+            android:text="signup"
+            android:textColor="#2196F3" />
 
 
     </LinearLayout>

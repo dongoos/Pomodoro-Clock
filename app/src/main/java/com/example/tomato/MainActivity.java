@@ -21,7 +21,9 @@ public class MainActivity extends AppCompatActivity {
     private RadioGroup mRadioGroup;
     private RadioButton tab1,tab2,tab3;
     //Your buttons
-    private Button bt_info;
+    private Button btn_info,btn_friend,btn_achievement,btn_feedback,btn_setting;
+
+
     private List<View> mViews;   //存放视图
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,16 +60,26 @@ public class MainActivity extends AppCompatActivity {
         mViews.add(LayoutInflater.from(this).inflate(R.layout.activity_me,null));
 
         //Your Views‘ buttons
-        bt_info=mViews.get(2).findViewById(R.id.infoButton);
-
+        btn_info=mViews.get(2).findViewById(R.id.infoButton);
+        btn_friend=mViews.get(2).findViewById(R.id.btn_friend);
+        btn_achievement=mViews.get(2).findViewById(R.id.btn_friend);
+        btn_feedback=mViews.get(2).findViewById(R.id.btn_friend);
+        btn_setting=mViews.get(2).findViewById(R.id.btn_setting);
 
 
         //ButtonListener
-        bt_info.setOnClickListener(new View.OnClickListener() {
+        btn_info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent =new Intent(MainActivity.this,ViewPagerInfo.class);
                startActivity(intent);
+            }
+        });
+        btn_friend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent =new Intent(MainActivity.this,ViewPagerInfo.class);
+                startActivity(intent);
             }
         });
 
