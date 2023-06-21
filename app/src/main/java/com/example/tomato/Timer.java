@@ -68,8 +68,8 @@ public class Timer extends Activity implements View.OnClickListener {
 
 
     private void startTimer() {
-        ogTime = 1000000;
-        timeLeftInMillis = 1000000; // 1 minute
+        ogTime = 60000;
+        timeLeftInMillis = 60000; // 1 minute
         timerRunning = true;
         interval = ogTime/100;
         interval = (ogTime+interval)/100;

@@ -44,8 +44,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private RadioGroup mRadioGroup;
     private RadioButton tab1,tab2,tab3;
     //Your buttons
-<<<<<<< HEAD
-    private Button btn_info;
     //柱状图
     private BarChart barChart;
     //饼状图
@@ -58,14 +56,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     ArrayList<BarEntry> barEntries = new ArrayList<>();
     ArrayList<PieEntry> pieEntries = new ArrayList<>();
     private Button btn_info,btn_friend,btn_achievement,btn_feedback,btn_setting;
-
-
-=======
-    private Button bt_info;
     private static Button bt_time;
     private static TextView timer;
     private static ProgressBar progress;
->>>>>>> TimerPage
+
     //spinner
     private ListView lv_appinfo;
     private List<View> mViews;   //存放视图
@@ -121,7 +115,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         mViews.add(LayoutInflater.from(this).inflate(R.layout.activity_me,null));
 
         //Your Views‘ buttons
-<<<<<<< HEAD
+
         btn_info=mViews.get(2).findViewById(R.id.infoButton);
         //Record chart
         barChart = mViews.get(1).findViewById(R.id.bar_chart);
@@ -138,15 +132,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             barEntries.add(barEntry);
             pieEntries.add(pieEntry);
         }
-=======
-        bt_info=mViews.get(2).findViewById(R.id.infoButton);
+
+
         bt_time=mViews.get(0).findViewById(R.id.btnStart);
         //TextViews
         timer=mViews.get(0).findViewById(R.id.timer);
         progress=mViews.get(0).findViewById(R.id.progressBar);
 
-
->>>>>>> TimerPage
 
         //Initialize bat date set
         BarDataSet barDataSet =new BarDataSet(barEntries,"time");
