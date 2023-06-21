@@ -49,9 +49,12 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void updateButtonText(Button x, String newText){
-        x.setText(newText);
+    public static void updateButtonText(Button x, String newText){
+        //Log.i("Testing","HIIII");
+        //x.setText(newText);
+
     }
+
 
     private void initView() {
         //初始化控件
@@ -76,8 +79,10 @@ public class MainActivity extends AppCompatActivity {
         bt_info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent =new Intent(MainActivity.this,ViewPagerInfo.class);
-               startActivity(intent);
+                updateButtonText(bt_info,"Heyo please work");
+//                Intent intent =new Intent(MainActivity.this,ViewPagerInfo.class);
+//               startActivity(intent);
+
 
             }
         });
