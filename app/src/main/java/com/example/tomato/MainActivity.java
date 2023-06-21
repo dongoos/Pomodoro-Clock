@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -28,6 +29,8 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
+import android.util.Log;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private RadioGroup mRadioGroup;
     private RadioButton tab1,tab2,tab3;
     //Your buttons
+<<<<<<< HEAD
     private Button btn_info;
     //柱状图
     private BarChart barChart;
@@ -50,7 +54,16 @@ public class MainActivity extends AppCompatActivity {
     private Button btn_info,btn_friend,btn_achievement,btn_feedback,btn_setting;
 
 
+=======
+    private Button bt_info;
+    private static Button bt_time;
+    private static TextView timer;
+    private static ProgressBar progress;
+>>>>>>> TimerPage
     private List<View> mViews;   //存放视图
+
+    //create instance of timer to allow for the clicklistener to be elsewhere
+    Timer timerButton = new Timer();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,6 +85,18 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+    //get function to allow for the button to be used outside
+    public static Button getBtnT(){
+        return bt_time;
+    }
+    public static TextView getTimer(){
+        return timer;
+    }
+
+    public static ProgressBar getPB(){
+        return progress;
+    }
     private void initView() {
         //初始化控件
         mViewPager=findViewById(R.id.viewpager);
@@ -86,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
         mViews.add(LayoutInflater.from(this).inflate(R.layout.activity_me,null));
 
         //Your Views‘ buttons
+<<<<<<< HEAD
         btn_info=mViews.get(2).findViewById(R.id.infoButton);
         //Record chart
         barChart = mViews.get(1).findViewById(R.id.bar_chart);
@@ -102,6 +128,15 @@ public class MainActivity extends AppCompatActivity {
             barEntries.add(barEntry);
             pieEntries.add(pieEntry);
         }
+=======
+        bt_info=mViews.get(2).findViewById(R.id.infoButton);
+        bt_time=mViews.get(0).findViewById(R.id.btnStart);
+        //TextViews
+        timer=mViews.get(0).findViewById(R.id.timer);
+        progress=mViews.get(0).findViewById(R.id.progressBar);
+
+
+>>>>>>> TimerPage
 
         //Initialize bat date set
         BarDataSet barDataSet =new BarDataSet(barEntries,"time");
@@ -143,7 +178,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent =new Intent(MainActivity.this,ViewPagerInfo.class);
-               startActivity(intent);
+                startActivity(intent);
+
+
+
             }
         });
         btn_friend.setOnClickListener(new View.OnClickListener() {
@@ -155,6 +193,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+        bt_time.setOnClickListener(timerButton);
 
         //设置一个适配器
         mViewPager.setAdapter(new MyViewPagerAdapter());
