@@ -47,6 +47,9 @@ public class MainActivity extends AppCompatActivity {
     //lists
     ArrayList<BarEntry> barEntries = new ArrayList<>();
     ArrayList<PieEntry> pieEntries = new ArrayList<>();
+    private Button btn_info,btn_friend,btn_achievement,btn_feedback,btn_setting;
+
+
     private List<View> mViews;   //存放视图
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,6 +116,10 @@ public class MainActivity extends AppCompatActivity {
         //Set description text and color
         barChart.getDescription().setText("time");
         barChart.getDescription().setTextColor(Color.BLUE);
+        btn_friend=mViews.get(2).findViewById(R.id.btn_friend);
+        btn_achievement=mViews.get(2).findViewById(R.id.btn_friend);
+        btn_feedback=mViews.get(2).findViewById(R.id.btn_friend);
+        btn_setting=mViews.get(2).findViewById(R.id.btn_setting);
 
         //Initialize pie data set
         PieDataSet pieDataSet = new PieDataSet(pieEntries,"day");
@@ -137,6 +144,13 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent =new Intent(MainActivity.this,ViewPagerInfo.class);
                startActivity(intent);
+            }
+        });
+        btn_friend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent =new Intent(MainActivity.this,ViewPagerInfo.class);
+                startActivity(intent);
             }
         });
 

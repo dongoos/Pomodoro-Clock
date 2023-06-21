@@ -147,14 +147,13 @@
                     android:padding="16dp">
 
                     <Button
-                        android:id="@+id/friendsButton"
+                        android:id="@+id/btn_friend"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-
                         android:text="My Friends"
                         android:textSize="16sp"
                         android:textColor="@android:color/black" />
-<!--  android:drawableLeft="@drawable/friends_icon"-->
+            <!--  android:drawableLeft="@drawable/friends_icon"-->
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
@@ -163,7 +162,7 @@
                         android:layout_marginBottom="8dp" />
 
                     <Button
-                        android:id="@+id/achievementsButton"
+                        android:id="@+id/btn_achievements"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="My Achievements"
@@ -178,7 +177,7 @@
                         android:layout_marginBottom="8dp" />
 
                     <Button
-                        android:id="@+id/feedbackButton"
+                        android:id="@+id/btn_feedback"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
 
@@ -194,7 +193,7 @@
                         android:layout_marginBottom="8dp" />
 
                     <Button
-                        android:id="@+id/settingsButton"
+                        android:id="@+id/btn_setting"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Settings"
