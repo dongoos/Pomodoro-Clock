@@ -7,16 +7,22 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.tomato.adapter.App_usage_details;
+import com.example.tomato.bean.App_info;
+import com.example.tomato.util.ToastUtil;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.BarData;
@@ -32,7 +38,7 @@ import java.util.List;
 import android.util.Log;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
     private ViewPager mViewPager;
     private RadioGroup mRadioGroup;
@@ -60,10 +66,14 @@ public class MainActivity extends AppCompatActivity {
     private static TextView timer;
     private static ProgressBar progress;
 >>>>>>> TimerPage
+    //spinner
+    private ListView lv_appinfo;
     private List<View> mViews;   //存放视图
 
     //create instance of timer to allow for the clicklistener to be elsewhere
     Timer timerButton = new Timer();
+    private List<App_info> appInfoList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -173,6 +183,16 @@ public class MainActivity extends AppCompatActivity {
         tv5.setBackgroundResource(R.drawable.shape_rect);
         tv6.setBackgroundResource(R.drawable.shape_rect);
         tv7.setBackgroundResource(R.drawable.shape_rect);
+
+        //ListView
+        lv_appinfo = mViews.get(1).findViewById(R.id.lv_1);
+        //获取默认的列表信息
+        appInfoList = App_info.getDefaultList();
+        //构建适配器
+        App_usage_details adapter =new App_usage_details(this, appInfoList);
+        lv_appinfo.setAdapter(adapter);
+
+        lv_appinfo.setOnItemClickListener(this);
         //ButtonListener
         btn_info.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -230,6 +250,11 @@ public class MainActivity extends AppCompatActivity {
                 // 页面滚动状态变化时的逻辑处理（可选）
             }
         });
+    }
+    //选中时的弹出信息
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        ToastUtil.show(this,"您选择的是"+appInfoList.get(position).name);
     }
 
     //ViewPager适配器
