@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private Button bt_info;
     private static Button bt_time;
     private static TextView timer;
+    private static ProgressBar progress;
     private List<View> mViews;   //存放视图
 
     //create instance of timer to allow for the clicklistener to be elsewhere
@@ -60,6 +62,9 @@ public class MainActivity extends AppCompatActivity {
         return timer;
     }
 
+    public static ProgressBar getPB(){
+        return progress;
+    }
     private void initView() {
         //初始化控件
         mViewPager=findViewById(R.id.viewpager);
@@ -78,6 +83,8 @@ public class MainActivity extends AppCompatActivity {
         bt_time=mViews.get(0).findViewById(R.id.btnStart);
         //TextViews
         timer=mViews.get(0).findViewById(R.id.timer);
+        progress=mViews.get(0).findViewById(R.id.progressBar);
+
 
 
         //ButtonListener

@@ -28,6 +28,9 @@ public class Timer extends Activity implements View.OnClickListener {
     private Button btnInfo;
 
     private ProgressBar timeProgress;
+    private long interval;
+    private long ogTime;
+    private soFar
 
 
 
@@ -51,6 +54,7 @@ public class Timer extends Activity implements View.OnClickListener {
 
         btnStart = MainActivity.getBtnT();
         timer = MainActivity.getTimer();
+        timeProgress = MainActivity.getPB();
 
         Log.i("test","Testing it button click works");
 
@@ -64,10 +68,14 @@ public class Timer extends Activity implements View.OnClickListener {
 
 
     private void startTimer() {
-        timeLeftInMillis = 60000; // 1 minute
+        ogTime = 1000000;
+        timeLeftInMillis = 1000000; // 1 minute
         timerRunning = true;
+        interval = ogTime/100;
+        interval = (ogTime+interval)/100;
 
-        countDownTimer = new CountDownTimer(timeLeftInMillis, 1000) {
+
+        countDownTimer = new CountDownTimer(timeLeftInMillis, 100) {
             @Override
             public void onTick(long millisUntilFinished) {
                 timeLeftInMillis = millisUntilFinished;
@@ -85,6 +93,7 @@ public class Timer extends Activity implements View.OnClickListener {
     }
 
     private void stopTimer() {
+
         countDownTimer.cancel();
         timerRunning = false;
         btnStart.setText("Start Timer");
@@ -93,7 +102,9 @@ public class Timer extends Activity implements View.OnClickListener {
     private void updateCountdownText() {
         int minutes = (int) (timeLeftInMillis / 1000) / 60;
         int seconds = (int) (timeLeftInMillis / 1000) % 60;
+        int progress = (int) ((ogTime-timeLeftInMillis)/interval);
 
+        timeProgress.setProgress(progress);
         String timeLeftFormatted = String.format("%02d:%02d", minutes, seconds);
         timer.setText(timeLeftFormatted);
     }
