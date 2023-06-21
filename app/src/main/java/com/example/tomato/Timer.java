@@ -30,7 +30,7 @@ public class Timer extends Activity implements View.OnClickListener {
     private ProgressBar timeProgress;
     private long interval;
     private long ogTime;
-    private soFar
+    private int soFar;
 
 
 
