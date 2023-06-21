@@ -2,6 +2,7 @@ package com.example.tomato;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,9 +10,22 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
+
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.utils.ColorTemplate;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +35,18 @@ public class MainActivity extends AppCompatActivity {
     private RadioGroup mRadioGroup;
     private RadioButton tab1,tab2,tab3;
     //Your buttons
-    private Button bt_info;
+    private Button btn_info;
+    //柱状图
+    private BarChart barChart;
+    //饼状图
+    private PieChart pieChart;
+    //文本框
+    private TextView tv5;
+    private TextView tv6;
+    private TextView tv7;
+    //lists
+    ArrayList<BarEntry> barEntries = new ArrayList<>();
+    ArrayList<PieEntry> pieEntries = new ArrayList<>();
     private List<View> mViews;   //存放视图
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,12 +83,56 @@ public class MainActivity extends AppCompatActivity {
         mViews.add(LayoutInflater.from(this).inflate(R.layout.activity_me,null));
 
         //Your Views‘ buttons
-        bt_info=mViews.get(2).findViewById(R.id.infoButton);
+        btn_info=mViews.get(2).findViewById(R.id.infoButton);
+        //Record chart
+        barChart = mViews.get(1).findViewById(R.id.bar_chart);
+        pieChart = mViews.get(1).findViewById(R.id.pie_chart);
+        //use for loop
+        for(int i = 1;i<10;i++){
+            //convert to float
+            float value = (float) (i*10.0);
+            //Initialize bar chart entry
+            BarEntry barEntry = new BarEntry(i,value);
+            //Initialize pie chart entry
+            PieEntry pieEntry = new PieEntry(i,value);
+            //add value in array list
+            barEntries.add(barEntry);
+            pieEntries.add(pieEntry);
+        }
 
+        //Initialize bat date set
+        BarDataSet barDataSet =new BarDataSet(barEntries,"time");
+        //set colors
+        barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+        //Hide draw value
+        barDataSet.setDrawValues(false);
+        //Set bar data
+        barChart.setData(new BarData(barDataSet));
+        //set animation
+        barChart.animateY(5000);
+        //Set description text and color
+        barChart.getDescription().setText("time");
+        barChart.getDescription().setTextColor(Color.BLUE);
 
+        //Initialize pie data set
+        PieDataSet pieDataSet = new PieDataSet(pieEntries,"day");
+        //Set colors
+        pieDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+        //Set pie data
+        pieChart.setData(new PieData(pieDataSet));
+        pieChart.animateXY(5000,5000);
+        //Hide description
+        pieChart.getDescription().setEnabled(false);
 
+        //record_background
+        tv5 = mViews.get(1).findViewById(R.id.tv5);
+        tv6 = mViews.get(1).findViewById(R.id.tv6);
+        tv7 = mViews.get(1).findViewById(R.id.tv7);
+        tv5.setBackgroundResource(R.drawable.shape_rect);
+        tv6.setBackgroundResource(R.drawable.shape_rect);
+        tv7.setBackgroundResource(R.drawable.shape_rect);
         //ButtonListener
-        bt_info.setOnClickListener(new View.OnClickListener() {
+        btn_info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent =new Intent(MainActivity.this,ViewPagerInfo.class);
