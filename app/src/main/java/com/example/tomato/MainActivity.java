@@ -121,7 +121,7 @@ public static void c(){
         return lv_appinfo;
     }
 
-    private void initView() {
+
     public static Button getBtnInfo(){return btn_info;}
     public static Button getBtnFriend(){return btn_friend;}
     public static Button getBtnAchievement(){return btn_achievement;}
@@ -142,27 +142,10 @@ public static void c(){
         //Your Views‘ buttons
 
         btn_info=mViews.get(2).findViewById(R.id.infoButton);
-        bt_info=mViews.get(2).findViewById(R.id.infoButton);
         bt_time=mViews.get(0).findViewById(R.id.btnStart);
         //TextViews
         timer=mViews.get(0).findViewById(R.id.timer);
         progress=mViews.get(0).findViewById(R.id.progressBar);
-
-
-
-        //Initialize bat date set
-        BarDataSet barDataSet =new BarDataSet(barEntries,"time");
-        //set colors
-        barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
-        //Hide draw value
-        barDataSet.setDrawValues(false);
-        //Set bar data
-        barChart.setData(new BarData(barDataSet));
-        //set animation
-        barChart.animateY(5000);
-        //Set description text and color
-        barChart.getDescription().setText("time");
-        barChart.getDescription().setTextColor(Color.BLUE);
         btn_friend=mViews.get(2).findViewById(R.id.btn_friend);
         btn_achievement=mViews.get(2).findViewById(R.id.btn_friend);
         btn_feedback=mViews.get(2).findViewById(R.id.btn_friend);
@@ -224,10 +207,10 @@ public static void c(){
             }
         });
     }
-    //选中时的弹出信息
+
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        ToastUtil.show(this,"您选择的是"+appInfoList.get(position).name);
+
     }
 
 

@@ -137,55 +137,6 @@
                     />
             </TableRow>
 
-            <TableRow
-                android:id="@+id/more_page_row2"
-                android:layout_width="fill_parent"
-                android:layout_marginLeft="2.0dip"
-                android:layout_marginRight="2.0dip"
-
-                android:paddingBottom="16.0dip"
-                android:paddingTop="16.0dip" >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-                    android:drawablePadding="10.0dip"
-                    android:gravity="center_vertical"
-                    android:includeFontPadding="false"
-                    android:paddingLeft="17.0dip"
-                    android:text="个人爱好"
-                    android:textColor="#ff333333"
-                    android:textSize="16.0sp" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-                    android:layout_gravity="right"
-                    android:gravity="center_vertical"
-                    android:paddingRight="20.0dip"
-                     />
-            </TableRow>
-
-            <TableRow
-                android:id="@+id/more_page_row3"
-                android:layout_width="fill_parent"
-                android:layout_marginLeft="2.0dip"
-                android:layout_marginRight="2.0dip"
-
-                android:paddingBottom="16.0dip"
-                android:paddingTop="16.0dip" >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="fill_parent"
-
-                    android:drawablePadding="10.0dip"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="17.0dip"
-                    android:text="浏览记录"
-                    android:textColor="#ff333333"
-                    android:textSize="16.0sp" />
-
         </TableLayout>
     </LinearLayout>
 
