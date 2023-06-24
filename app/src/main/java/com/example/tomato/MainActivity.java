@@ -19,7 +19,6 @@ import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.tomato.adapter.App_usage_details;
-import com.example.tomato.appUsage.ShowStatics;
 import com.example.tomato.bean.App_info;
 import com.example.tomato.util.ToastUtil;
 import com.github.mikephil.charting.charts.BarChart;
@@ -54,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     //lists
     ArrayList<BarEntry> barEntries = new ArrayList<>();
     ArrayList<PieEntry> pieEntries = new ArrayList<>();
-    private Button btn_info,btn_friend,btn_achievement,btn_feedback,btn_setting;
+    private static Button btn_info,btn_friend,btn_achievement,btn_feedback,btn_setting;
     private static Button bt_time;
     private static TextView timer;
     private static ProgressBar progress;
@@ -68,8 +67,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private List<App_info> appInfoList;
 
 
-    //一个尝试
-    ShowStatics showStatics = new ShowStatics(this);
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,7 +105,11 @@ public static void c(){
     public static ProgressBar getPB(){
         return progress;
     }
-    private void initView() {
+    public static Button getBtnInfo(){return btn_info;}
+    public static Button getBtnFriend(){return btn_friend;}
+    public static Button getBtnAchievement(){return btn_achievement;}
+    public static Button getBtnFeedback(){return btn_feedback;}
+    public static Button getBtnSetting(){return btn_setting;}    private void initView() {
         //初始化控件
         mViewPager=findViewById(R.id.viewpager);
         mRadioGroup=findViewById(R.id.rg_tab);
@@ -192,23 +194,7 @@ public static void c(){
 
         lv_appinfo.setOnItemClickListener(this);
         //ButtonListener
-        btn_info.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent =new Intent(MainActivity.this,ViewPagerInfo.class);
-                startActivity(intent);
 
-
-
-            }
-        });
-        btn_friend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent =new Intent(MainActivity.this,ViewPagerInfo.class);
-                startActivity(intent);
-            }
-        });
 
 
         bt_time.setOnClickListener(timerButton);
@@ -239,6 +225,7 @@ public static void c(){
                         tab1.setChecked(false);
                         tab2.setChecked(false);
                         tab3.setChecked(true);
+                        MeViewPager.init(MainActivity.this);
                         break;
                 }
             }
