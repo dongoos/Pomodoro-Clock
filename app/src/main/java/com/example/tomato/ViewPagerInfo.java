@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 
+import com.example.tomato.tool.ServerHelper;
+
 public class ViewPagerInfo extends Activity {
 
 
@@ -53,8 +55,9 @@ public class ViewPagerInfo extends Activity {
             EditText et_name = dlgView.findViewById(R.id.et_info);
             Button btn_ok = dlgView.findViewById(R.id.btn_ok);
           if(view.getId()== R.id.btn_name) {
-                DBManager db=new DBManager();
-                db.run();
+              Log.i("getbtn","finished");
+              ServerHelper serverHelper =new ServerHelper();
+              serverHelper.signup("2022302111024@whu.edu.cn","123456");
               btn_ok.setOnClickListener(new View.OnClickListener() {
                   @Override
                   public void onClick(View view) {

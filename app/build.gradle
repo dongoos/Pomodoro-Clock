@@ -42,7 +42,8 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment:2.5.2'
     implementation 'androidx.navigation:navigation-ui:2.5.2'
 
-
+    implementation 'com.squareup.okhttp3:okhttp:3.14.7'
+    implementation 'com.squareup.okio:okio:1.17.5'
     implementation files('libs\\mysql-connector-java-5.1.46-bin.jar')
     //
     testImplementation 'junit:junit:4.13.2'

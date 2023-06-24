@@ -1,6 +1,5 @@
 package com.example.tomato;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -13,7 +12,6 @@ import android.widget.ProgressBar;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +19,7 @@ import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.tomato.adapter.App_usage_details;
+import com.example.tomato.appUsage.ShowStatics;
 import com.example.tomato.bean.App_info;
 import com.example.tomato.util.ToastUtil;
 import com.github.mikephil.charting.charts.BarChart;
@@ -35,8 +34,8 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
-import android.util.Log;
-import android.widget.TextView;
+
+import org.jetbrains.annotations.TestOnly;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
@@ -68,6 +67,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     Timer timerButton = new Timer();
     private List<App_info> appInfoList;
 
+
+    //一个尝试
+    ShowStatics showStatics = new ShowStatics(this);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,7 +91,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         });
 
     }
-
+@TestOnly
+public static void c(){
+    System.out.println(1);
+}
 
     //get function to allow for the button to be used outside
     public static Button getBtnT(){
