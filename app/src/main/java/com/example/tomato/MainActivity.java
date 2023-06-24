@@ -8,8 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -41,30 +41,31 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private ViewPager mViewPager;
     private RadioGroup mRadioGroup;
     private RadioButton tab1,tab2,tab3;
-    //Your buttons
     //柱状图
-    private BarChart barChart;
+    private static BarChart barChart;
     //饼状图
-    private PieChart pieChart;
+    private static PieChart pieChart;
+
+    //ListView
+    private static AdapterView lv_appinfo;
+    private List<App_info> appInfoList;
+
     //文本框
     private TextView tv5;
     private TextView tv6;
     private TextView tv7;
-    //lists
-    ArrayList<BarEntry> barEntries = new ArrayList<>();
-    ArrayList<PieEntry> pieEntries = new ArrayList<>();
+
     private static Button btn_info,btn_friend,btn_achievement,btn_feedback,btn_setting;
     private static Button bt_time;
     private static TextView timer;
     private static ProgressBar progress;
 
-    //spinner
-    private ListView lv_appinfo;
+
     private List<View> mViews;   //存放视图
 
     //create instance of timer to allow for the clicklistener to be elsewhere
     Timer timerButton = new Timer();
-    private List<App_info> appInfoList;
+
 
 
 
@@ -105,6 +106,22 @@ public static void c(){
     public static ProgressBar getPB(){
         return progress;
     }
+
+
+
+    //初始化图表
+    public static BarChart getBc(){
+        return barChart;
+    }
+    public static PieChart getPc(){
+        return pieChart;
+    }
+    //初始化列表
+    public static AdapterView getLa(){
+        return lv_appinfo;
+    }
+
+    private void initView() {
     public static Button getBtnInfo(){return btn_info;}
     public static Button getBtnFriend(){return btn_friend;}
     public static Button getBtnAchievement(){return btn_achievement;}
@@ -125,27 +142,12 @@ public static void c(){
         //Your Views‘ buttons
 
         btn_info=mViews.get(2).findViewById(R.id.infoButton);
-        //Record chart
-        barChart = mViews.get(1).findViewById(R.id.bar_chart);
-        pieChart = mViews.get(1).findViewById(R.id.pie_chart);
-        //use for loop
-        for(int i = 1;i<10;i++){
-            //convert to float
-            float value = (float) (i*10.0);
-            //Initialize bar chart entry
-            BarEntry barEntry = new BarEntry(i,value);
-            //Initialize pie chart entry
-            PieEntry pieEntry = new PieEntry(i,value);
-            //add value in array list
-            barEntries.add(barEntry);
-            pieEntries.add(pieEntry);
-        }
-
-
+        bt_info=mViews.get(2).findViewById(R.id.infoButton);
         bt_time=mViews.get(0).findViewById(R.id.btnStart);
         //TextViews
         timer=mViews.get(0).findViewById(R.id.timer);
         progress=mViews.get(0).findViewById(R.id.progressBar);
+
 
 
         //Initialize bat date set
@@ -165,17 +167,11 @@ public static void c(){
         btn_achievement=mViews.get(2).findViewById(R.id.btn_friend);
         btn_feedback=mViews.get(2).findViewById(R.id.btn_friend);
         btn_setting=mViews.get(2).findViewById(R.id.btn_setting);
-
-        //Initialize pie data set
-        PieDataSet pieDataSet = new PieDataSet(pieEntries,"day");
-        //Set colors
-        pieDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
-        //Set pie data
-        pieChart.setData(new PieData(pieDataSet));
-        pieChart.animateXY(5000,5000);
-        //Hide description
-        pieChart.getDescription().setEnabled(false);
-
+        //柱状图和饼状图
+        barChart = mViews.get(1).findViewById(R.id.bar_chart);
+        pieChart = mViews.get(1).findViewById(R.id.pie_chart);
+        //list
+        lv_appinfo = mViews.get(1).findViewById(R.id.lv_1);
         //record_background
         tv5 = mViews.get(1).findViewById(R.id.tv5);
         tv6 = mViews.get(1).findViewById(R.id.tv6);
@@ -184,15 +180,6 @@ public static void c(){
         tv6.setBackgroundResource(R.drawable.shape_rect);
         tv7.setBackgroundResource(R.drawable.shape_rect);
 
-        //ListView
-        lv_appinfo = mViews.get(1).findViewById(R.id.lv_1);
-        //获取默认的列表信息
-        appInfoList = App_info.getDefaultList();
-        //构建适配器
-        App_usage_details adapter =new App_usage_details(this, appInfoList);
-        lv_appinfo.setAdapter(adapter);
-
-        lv_appinfo.setOnItemClickListener(this);
         //ButtonListener
 
 
@@ -220,6 +207,7 @@ public static void c(){
                         tab1.setChecked(false);
                         tab2.setChecked(true);
                         tab3.setChecked(false);
+                        ChartActivity.initialize_chart(MainActivity.this);
                         break;
                     case 2:
                         tab1.setChecked(false);
@@ -241,6 +229,7 @@ public static void c(){
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         ToastUtil.show(this,"您选择的是"+appInfoList.get(position).name);
     }
+
 
     //ViewPager适配器
     private class MyViewPagerAdapter extends PagerAdapter {
