@@ -55,9 +55,18 @@ public class ViewPagerInfo extends Activity {
             EditText et_name = dlgView.findViewById(R.id.et_info);
             Button btn_ok = dlgView.findViewById(R.id.btn_ok);
           if(view.getId()== R.id.btn_name) {
-              Log.i("getbtn","finished");
+
               ServerHelper serverHelper =new ServerHelper();
-              serverHelper.signup("2022302111024@whu.edu.cn","123456");
+              serverHelper.signup("email", "password")
+                      .thenAccept(result -> {
+                          // 处理异步操作结果
+                          if (result) {
+                              // 注册成功
+                          } else {
+                              // 注册失败
+                          }
+                      });
+
               btn_ok.setOnClickListener(new View.OnClickListener() {
                   @Override
                   public void onClick(View view) {

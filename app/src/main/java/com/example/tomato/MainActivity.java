@@ -147,8 +147,8 @@ public static void c(){
         timer=mViews.get(0).findViewById(R.id.timer);
         progress=mViews.get(0).findViewById(R.id.progressBar);
         btn_friend=mViews.get(2).findViewById(R.id.btn_friend);
-        btn_achievement=mViews.get(2).findViewById(R.id.btn_friend);
-        btn_feedback=mViews.get(2).findViewById(R.id.btn_friend);
+        btn_achievement=mViews.get(2).findViewById(R.id.btn_achievements);
+        btn_feedback=mViews.get(2).findViewById(R.id.btn_feedback);
         btn_setting=mViews.get(2).findViewById(R.id.btn_setting);
         //柱状图和饼状图
         barChart = mViews.get(1).findViewById(R.id.bar_chart);
