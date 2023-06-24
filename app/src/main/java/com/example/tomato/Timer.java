@@ -33,22 +33,6 @@ public class Timer extends Activity implements View.OnClickListener {
     private int soFar;
 
 
-
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_lock);
-//
-//
-//        btnStart =  findViewById(R.id.btnStart);
-//
-//
-////        btnStart.setOnClickListener(new View.OnClickListener() {
-////
-////        });
-//
-//    }
     @Override
     public void onClick(View v) {
 
@@ -61,6 +45,7 @@ public class Timer extends Activity implements View.OnClickListener {
                 if (timerRunning) {
                     stopTimer();
                 } else {
+
                     startTimer();
                 }
     }
@@ -68,6 +53,7 @@ public class Timer extends Activity implements View.OnClickListener {
 
 
     private void startTimer() {
+
         ogTime = 60000;
         timeLeftInMillis = 60000; // 1 minute
         timerRunning = true;

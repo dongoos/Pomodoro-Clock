@@ -1,8 +1,21 @@
 package com.example.tomato;
 
+
+
+import static java.security.AccessController.getContext;
+
+import android.app.ActivityManager;
+import android.app.ActivityOptions;
+import android.app.admin.DevicePolicyManager;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcel;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     ArrayList<BarEntry> barEntries = new ArrayList<>();
     ArrayList<PieEntry> pieEntries = new ArrayList<>();
     private Button btn_info,btn_friend,btn_achievement,btn_feedback,btn_setting;
-    private static Button bt_time;
+    private static Button bt_time,btn_wl,btn_event;
     private static TextView timer;
     private static ProgressBar progress;
 
@@ -67,9 +80,26 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     Timer timerButton = new Timer();
     private List<App_info> appInfoList;
 
+    //lock inits
+    public static final int RESULT_ENABLE = 11;
+    private DevicePolicyManager devicePolicyManager;
+    private ActivityManager activityManager;
+    private ComponentName componentName;
+    private ActivityOptions options;
+    private PackageManager packageManager;
+    private Context context;
+    private Intent launchIntent;
+
+    //allowed apps
+    private static final String KIOSK_PACKAGE = "com.example.kiosk";
+    private static final String PLAYER_PACKAGE = "com.example.player";
+    private static final String[] APP_PACKAGES = {KIOSK_PACKAGE,PLAYER_PACKAGE};
+
+
 
     //一个尝试
     ShowStatics showStatics = new ShowStatics(this);
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +107,19 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         setContentView(R.layout.activity_main);
         initView();//初始化数据
         //对单选按钮进行监听，选中、未选中
+
+
+        //lock device properties init
+
+        activityManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+
+        options = ActivityOptions.makeBasic();
+        context = MainActivity.this;
+
+
+        devicePolicyManager = (DevicePolicyManager) context.getSystemService(Context.DEVICE_POLICY_SERVICE) ;
+
+
         mRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int id) {
@@ -107,6 +150,17 @@ public static void c(){
     public static ProgressBar getPB(){
         return progress;
     }
+
+//    @Override
+//    public void onResume(){
+//        super.onResume();
+//        if(devicePolicyManager.isLockTaskPermitted(context.getPackageName())){
+//          MainActivity.this.startLockTask();
+//            Log.i("testing","somethings working ig?");
+//        }else{
+//            Log.i("testing","so uhh idk what this does but u know");
+//        }
+//    }
     private void initView() {
         //初始化控件
         mViewPager=findViewById(R.id.viewpager);
@@ -138,9 +192,10 @@ public static void c(){
             barEntries.add(barEntry);
             pieEntries.add(pieEntry);
         }
-
-
         bt_time=mViews.get(0).findViewById(R.id.btnStart);
+        btn_wl=mViews.get(0).findViewById(R.id.whitelistBtn);
+       // btn_event=mViews.get(0).findViewById(R.id.addEventBtn);
+
         //TextViews
         timer=mViews.get(0).findViewById(R.id.timer);
         progress=mViews.get(0).findViewById(R.id.progressBar);
@@ -192,9 +247,48 @@ public static void c(){
 
         lv_appinfo.setOnItemClickListener(this);
         //ButtonListener
+
+        btn_wl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                    Log.i("Testing","SDK VERSION RIGHT!!");
+                    if(options.getLockTaskMode()==true){
+                        options.setLockTaskEnabled(false);
+                    }else{
+                        options.setLockTaskEnabled(true);
+                        Log.i("Testing","1");
+                        packageManager = context.getPackageManager();
+                        Log.i("Testing","2");
+                        launchIntent = packageManager.getLaunchIntentForPackage(null);
+                        Log.i("Testing","3");
+                        componentName = getComponentName();
+                        Log.i("Testing","3.25");
+                        //devicePolicyManager.setLockTaskPackages(componentName,APP_PACKAGES);
+                        Log.i("Testing","3.5");
+                        if(launchIntent != null){
+                            Log.i("Testing","4");
+                            context.startActivity(launchIntent,options.toBundle());
+                            Log.i("Testing","5");
+                        }
+                        //startLockTask();
+
+
+                    }
+
+                }else{
+                    Log.i("Testing","Uhhh do some research my guy");
+                }
+
+
+//                startLockTask();
+            }
+        });
         btn_info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 Intent intent =new Intent(MainActivity.this,ViewPagerInfo.class);
                 startActivity(intent);
 
@@ -202,9 +296,19 @@ public static void c(){
 
             }
         });
+
+
         btn_friend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+//                    if(options.getLockTaskMode()==true){
+//                        Log.i("testing","YESSSSSSSSSSSS");
+//                    }else{
+//                        Log.i("testing","NNNAAAAAAAAAAARRRRRRRRRRRRRRRR");
+//                    }
+//                }
+
                 Intent intent =new Intent(MainActivity.this,ViewPagerInfo.class);
                 startActivity(intent);
             }
