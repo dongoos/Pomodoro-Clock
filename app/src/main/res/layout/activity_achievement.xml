@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <resources>
+        <string-array name="achievement_titles">
+            <item>Achievement 1</item>
+            <item>Achievement 2</item>
+            <item>Achievement 3</item>
+            <!-- 添加更多成就标题 -->
+        </string-array>
+
+        <string-array name="achievement_descriptions">
+            <item>Description of Achievement 1</item>
+            <item>Description of Achievement 2</item>
+            <item>Description of Achievement 3</item>
+            <!-- 添加更多成就描述 -->
+        </string-array>
+
+        <integer-array name="achievement_icons">
+            <item>@drawable/achievement_icon_1</item>
+            <item>@drawable/achievement_icon_2</item>
+            <item>@drawable/achievement_icon_3</item>
+            <!-- 添加更多成就图标 -->
+        </integer-array>
+    </resources>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
