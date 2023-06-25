@@ -21,11 +21,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.PagerAdapter;
@@ -68,7 +70,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     ArrayList<BarEntry> barEntries = new ArrayList<>();
     ArrayList<PieEntry> pieEntries = new ArrayList<>();
     private Button btn_info,btn_friend,btn_achievement,btn_feedback,btn_setting;
-    private static Button bt_time,btn_wl,btn_event;
+    private static Button bt_time,btn_wl;
+    private static ImageButton btn_event;
     private static TextView timer;
     private static ProgressBar progress;
 
@@ -117,7 +120,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         context = MainActivity.this;
 
 
-        devicePolicyManager = (DevicePolicyManager) context.getSystemService(Context.DEVICE_POLICY_SERVICE) ;
+        devicePolicyManager = (DevicePolicyManager) getSystemService(DEVICE_POLICY_SERVICE) ;
+        componentName = new ComponentName(this, MyAdmin.class);
 
 
         mRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -161,6 +165,12 @@ public static void c(){
 //            Log.i("testing","so uhh idk what this does but u know");
 //        }
 //    }
+
+
+    protected void OnResume(){
+        super.onResume();
+        boolean isActive = devicePolicyManager.isAdminActive(componentName);
+    }
     private void initView() {
         //初始化控件
         mViewPager=findViewById(R.id.viewpager);
@@ -194,7 +204,7 @@ public static void c(){
         }
         bt_time=mViews.get(0).findViewById(R.id.btnStart);
         btn_wl=mViews.get(0).findViewById(R.id.whitelistBtn);
-       // btn_event=mViews.get(0).findViewById(R.id.addEventBtn);
+        btn_event=mViews.get(0).findViewById(R.id.addEventBtn);
 
         //TextViews
         timer=mViews.get(0).findViewById(R.id.timer);
@@ -246,11 +256,20 @@ public static void c(){
         lv_appinfo.setAdapter(adapter);
 
         lv_appinfo.setOnItemClickListener(this);
+
+
         //ButtonListener
 
         btn_wl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //devicePolicyManager.lockNow();
+                startLockTask();
+                if(devicePolicyManager.isAdminActive(componentName)){
+                 startLockTask();
+                }else{
+                    Toast.makeText(context, "Device Admin aint enabled :(", Toast.LENGTH_SHORT).show();
+                }
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                     Log.i("Testing","SDK VERSION RIGHT!!");
@@ -258,20 +277,21 @@ public static void c(){
                         options.setLockTaskEnabled(false);
                     }else{
                         options.setLockTaskEnabled(true);
-                        Log.i("Testing","1");
-                        packageManager = context.getPackageManager();
-                        Log.i("Testing","2");
-                        launchIntent = packageManager.getLaunchIntentForPackage(null);
-                        Log.i("Testing","3");
-                        componentName = getComponentName();
-                        Log.i("Testing","3.25");
-                        //devicePolicyManager.setLockTaskPackages(componentName,APP_PACKAGES);
-                        Log.i("Testing","3.5");
-                        if(launchIntent != null){
-                            Log.i("Testing","4");
-                            context.startActivity(launchIntent,options.toBundle());
-                            Log.i("Testing","5");
-                        }
+//                        Log.i("Testing","1");
+//                        packageManager = context.getPackageManager();
+//                        Log.i("Testing","2");
+//                        launchIntent = packageManager.getLaunchIntentForPackage(null);
+//                        Log.i("Testing","3");
+//                        componentName = getComponentName();
+//                        Log.i("Testing","3.25");
+//                        //devicePolicyManager.setLockTaskPackages(componentName,APP_PACKAGES);
+//                        devicePolicyManager.setLockTaskFeatures(componentName,DevicePolicyManager.LOCK_TASK_FEATURE_HOME|DevicePolicyManager.LOCK_TASK_FEATURE_OVERVIEW);
+//                        Log.i("Testing","3.5");
+//                        if(launchIntent != null){
+//                            Log.i("Testing","4");
+//                            context.startActivity(launchIntent,options.toBundle());
+//                            Log.i("Testing","5");
+//                        }
                         //startLockTask();
 
 
@@ -283,6 +303,34 @@ public static void c(){
 
 
 //                startLockTask();
+            }
+        });
+
+        btn_event.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!devicePolicyManager.isAdminActive(componentName)){
+                    Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
+                    intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN,componentName);
+                    intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION,"Idk wut this is but i hope it shows up");
+                    startActivity(intent);
+                    packageManager = context.getPackageManager();
+                    Log.i("Testing","2");
+                    launchIntent = packageManager.getLaunchIntentForPackage(null);
+                    Toast.makeText(context,"NO ADMIN??? DID IT WORK??",Toast.LENGTH_SHORT).show();
+
+                }else{
+                    Toast.makeText(context,"ADMIN IS HERE AT LAST",Toast.LENGTH_SHORT).show();
+                }
+
+
+
+                //devicePolicyManager.setLockTaskPackages(componentName,APP_PACKAGES);
+//                if(launchIntent != null){
+//                    Log.i("Testing","4");
+//                    startActivity(launchIntent,options.toBundle());
+//                    Log.i("Testing","5");
+//                }
             }
         });
         btn_info.setOnClickListener(new View.OnClickListener() {
@@ -298,16 +346,22 @@ public static void c(){
         });
 
 
+
         btn_friend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-//                    if(options.getLockTaskMode()==true){
-//                        Log.i("testing","YESSSSSSSSSSSS");
-//                    }else{
-//                        Log.i("testing","NNNAAAAAAAAAAARRRRRRRRRRRRRRRR");
-//                    }
-//                }
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                    if(options.getLockTaskMode()==true){
+                        Log.i("testing","YESSSSSSSSSSSS");
+                    }else{
+                        Log.i("testing","NNNAAAAAAAAAAARRRRRRRRRRRRRRRR");
+                    }
+                    if(devicePolicyManager.isAdminActive(componentName)){
+                        Log.i("Testing","I have ADMIN!!");
+                    }else{
+                        Log.i("Testing","no admin :'(");
+                    }
+                }
 
                 Intent intent =new Intent(MainActivity.this,ViewPagerInfo.class);
                 startActivity(intent);
