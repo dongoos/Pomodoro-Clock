@@ -218,6 +218,32 @@ public static void c(){
         super.onResume();
         boolean isActive = devicePolicyManager.isAdminActive(componentName);
     }
+
+    public void createEvent(){
+        View dlgViewTime = LayoutInflater.from(MainActivity.this).inflate(R.layout.dialog_create_times, null);
+        Button btn_evtSubmit = dlgViewTime.findViewById(R.id.submitEvent);
+        Button btn_cancel = dlgViewTime.findViewById(R.id.cancelEvent);
+        btn_evtSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dlgTime.dismiss();
+
+            }
+        });
+
+        btn_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dlgTime.dismiss();
+            }
+        });
+        dlgTime = new AlertDialog.Builder(MainActivity.this)
+                .setView(dlgViewTime)
+                .create();
+        dlgTime.show();
+        Log.i("Testing","Ok so were here atleast");
+    }
+
     private void initView() {
         //初始化控件
         mViewPager=findViewById(R.id.viewpager);
@@ -377,45 +403,21 @@ public static void c(){
             }
         });
 
+
+
         btn_event.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                View dlgViewTime = LayoutInflater.from(MainActivity.this).inflate(R.layout.dialog_create_times, null);
-                Button btn_evtSubmit = dlgViewTime.findViewById(R.id.submitEvent);
-                btn_evtSubmit.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
+                createEvent();
 
-//
-                        dlgTime.dismiss();
-                    }
-                });
-                dlgTime = new AlertDialog.Builder(MainActivity.this)
-                        .setView(dlgViewTime)
-                        .create();
-                dlgTime.show();
-                Log.i("Testing","Ok so were here atleast");
             }
         });
 
         timer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                View dlgViewTime = LayoutInflater.from(MainActivity.this).inflate(R.layout.dialog_create_times, null);
-                Button btn_evtSubmit = dlgViewTime.findViewById(R.id.submitEvent);
-                btn_evtSubmit.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
+                createEvent();
 
-//
-                        dlgTime.dismiss();
-                    }
-                });
-                dlgTime = new AlertDialog.Builder(MainActivity.this)
-                        .setView(dlgViewTime)
-                        .create();
-                dlgTime.show();
-                Log.i("Testing","Ok so were here atleast");
             }
         });
 

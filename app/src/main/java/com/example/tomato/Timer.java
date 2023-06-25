@@ -56,24 +56,14 @@ public class Timer extends Activity implements View.OnClickListener {
         timer = MainActivity.getTimer();
         timeProgress = MainActivity.getPB();
 
-
-
         Log.i("test","Testing it button click works");
 
-
-        if(v.getId() == btnStart.getId()){
             if (timerRunning) {
                 stopTimer();
             } else {
                 startTimer();
             }
 
-        }else if(v.getId() == timer.getId()){
-
-
-
-
-        }
 
 
     }
