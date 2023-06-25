@@ -32,11 +32,14 @@ public class Timer extends Activity implements View.OnClickListener {
     private ProgressBar timeProgress;
     private long interval;
     private long ogTime;
-    private int soFar;
+    private long soFar = 0;
+    private long max =1000;
 
     private AlertDialog dlg;
     private View dlgView;
     Button submitEvt;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,11 +82,18 @@ public class Timer extends Activity implements View.OnClickListener {
 
     private void startTimer() {
 
+        timeProgress.setMax((int)max);
+
+
         ogTime = 60000;
-        timeLeftInMillis = 60000; // 1 minute
+        if(soFar == 0){
+            soFar = ogTime;
+        }
+
+        timeLeftInMillis = soFar; // 1 minute
         timerRunning = true;
-        interval = ogTime/100;
-        interval = (ogTime+interval)/100;
+        interval = ogTime/max;
+        interval = (ogTime+interval)/max;
 
 
         countDownTimer = new CountDownTimer(timeLeftInMillis, 100) {
@@ -96,6 +106,8 @@ public class Timer extends Activity implements View.OnClickListener {
             @Override
             public void onFinish() {
                 timerRunning = false;
+                int x = (int)max*2;
+                timeProgress.setProgress(x);
                 btnStart.setText("Start Timer");
             }
         }.start();
@@ -104,10 +116,16 @@ public class Timer extends Activity implements View.OnClickListener {
     }
 
     private void stopTimer() {
-
+        if(timeLeftInMillis != 0){
+            soFar = timeLeftInMillis;
+            btnStart.setText("Continue Timer");
+        }else{
+            soFar = 0;
+            btnStart.setText("Start Timer");
+        }
         countDownTimer.cancel();
         timerRunning = false;
-        btnStart.setText("Start Timer");
+
     }
 
     private void updateCountdownText() {

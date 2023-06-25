@@ -79,8 +79,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private static ImageButton btn_event;
     private static TextView timer;
     private static ProgressBar progress;
-    //private static View dlgViewTime;
     private AlertDialog dlgTime;
+    private static int setTime;
 
 
 
