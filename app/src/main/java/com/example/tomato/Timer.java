@@ -2,6 +2,7 @@ package com.example.tomato;
 
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.widget.ProgressBar;
@@ -10,6 +11,7 @@ import android.widget.Button;
 import android.os.CountDownTimer;
 import android.view.View;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -32,6 +34,17 @@ public class Timer extends Activity implements View.OnClickListener {
     private long ogTime;
     private int soFar;
 
+    private AlertDialog dlg;
+    private View dlgView;
+    Button submitEvt;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_lock);
+
+
+    }
 
     @Override
     public void onClick(View v) {
@@ -40,14 +53,26 @@ public class Timer extends Activity implements View.OnClickListener {
         timer = MainActivity.getTimer();
         timeProgress = MainActivity.getPB();
 
+
+
         Log.i("test","Testing it button click works");
 
-                if (timerRunning) {
-                    stopTimer();
-                } else {
 
-                    startTimer();
-                }
+        if(v.getId() == btnStart.getId()){
+            if (timerRunning) {
+                stopTimer();
+            } else {
+                startTimer();
+            }
+
+        }else if(v.getId() == timer.getId()){
+
+
+
+
+        }
+
+
     }
 
 
