@@ -23,6 +23,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.ListView;
@@ -42,6 +43,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.example.tomato.adapter.EventListAdapter;
 
 import com.example.tomato.model.Model;
+import com.example.tomato.util.DatabaseHandler;
 import com.example.tomato.util.ToastUtil;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
@@ -101,6 +103,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
 
 
+
     //spinner
     private ListView lv_appinfo;
     private List<View> mViews;   //存放视图
@@ -117,6 +120,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private PackageManager packageManager;
     private Context context;
     private Intent launchIntent;
+    private DatabaseHandler db;
+
 
     //allowed apps
 //    private static final String a = "com.example.kiosk";
@@ -196,6 +201,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         });
 
     }
+
+
 @TestOnly
 public static void c(){
     System.out.println(1);
@@ -236,9 +243,27 @@ public static void c(){
         View dlgViewTime = LayoutInflater.from(MainActivity.this).inflate(R.layout.dialog_create_times, null);
         Button btn_evtSubmit = dlgViewTime.findViewById(R.id.submitEvent);
         Button btn_cancel = dlgViewTime.findViewById(R.id.cancelEvent);
+        EditText newEventTitle = dlgViewTime.findViewById(R.id.eventTitle);
+        db = new DatabaseHandler(this);
+        db.openDatabase();
+        boolean isUpdate = false;
+
+
+
+
+
         btn_evtSubmit.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
+                Model task = new Model();
+                task.setTask(newEventTitle.getText().toString());
+                eventList.add(task);
+                db.insertEvent(task);
+                elAdapter.setEvent(eventList);
+                Log.i("dbTest",eventList.toString());
+                Log.i("dbTest",db.getAllEvents().toString());
+
                 dlgTime.dismiss();
 
             }
@@ -308,15 +333,12 @@ public static void c(){
         eventRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         elAdapter = new EventListAdapter(this);
         eventRecyclerView.setAdapter(elAdapter);
+        Log.i("Testing","CONFUSION I AM - YODA");
 
-        Model task = new Model();
-        task.setTask("This is a Test tehe");
-        task.setId(1);
+        db = new DatabaseHandler(this);
+        db.openDatabase();
 
-        eventList.add(task);
-        eventList.add(task);
-        eventList.add(task);
-
+        eventList = db.getAllEvents();
         elAdapter.setEvent(eventList);
 
         btn_friend=mViews.get(2).findViewById(R.id.btn_friend);
