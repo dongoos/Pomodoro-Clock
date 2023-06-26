@@ -115,11 +115,14 @@ public static void c(){
     public static Button getBtnAchievement(){return btn_achievement;}
     public static Button getBtnFeedback(){return btn_feedback;}
     public static Button getBtnSetting(){return btn_setting;}
+<<<<<<< HEAD
     public Button getBtnD(){return buttonDay;}
     public Button getBtnM(){return buttonMonth;}
     public Button getBtnY(){return buttonYear;}
 
     public ListView getLv(){return listView;}
+=======
+>>>>>>> 515f5346f976d2f9faa156e43fea5c0fca55eb76
     private void initView() {
         //初始化控件
         mViewPager=findViewById(R.id.viewpager);

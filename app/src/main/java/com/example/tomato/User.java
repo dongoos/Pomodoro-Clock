@@ -14,15 +14,21 @@ public class User {
         this.uid = uid;
         this.unLockId = unLockId;
     }
+
+    public User() {
+
+    }
+
     // User session methods
-    public static void setUserSession(String name,String email, int uid ) {
+    public static void setUserSession(String name, String email, int uid, String password) {
         setEmail(email);
         setName(name);
         setUid(uid);
+        setPassword(password);
     }
 
     public void clearUserSession() {
-       // =null
+
     }
     // Getters
     public static String getName() {
@@ -50,7 +56,7 @@ public class User {
         User.name = name;
     }
 
-    public void setPassword(String password) {
+    public static void  setPassword(String password) {
         User.password = password;
     }
 

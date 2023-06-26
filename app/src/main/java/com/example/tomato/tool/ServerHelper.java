@@ -2,6 +2,8 @@ package com.example.tomato.tool;
 
 import android.util.Log;
 
+import com.example.tomato.User;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.IOException;
@@ -22,9 +24,7 @@ public class ServerHelper {
     private boolean ok;
 
     public CompletableFuture<Boolean> signup(String email, String password) {
-        CompletableFuture<Boolean> future = new CompletableFuture<>();
         String url = "http://" + ip + ":" + port + "/server/Signup";
-        OkHttpClient httpClient = new OkHttpClient();
         RequestBody requestBody = new FormBody.Builder()
                 .add("email", email)
                 .add("password", password)
@@ -33,25 +33,11 @@ public class ServerHelper {
                 .url(url)
                 .post(requestBody)
                 .build();
-        Call call = httpClient.newCall(request);
-        call.enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                future.complete(false);
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                future.complete(true);
-            }
-        });
-        return future;
+        return FutureCall.futureCall(request);
     }
 
     public CompletableFuture<Boolean> login(String email, String password) {
-        CompletableFuture<Boolean> future = new CompletableFuture<>();
         String url = "http://" + ip + ":" + port + "/server/Login";
-        OkHttpClient httpClient = new OkHttpClient();
         RequestBody requestBody = new FormBody.Builder()
                 .add("email", email)
                 .add("password", password)
@@ -60,25 +46,13 @@ public class ServerHelper {
                 .url(url)
                 .post(requestBody)
                 .build();
-        Call call = httpClient.newCall(request);
-        call.enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                future.complete(false);
-            }
+        Log.i("login","start");
 
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                future.complete(true);
-            }
-        });
-        return future;
+        return FutureCall.futureCall(request);
     }
 
     public CompletableFuture<Boolean> setName(String email, String name) {
-        CompletableFuture<Boolean> future = new CompletableFuture<>();
         String url = "http://" + ip + ":" + port + "/server/SetName";
-        OkHttpClient httpClient = new OkHttpClient();
         RequestBody requestBody = new FormBody.Builder()
                 .add("email", email)
                 .add("name", name)
@@ -87,25 +61,13 @@ public class ServerHelper {
                 .url(url)
                 .post(requestBody)
                 .build();
-        Call call = httpClient.newCall(request);
-        call.enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                future.complete(false);
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                future.complete(true);
-            }
-        });
-        return future;
+        return FutureCall.futureCall(request);
     }
 
-    public CompletableFuture<Boolean> getName(String email) {
-        CompletableFuture<Boolean> future = new CompletableFuture<>();
+
+
+    public CompletableFuture<User> getName(String email) {
         String url = "http://" + ip + ":" + port + "/server/GetName";
-        OkHttpClient httpClient = new OkHttpClient();
         RequestBody requestBody = new FormBody.Builder()
                 .add("email", email)
                 .build();
@@ -113,25 +75,26 @@ public class ServerHelper {
                 .url(url)
                 .post(requestBody)
                 .build();
-        Call call = httpClient.newCall(request);
-        call.enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                future.complete(false);
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                future.complete(true);
-            }
-        });
-        return future;
+        return FutureCall.futureCallUser(request);
     }
 
+
+
+
+    public CompletableFuture<User> getAllInfo(String email) {
+        String url = "http://" + ip + ":" + port + "/server/GetAllInfo";
+        RequestBody requestBody = new FormBody.Builder()
+                .add("email", email)
+                .build();
+        Request request = new Request.Builder()
+                .url(url)
+                .post(requestBody)
+                .build();
+        Log.i("getallinfo","start");
+        return FutureCall.futureCallUser(request);
+    }
     public CompletableFuture<Boolean> changePassword(String email, String newPwd) {
-        CompletableFuture<Boolean> future = new CompletableFuture<>();
         String url = "http://" + ip + ":" + port + "/server/ChangePassword";
-        OkHttpClient httpClient = new OkHttpClient();
         RequestBody requestBody = new FormBody.Builder()
                 .add("email", email)
                 .add("newPwd", newPwd)
@@ -140,27 +103,19 @@ public class ServerHelper {
                 .url(url)
                 .post(requestBody)
                 .build();
-        Call call = httpClient.newCall(request);
-        call.enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                future.complete(false);
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                future.complete(true);
-            }
-        });
-        return future;
+        return FutureCall.futureCall(request);
     }
 
-    public CompletableFuture<Boolean> addFriend(String email) {
+    public CompletableFuture<Boolean> sendFriendRequest(String email) {
         CompletableFuture<Boolean> future = new CompletableFuture<>();
 
         return future;
     }
+    public CompletableFuture<Boolean> getFriendRequest(String email) {
+        CompletableFuture<Boolean> future = new CompletableFuture<>();
 
+        return future;
+    }
     public CompletableFuture<Boolean> setLockId() {
         CompletableFuture<Boolean> future = new CompletableFuture<>();
 
@@ -171,13 +126,12 @@ public class ServerHelper {
 
         return future;
     }
-    public CompletableFuture<Boolean> add(String email) {
+    public CompletableFuture<Boolean> showFriendList(String email) {
         CompletableFuture<Boolean> future = new CompletableFuture<>();
 
         return future;
     }
-
-    public CompletableFuture<Boolean> exit(String email) {
+    public CompletableFuture<Boolean> isFriend(String email) {
         CompletableFuture<Boolean> future = new CompletableFuture<>();
 
         return future;
