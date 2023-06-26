@@ -44,7 +44,7 @@ public class MeViewPager {
         btn_feedback.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    Intent intent =new Intent(activity,AppStatisticsList.class);
+                   Intent intent =new Intent(activity,RecordPageInfo.class);
             }
         });
         btn_setting.setOnClickListener(new View.OnClickListener() {

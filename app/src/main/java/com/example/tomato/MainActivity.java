@@ -1,7 +1,5 @@
 package com.example.tomato;
 
-import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,23 +16,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import com.example.tomato.adapter.App_usage_details;
-import com.example.tomato.bean.App_info;
-import com.example.tomato.util.ToastUtil;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
-import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.data.PieData;
-import com.github.mikephil.charting.data.PieDataSet;
-import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.utils.ColorTemplate;
+
+import org.jetbrains.annotations.TestOnly;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import org.jetbrains.annotations.TestOnly;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
@@ -45,10 +33,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private static BarChart barChart;
     //饼状图
     private static PieChart pieChart;
+    //Record_Button
+    private Button  buttonDay,buttonMonth,buttonYear,OpenButton;
 
-    //ListView
-    private static AdapterView lv_appinfo;
-    private List<App_info> appInfoList;
+    //list
+    private ListView listView;
 
     //文本框
     private TextView tv5;
@@ -75,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();//初始化数据
+
         //对单选按钮进行监听，选中、未选中
         mRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -117,16 +107,20 @@ public static void c(){
         return pieChart;
     }
     //初始化列表
-    public static AdapterView getLa(){
-        return lv_appinfo;
+    public Button getOBtn(){
+        return OpenButton;
     }
-
-
     public static Button getBtnInfo(){return btn_info;}
     public static Button getBtnFriend(){return btn_friend;}
     public static Button getBtnAchievement(){return btn_achievement;}
     public static Button getBtnFeedback(){return btn_feedback;}
-    public static Button getBtnSetting(){return btn_setting;}    private void initView() {
+    public static Button getBtnSetting(){return btn_setting;}
+    public Button getBtnD(){return buttonDay;}
+    public Button getBtnM(){return buttonMonth;}
+    public Button getBtnY(){return buttonYear;}
+
+    public ListView getLv(){return listView;}
+    private void initView() {
         //初始化控件
         mViewPager=findViewById(R.id.viewpager);
         mRadioGroup=findViewById(R.id.rg_tab);
@@ -153,8 +147,6 @@ public static void c(){
         //柱状图和饼状图
         barChart = mViews.get(1).findViewById(R.id.bar_chart);
         pieChart = mViews.get(1).findViewById(R.id.pie_chart);
-        //list
-        lv_appinfo = mViews.get(1).findViewById(R.id.lv_1);
         //record_background
         tv5 = mViews.get(1).findViewById(R.id.tv5);
         tv6 = mViews.get(1).findViewById(R.id.tv6);
@@ -164,10 +156,13 @@ public static void c(){
         tv7.setBackgroundResource(R.drawable.shape_rect);
 
         //ButtonListener
-
-
-
         bt_time.setOnClickListener(timerButton);
+        //Record_Button
+        OpenButton = mViews.get(1).findViewById(R.id.OpenButton);
+        buttonDay = mViews.get(1).findViewById(R.id.daybuttonlist3);
+        buttonMonth = mViews.get(1).findViewById(R.id.monthbuttonlist3);
+        buttonYear = mViews.get(1).findViewById(R.id.yearbuttonlist3);
+        listView = mViews.get(1).findViewById(R.id.AppStatisticsList);
 
         //设置一个适配器
         mViewPager.setAdapter(new MyViewPagerAdapter());
@@ -190,6 +185,10 @@ public static void c(){
                         tab1.setChecked(false);
                         tab2.setChecked(true);
                         tab3.setChecked(false);
+                        OpenAccess openAccess = new OpenAccess();
+                        openAccess.initialize_button(MainActivity.this);
+                        RecordPageInfo recordPageInfo = new RecordPageInfo(MainActivity.this);
+                        recordPageInfo.init(MainActivity.this);
                         ChartActivity.initialize_chart(MainActivity.this);
                         break;
                     case 2:

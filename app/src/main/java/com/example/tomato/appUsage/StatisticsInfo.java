@@ -1,7 +1,6 @@
 package com.example.tomato.appUsage;
 
 import static com.example.tomato.appUsage.AppInformation.bootTime;
-import static com.example.tomato.appUsage.StatisticsInfo.*;
 
 import android.annotation.TargetApi;
 import android.app.usage.UsageEvents;
@@ -18,7 +17,6 @@ import java.util.List;
 public class StatisticsInfo {
 
     final public static int DAY = 0;
-    final public static int WEEK = 1;
     final public static int MONTH = 2;
     final public static int YEAR = 3;
 
@@ -76,19 +74,17 @@ public class StatisticsInfo {
         if (m != null) {
             Calendar calendar = Calendar.getInstance();
             long now = calendar.getTimeInMillis();
-            long begintime = getBeginTime();
+            long beginTime = getBeginTime();
             if (style == DAY) {
-                this.result = m.queryUsageStats(UsageStatsManager.INTERVAL_BEST, begintime, now);
-                AppInfoList = getAccurateDailyStatsList(context, result, m, begintime, now);
+                this.result = m.queryUsageStats(UsageStatsManager.INTERVAL_BEST, beginTime, now);
+                AppInfoList = getAccurateDailyStatsList(context, result, m, beginTime, now);
             } else {
-                if (style == WEEK)
-                    this.result = m.queryUsageStats(UsageStatsManager.INTERVAL_WEEKLY, begintime, now);
-                else if (style == MONTH)
-                    this.result = m.queryUsageStats(UsageStatsManager.INTERVAL_MONTHLY, begintime, now);
+                if (style == MONTH)
+                    this.result = m.queryUsageStats(UsageStatsManager.INTERVAL_MONTHLY, beginTime, now);
                 else if (style == YEAR)
-                    this.result = m.queryUsageStats(UsageStatsManager.INTERVAL_YEARLY, begintime, now);
+                    this.result = m.queryUsageStats(UsageStatsManager.INTERVAL_YEARLY, beginTime, now);
                 else {
-                    this.result = m.queryUsageStats(UsageStatsManager.INTERVAL_BEST, begintime, now);
+                    this.result = m.queryUsageStats(UsageStatsManager.INTERVAL_BEST, beginTime, now);
                 }
 
                 List<UsageStats> Mergeresult = MergeList(this.result);
@@ -199,11 +195,7 @@ public class StatisticsInfo {
     private long getBeginTime() {
         Calendar calendar = Calendar.getInstance();
         long begintime;
-        if (style == WEEK) {
-            //int weekDay = calendar.get(Calendar.DAY_OF_WEEK);
-            calendar.add(Calendar.DATE, -7);
-            begintime = calendar.getTimeInMillis();
-        } else if (style == MONTH) {
+         if (style == MONTH) {
             //int mounthDay = calendar.get(Calendar.DAY_OF_MONTH);
             calendar.add(Calendar.DATE, -30);
             begintime = calendar.getTimeInMillis();
