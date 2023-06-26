@@ -1,5 +1,9 @@
 package com.example.tomato;
 import android.app.Activity;
+import android.app.admin.DeviceAdminReceiver;
+import android.app.admin.DevicePolicyManager;
+import android.content.ComponentName;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,6 +13,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AlertDialog;
 
 import com.example.tomato.tool.ServerHelper;
@@ -27,7 +33,7 @@ public class ViewPagerInfo extends Activity {
     private Button btn_signup;
     private Button btn_exit;
 
-
+    private static final int REQUEST_ADMIN = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +50,6 @@ public class ViewPagerInfo extends Activity {
         Listener_dlg listener=new Listener_dlg();
         btn_name.setOnClickListener(listener);
         btn_email.setOnClickListener(listener);
-
     }
 
 
@@ -56,16 +61,7 @@ public class ViewPagerInfo extends Activity {
             Button btn_ok = dlgView.findViewById(R.id.btn_ok);
           if(view.getId()== R.id.btn_name) {
 
-              ServerHelper serverHelper =new ServerHelper();
-              serverHelper.signup("email", "password")
-                      .thenAccept(result -> {
-                          // 处理异步操作结果
-                          if (result) {
-                              // 注册成功
-                          } else {
-                              // 注册失败
-                          }
-                      });
+
 
               btn_ok.setOnClickListener(new View.OnClickListener() {
                   @Override

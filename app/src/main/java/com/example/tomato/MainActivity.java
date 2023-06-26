@@ -126,7 +126,8 @@ public static void c(){
     public static Button getBtnFriend(){return btn_friend;}
     public static Button getBtnAchievement(){return btn_achievement;}
     public static Button getBtnFeedback(){return btn_feedback;}
-    public static Button getBtnSetting(){return btn_setting;}    private void initView() {
+    public static Button getBtnSetting(){return btn_setting;}
+    private void initView() {
         //初始化控件
         mViewPager=findViewById(R.id.viewpager);
         mRadioGroup=findViewById(R.id.rg_tab);
