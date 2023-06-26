@@ -31,12 +31,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.tomato.adapter.App_usage_details;
+import com.example.tomato.adapter.EventListAdapter;
 import com.example.tomato.appUsage.ShowStatics;
 import com.example.tomato.bean.App_info;
+import com.example.tomato.model.Model;
 import com.example.tomato.util.ToastUtil;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
@@ -81,6 +85,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private static ProgressBar progress;
     private AlertDialog dlgTime;
     private static int setTime;
+    private RecyclerView eventRecyclerView;
+    private EventListAdapter elAdapter;
+    private List<Model> eventList;
 
 
 
@@ -282,6 +289,26 @@ public static void c(){
         btn_event=mViews.get(0).findViewById(R.id.addEventBtn);
         timer=mViews.get(0).findViewById(R.id.timer);
         progress=mViews.get(0).findViewById(R.id.progressBar);
+
+        eventList = new ArrayList<>();
+        eventRecyclerView = mViews.get(0).findViewById(R.id.eventList);
+        eventRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        elAdapter = new EventListAdapter(this);
+        eventRecyclerView.setAdapter(elAdapter);
+
+        Model task = new Model();
+        task.setTask("This is a Test tehe");
+        task.setId(1);
+
+        eventList.add(task);
+        eventList.add(task);
+        eventList.add(task);
+
+        elAdapter.setEvent(eventList);
+
+
+
+
 
 
 
