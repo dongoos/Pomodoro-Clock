@@ -73,17 +73,6 @@ public class RecordPageInfo  {
                 }
             }
         });
-
-//
-//        Button buttonpie = (Button) findViewById(R.id.PieButton3);
-//        buttonpie.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(AppStatisticsList.this,PiePolylineChartActivity.class);
-//                startActivity(intent);
-//                finish();
-//            }
-//        });
     }
 
     // 设置按钮颜色
@@ -109,15 +98,6 @@ public class RecordPageInfo  {
                 break;
         }
 
-//        // 根据当前活动的界面设置相应按钮的文字颜色
-//        String classname = this.getClass().getName();
-//        if (classname.contains("BarChartActivity")) {
-//            buttonBar.setTextColor(Color.YELLOW);
-//        } else if (classname.contains("AppStatisticsList")) {
-//            buttonList.setTextColor(Color.YELLOW);
-//        } else if (classname.contains("PiePolylineChartActivity")) {
-//            buttonPie.setTextColor(Color.YELLOW);
-//        }
     }
 
 
@@ -125,11 +105,7 @@ public class RecordPageInfo  {
     public void Refresh() {
 
         SetButtonColor();
-
         List<Map<String, Object>> dataList = null;
-
-
-
         // 创建 StatisticsInfo 对象，根据统计样式获取相应的统计信息
         StatisticsInfo statisticsInfo = new StatisticsInfo(this.context, this.style);
         totalTime = statisticsInfo.getTotalTime();

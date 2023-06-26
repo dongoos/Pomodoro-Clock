@@ -7,6 +7,7 @@ import static java.security.AccessController.getContext;
 import android.app.ActivityManager;
 import android.app.ActivityOptions;
 import android.app.AlertDialog;
+import android.app.admin.DeviceAdminReceiver;
 import android.app.admin.DevicePolicyManager;
 import android.content.ComponentName;
 import android.content.Context;
@@ -53,6 +54,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+   //<test
+    static final int RESULT_ENABLE = 1 ;
+    DevicePolicyManager deviceManger ;
+    ComponentName compName ;
+    //>
+    //<test2// Allowlist two apps.
+    private static final String KIOSK_PACKAGE = "com.example.tomato";
+    private static final String PLAYER_PACKAGE = "com.example.player";
+    private static final String[] APP_PACKAGES = {KIOSK_PACKAGE, PLAYER_PACKAGE};
+    //
+    //// ...
+    //
 
     private ViewPager mViewPager;
     private RadioGroup mRadioGroup;
@@ -96,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     Timer timerButton = new Timer();
 
     //lock inits
-    public static final int RESULT_ENABLE = 11;
+   //shics test->make it"//" public static final int RESULT_ENABLE = 11;
     private DevicePolicyManager devicePolicyManager;
     private ActivityManager activityManager;
     private ComponentName componentName;
@@ -106,9 +119,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private Intent launchIntent;
 
     //allowed apps
-    private static final String KIOSK_PACKAGE = "com.example.kiosk";
-    private static final String PLAYER_PACKAGE = "com.example.player";
-    private static final String[] APP_PACKAGES = {KIOSK_PACKAGE,PLAYER_PACKAGE};
+//    private static final String a = "com.example.kiosk";
+//    private static final String PLAYER_PACKAGE = "com.example.player";
+//    private static final String[] APP_PACKAGES = {KIOSK_PACKAGE,PLAYER_PACKAGE};
 
 
 
@@ -241,7 +254,7 @@ public static void c(){
                 .setView(dlgViewTime)
                 .create();
         dlgTime.show();
-        Log.i("Testing","Ok so were here atleast");
+        Log.i("Testing","Ok so were here at least");
     }
 
 
@@ -353,39 +366,29 @@ public static void c(){
             }
         });
 
-//        btn_event.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                if(!devicePolicyManager.isAdminActive(componentName)){
-//                    Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
-//                    intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN,componentName);
-//                    intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION,"Idk wut this is but i hope it shows up");
-//                    startActivity(intent);
-//                    packageManager = context.getPackageManager();
-//                    Log.i("Testing","2");
-//                    launchIntent = packageManager.getLaunchIntentForPackage(null);
-//                    Toast.makeText(context,"NO ADMIN??? DID IT WORK??",Toast.LENGTH_SHORT).show();
-//
-//                }else{
-//                    Toast.makeText(context,"ADMIN IS HERE AT LAST",Toast.LENGTH_SHORT).show();
-//                }
-//                //devicePolicyManager.setLockTaskPackages(componentName,APP_PACKAGES);
-////                if(launchIntent != null){
-////                    Log.i("Testing","4");
-////                    startActivity(launchIntent,options.toBundle());
-////                    Log.i("Testing","5");
-////                }
-//            }
-//        });
-
-
         btn_event.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                createEvent();
+                deviceManger = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
+                compName = new ComponentName(MainActivity.this, DeviceAdmin.class);
+                boolean active = deviceManger.isAdminActive(compName);
+                Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
+                intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, compName);
+                intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION, "You should enable the app!");
+                startActivityForResult(intent, RESULT_ENABLE);
 
             }
+
+
         });
+
+//        btn_event.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                createEvent();
+//
+//            }
+//        });
 
         timer.setOnClickListener(new View.OnClickListener() {
             @Override

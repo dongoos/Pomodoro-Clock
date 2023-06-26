@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.tomato.dialogFragment.FriendDialog;
 import com.example.tomato.tool.ShowAchievement;
 
 public class MeViewPager {
@@ -40,8 +41,9 @@ public class MeViewPager {
         btn_friend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(activity, ViewPagerInfo.class);
-                activity.startActivity(intent);
+                FriendDialog friendDialog = new FriendDialog();
+                friendDialog.show(activity.getSupportFragmentManager(), "Friend_dialog");
+
             }
         });
 
