@@ -21,7 +21,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     private SQLiteDatabase db;
 
-    private DatabaseHandler(Context context){
+    public DatabaseHandler(Context context){
         super(context, NAME, null, VERSION);
 
     }
@@ -30,7 +30,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db){
         //create tables - add local tables here
         Log.i("Database","-------------------------------Creating Tables--------------------------------");
-        db.execSQL("CREATE TABLE events( eid INTEGER PRIMARY KEY AUTOINCREMENT, uid INTEGER, eventName string, timeMinutes INTEGER  ) ");
+        db.execSQL("CREATE TABLE IF NOT EXISTS events( eid INTEGER PRIMARY KEY AUTOINCREMENT, uid INTEGER, eventName TEXT, timeMinutes INTEGER  ) ");
     }
 
     @Override
@@ -47,6 +47,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     //open the database duhh
     public void openDatabase(){
         db = this.getWritableDatabase();
+        //onUpgrade(db,1,2);
+        onCreate(db);
+
     }
 
 
@@ -55,8 +58,18 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     public void insertEvent(Model evt){
         ContentValues cv = new ContentValues();
+        //cv.put("eid", evt.getId());
+        cv.put("uid", 1);
         cv.put("eventName", evt.getTask());
-        db.insert("events","eventName", cv);
+        cv.put("timeMinutes",evt.getTimeMinute());
+        long res = db.insertOrThrow("events",null, cv);
+        if(res == -1){
+            Log.i("Database", "FAILED TO INSERT FUNCTION BEGIN CRYING IN 3.. 2.. 1..");
+        }else{
+            Log.i("Database", "INSERT FUNCTION SUCCESSFUL");
+        }
+
+
     }
 
     //Rearrange order for events for in case of deletion... i think
@@ -66,13 +79,23 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         Cursor cur = null;
         db.beginTransaction();
         try{
+
             cur = db.query("events",null,null,null,null,null,null,null);
+          // cur = db.rawQuery("SELECT SUM(eventName) from events",null);
+
             if(cur != null){
+               // Log.i("Database",cur.getString(cur.getColumnIndex("eventName")) );
                 if(cur.moveToFirst()){
+//                   int amount = cur.getInt(0);
+//                   String x = ""+amount;
+//                   Log.i("database",x+": is this working like wtf huhhhhhhh");
+                    //Log.i("Database",cur.getString(cur.getColumnIndex("eventName")) );
                     do{
                         Model event = new Model();
                         event.setId(cur.getInt(cur.getColumnIndex("eid")));
                         event.setTask(cur.getString(cur.getColumnIndex("eventName")));
+                       //Log.i("Database",cur.getString(cur.getColumnIndex("eventName")) );
+                       eventList.add(event);
 
 
                     }while(cur.moveToNext());
@@ -96,7 +119,5 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.delete("events","eid=?", new String[] {String.valueOf(id)});
 
     }
-
-
 
 }

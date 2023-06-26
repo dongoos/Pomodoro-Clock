@@ -35,4 +35,14 @@ public class Model {
     public void setTask(String task) {
         this.task = task;
     }
+
+    @Override
+    public String toString() {
+        return "Model{" +
+                "id=" + id +
+                ", status=" + status +
+                ", timeMinute=" + timeMinute +
+                ", task='" + task + '\'' +
+                '}';
+    }
 }
