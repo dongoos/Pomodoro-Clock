@@ -24,6 +24,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.NumberPicker;
 import android.widget.ProgressBar;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -108,6 +109,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private Context context;
     private Intent launchIntent;
     private DatabaseHandler db;
+    int min = 0;
+    int sec = 0;
 
 
     //allowed apps
@@ -153,7 +156,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();//初始化数据
@@ -231,6 +234,51 @@ public static void c(){
         Button btn_evtSubmit = dlgViewTime.findViewById(R.id.submitEvent);
         Button btn_cancel = dlgViewTime.findViewById(R.id.cancelEvent);
         EditText newEventTitle = dlgViewTime.findViewById(R.id.eventTitle);
+
+
+
+        NumberPicker minPicker =dlgViewTime.findViewById(R.id.minutePicker);
+        minPicker.setMinValue(0);
+        minPicker.setMaxValue(36);
+
+        minPicker.setFormatter(new NumberPicker.Formatter() {
+            @Override
+            public String format(int i) {
+                return String.format("%02d",i*5);
+            }
+        });
+
+        minPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker numberPicker, int i, int i1) {
+                min = i;
+            }
+        });
+
+        NumberPicker secPicker =dlgViewTime.findViewById(R.id.secPicker);
+        secPicker.setMinValue(0);
+        secPicker.setMaxValue(59);
+
+        secPicker.setFormatter(new NumberPicker.Formatter() {
+            @Override
+            public String format(int i) {
+                return String.format("%02d",i);
+            }
+        });
+
+        secPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker numberPicker, int i, int i1) {
+                sec = i;
+            }
+        });
+        //minPicker.setOn
+        //ValueChangedListener( this);
+
+        //@Override
+//        public onValueChange(NumberPicker numberPicker, int i , int j){
+//
+//        }
         db = new DatabaseHandler(this);
         db.openDatabase();
         boolean isUpdate = false;
@@ -315,16 +363,16 @@ public static void c(){
         timer=mViews.get(0).findViewById(R.id.timer);
         progress=mViews.get(0).findViewById(R.id.progressBar);
 
+        //creating event inits
+
+
         eventList = new ArrayList<>();
         eventRecyclerView = mViews.get(0).findViewById(R.id.eventList);
         eventRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         elAdapter = new EventListAdapter(this);
         eventRecyclerView.setAdapter(elAdapter);
-        Log.i("Testing","CONFUSION I AM - YODA");
-
         db = new DatabaseHandler(this);
         db.openDatabase();
-
         eventList = db.getAllEvents();
         elAdapter.setEvent(eventList);
 

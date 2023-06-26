@@ -44,10 +44,10 @@
         android:padding="10dp">
 
         <NumberPicker
+            android:id="@+id/minutePicker"
             android:layout_width="83dp"
-            android:layout_height="81dp"
-            android:scaleX="2"
-            android:scaleY="2"></NumberPicker>
+            android:layout_height="114dp"
+            android:theme="@style/NumberPickerTheme"></NumberPicker>
 
         <TextView
             style="@style/Widget.AppCompat.TextView"
@@ -60,10 +60,10 @@
            ></TextView>
 
         <NumberPicker
+            android:id="@+id/secPicker"
             android:layout_width="83dp"
-            android:layout_height="81dp"
-            android:scaleX="2"
-            android:scaleY="2"></NumberPicker>
+            android:layout_height="114dp"
+            android:theme="@style/NumberPickerTheme"></NumberPicker>
 
 
     </LinearLayout>
