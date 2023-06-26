@@ -16,7 +16,7 @@
         android:name="android.permission.PACKAGE_USAGE_STATS"
         tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS" tools:ignore="ProtectedPermissions" />
->>>>>>> 515f5346f976d2f9faa156e43fea5c0fca55eb76
+
 
     <application
         android:allowBackup="true"
@@ -45,7 +45,6 @@
             android:label="ViewPager Information"></activity> <!-- 窗口名与标题 -->
         <activity
             android:name=".RecordPageInfo"
-<<<<<<< HEAD
             android:label="RecordPage Information"></activity>
         <activity
             android:name=".Timer"
@@ -54,18 +53,12 @@
             android:name=".OpenAccess"
             android:label="OpenaccessActivity"></activity>
 
-=======
-            android:label="RecordPage Information">
-        </activity>
+
         <activity
             android:name=".LoginActivity"
             android:label="Login ">
         </activity>
-        <activity
-            android:name=".Timer"
-            android:label="Pomodoro Timer"
-            >
-        </activity>
+
 
         <receiver android:name=".MyAdmin" android:permission="android.permissions.BIND_DEVICE_ADMIN"
             android:exported="true">

@@ -37,10 +37,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import com.example.tomato.adapter.App_usage_details;
+
 import com.example.tomato.adapter.EventListAdapter;
-import com.example.tomato.appUsage.ShowStatics;
-import com.example.tomato.bean.App_info;
+
 import com.example.tomato.model.Model;
 import com.example.tomato.util.ToastUtil;
 import com.github.mikephil.charting.charts.BarChart;
@@ -112,9 +111,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private static final String[] APP_PACKAGES = {KIOSK_PACKAGE,PLAYER_PACKAGE};
 
 
-
-    //一个尝试
-    ShowStatics showStatics = new ShowStatics(this);
 
 //    private void mRefSetActiveAdmin(ComponentName policyReceiver, boolean refreshing) {
 //        Log.i("Testing","ok it's here...");
@@ -310,12 +306,6 @@ public static void c(){
 
         elAdapter.setEvent(eventList);
 
-
-
-
-
-
-
         btn_friend=mViews.get(2).findViewById(R.id.btn_friend);
         btn_achievement=mViews.get(2).findViewById(R.id.btn_achievements);
         btn_feedback=mViews.get(2).findViewById(R.id.btn_feedback);
@@ -379,9 +369,6 @@ public static void c(){
 //                }else{
 //                    Toast.makeText(context,"ADMIN IS HERE AT LAST",Toast.LENGTH_SHORT).show();
 //                }
-//
-//
-//
 //                //devicePolicyManager.setLockTaskPackages(componentName,APP_PACKAGES);
 ////                if(launchIntent != null){
 ////                    Log.i("Testing","4");
