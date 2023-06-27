@@ -7,10 +7,13 @@ import android.app.AlertDialog;
 import android.app.admin.DevicePolicyManager;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,14 +47,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     static final int RESULT_ENABLE = 1 ;
     DevicePolicyManager deviceManger ;
     ComponentName compName ;
-    //>
-    //<test2// Allowlist two apps.
-    private static final String KIOSK_PACKAGE = "com.example.tomato";
-    private static final String PLAYER_PACKAGE = "com.example.player";
-    private static final String[] APP_PACKAGES = {KIOSK_PACKAGE, PLAYER_PACKAGE};
-    //
-    //// ...
-    //
+
+
+    private AlertDialog dialog;
 
     private ViewPager mViewPager;
     private RadioGroup mRadioGroup;
@@ -293,6 +291,58 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
 
+  //Permissions...will put somewhere else later ig
+    private void requestOverlayDisplayPermission() {
+        // An AlertDialog is created
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        // This dialog can be closed, just by
+        // taping outside the dialog-box
+        builder.setCancelable(true);
+
+        // The title of the Dialog-box is set
+        builder.setTitle("Screen Overlay Permission Needed");
+
+        // The message of the Dialog-box is set
+        builder.setMessage("Enable 'Display over other apps' from System Settings.");
+
+        // The event of the Positive-Button is set
+        builder.setPositiveButton("Open Settings", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // The app will redirect to the 'Display over other apps' in Settings.
+                // This is an Implicit Intent. This is needed when any Action is needed
+                // to perform, here it is
+                // redirecting to an other app(Settings).
+                Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName()));
+
+                // This method will start the intent. It takes two parameter,
+                // one is the Intent and the other is
+                // an requestCode Integer. Here it is -1.
+                startActivityForResult(intent, RESULT_OK);
+            }
+        });
+        dialog = builder.create();
+        // The Dialog will show in the screen
+        dialog.show();
+    }
+    //check for permissions
+    private boolean checkOverlayDisplayPermission() {
+        // Android Version is lesser than Marshmallow
+        // or the API is lesser than 23
+        // doesn't need 'Display over other apps' permission enabling.
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
+            // If 'Display over other apps' is not enabled it
+            // will return false or else true
+            if (!Settings.canDrawOverlays(this)) {
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            return true;
+        }
+    }
 
 
     private void initView() {
@@ -333,28 +383,22 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         btn_wl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //devicePolicyManager.lockNow();
-                startLockTask();
-//                if(devicePolicyManager.isAdminActive(componentName)){
-//                 startLockTask();
-//                }else{
-//                    Toast.makeText(context, "Device Admin aint enabled :(", Toast.LENGTH_SHORT).show();
-//                }
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                    Log.i("Testing","SDK VERSION RIGHT!!");
-                    if(options.getLockTaskMode()==true){
-                        options.setLockTaskEnabled(false);
-                    }else{
-                        options.setLockTaskEnabled(true);
-                    }
+                if (checkOverlayDisplayPermission()) {
 
-                }else{
-                    Log.i("Testing","Uhhh do some research my guy");
+                    Log.i("TESTING____________________________________","DID I EVEN GET HERE?????");
+                    // FloatingWindowGFG service is started
+                    startService(new Intent(MainActivity.this, FloatingWindow.class));
+                    // The MainActivity closes here
+                    Log.i("TESTING____________________________________","DID I EVEN GET HERE?????");
+                    finish();
+                } else {
+                    // If permission is not given,
+                    // it shows the AlertDialog box and
+                    // redirects to the Settings
+                    requestOverlayDisplayPermission();
                 }
-
-
-//                startLockTask();
+                //startLockTask();
             }
         });
 
