@@ -81,11 +81,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     //Widgets from Activity_lock
     private static TextView timer;
     private static ProgressBar progress;
-    private AlertDialog dlgTime;
-    private static int setTime;
+    private static AlertDialog dlgTime;
+    private static long setTime;
     private RecyclerView eventRecyclerView;
-    private EventListAdapter elAdapter;
-    private List<Model> eventList;
+    private static EventListAdapter elAdapter;
+    private static List<Model> eventList;
 
 
 
@@ -108,9 +108,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private PackageManager packageManager;
     private Context context;
     private Intent launchIntent;
-    private DatabaseHandler db;
-    int min = 0;
-    int sec = 0;
+    private static DatabaseHandler db;
+    static int min = 0;
+    static int sec = 0;
 
 
     //allowed apps
@@ -210,6 +210,14 @@ public static void c(){
         return progress;
     }
 
+    public static void setTimeMili(long timeMili) {
+        setTime = timeMili;
+    }
+
+    public static long getTimeMili(){
+        return setTime;
+    }
+
 
 
 //    @Override
@@ -229,13 +237,13 @@ public static void c(){
         boolean isActive = devicePolicyManager.isAdminActive(componentName);
     }
 
-    public void createEvent(){
-        View dlgViewTime = LayoutInflater.from(MainActivity.this).inflate(R.layout.dialog_create_times, null);
+    public static void createEvent(MainActivity activity, boolean update, int eid){
+        View dlgViewTime = LayoutInflater.from(activity).inflate(R.layout.dialog_create_times, null);
         Button btn_evtSubmit = dlgViewTime.findViewById(R.id.submitEvent);
         Button btn_cancel = dlgViewTime.findViewById(R.id.cancelEvent);
         EditText newEventTitle = dlgViewTime.findViewById(R.id.eventTitle);
 
-
+//setup database for picker
 
         NumberPicker minPicker =dlgViewTime.findViewById(R.id.minutePicker);
         minPicker.setMinValue(0);
@@ -248,12 +256,6 @@ public static void c(){
             }
         });
 
-        minPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
-            @Override
-            public void onValueChange(NumberPicker numberPicker, int i, int i1) {
-                min = i;
-            }
-        });
 
         NumberPicker secPicker =dlgViewTime.findViewById(R.id.secPicker);
         secPicker.setMinValue(0);
@@ -266,12 +268,7 @@ public static void c(){
             }
         });
 
-        secPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
-            @Override
-            public void onValueChange(NumberPicker numberPicker, int i, int i1) {
-                sec = i;
-            }
-        });
+
         //minPicker.setOn
         //ValueChangedListener( this);
 
@@ -279,9 +276,27 @@ public static void c(){
 //        public onValueChange(NumberPicker numberPicker, int i , int j){
 //
 //        }
-        db = new DatabaseHandler(this);
+        db = new DatabaseHandler(activity);
         db.openDatabase();
-        boolean isUpdate = false;
+        if(update){
+           newEventTitle.setText(eventList.get(eid).getTask());
+           minPicker.setValue(eventList.get(eid).getTimeMinute()/5);
+           secPicker.setValue(eventList.get(eid).getTimeSec());
+        }
+
+        minPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker numberPicker, int i, int i1) {
+                min = i1*5;
+            }
+        });
+
+        secPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker numberPicker, int i, int i1) {
+                sec = i1;
+            }
+        });
 
 
 
@@ -291,14 +306,43 @@ public static void c(){
 
             @Override
             public void onClick(View view) {
-                Model task = new Model();
-                task.setTask(newEventTitle.getText().toString());
-                eventList.add(task);
-                db.insertEvent(task);
+                if(update){
+                    eventList.get(eid).setTask(newEventTitle.getText().toString());
+                    eventList.get(eid).setTimeMinute(min);
+                    eventList.get(eid).setTimeSec(sec);
+                    Log.i("db",newEventTitle.getText().toString()+" time in mins"+min);
+                    //db.deleteTask(eid);
+                    db.updateEvent(eid,newEventTitle.getText().toString(),min,sec);
+                }else{
+                    Model task = new Model();
+                    task.setTask(newEventTitle.getText().toString());
+                    Log.i("dbTest",""+min);
+                    task.setTimeMinute(min);
+                    task.setTimeSec(sec);
+                    eventList.add(task);
+
+                    db.insertEvent(task);
+
+
+                }
+
+                long milliseconds = (min*60000)+(sec*1000);
+                if(Timer.isTimerRunning()){
+                    Toast.makeText(activity,"Timer is still running",Toast.LENGTH_SHORT).show();
+                }else{
+
+                    MainActivity.setTimeMili(milliseconds);
+                    String timeLeftFormatted = String.format("%02d:%02d", min, sec);
+                    timer.setText(timeLeftFormatted);
+                    Timer.setSoFar(0);
+                    progress.setProgress(0);
+                    bt_time.setText("Start Timer");
+
+                }
+
                 elAdapter.setEvent(eventList);
                 Log.i("dbTest",eventList.toString());
                 Log.i("dbTest",db.getAllEvents().toString());
-
                 dlgTime.dismiss();
 
             }
@@ -310,7 +354,7 @@ public static void c(){
                 dlgTime.dismiss();
             }
         });
-        dlgTime = new AlertDialog.Builder(MainActivity.this)
+        dlgTime = new AlertDialog.Builder(activity)
                 .setView(dlgViewTime)
                 .create();
         dlgTime.show();
@@ -452,7 +496,7 @@ public static void c(){
         btn_event.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                createEvent();
+                createEvent(MainActivity.this,false,0);
 
             }
         });
@@ -461,7 +505,7 @@ public static void c(){
             @Override
             public void onClick(View view) {
 
-                createEvent();
+                createEvent(MainActivity.this,false, 0);
             }
 
         });

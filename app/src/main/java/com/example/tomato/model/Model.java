@@ -1,11 +1,21 @@
 package com.example.tomato.model;
 
+import android.util.Log;
+
 public class Model {
-    private int id, status, timeMinute;
+    private int id, status, timeMinute, timeSec;
     private String task;
 
     public int getId() {
         return id;
+    }
+
+    public int getTimeSec() {
+        return timeSec;
+    }
+
+    public void setTimeSec(int timeSec) {
+        this.timeSec = timeSec;
     }
 
     public void setId(int id) {
@@ -25,6 +35,7 @@ public class Model {
     }
 
     public void setTimeMinute(int timeMinute) {
+        Log.i("db TEsting", ""+timeMinute);
         this.timeMinute = timeMinute;
     }
 
@@ -42,6 +53,7 @@ public class Model {
                 "id=" + id +
                 ", status=" + status +
                 ", timeMinute=" + timeMinute +
+                ", timeSec=" + timeSec +
                 ", task='" + task + '\'' +
                 '}';
     }
