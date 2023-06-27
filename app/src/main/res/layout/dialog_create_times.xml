@@ -20,14 +20,13 @@
 
 
     <EditText
-        android:id="@+id/eventTitle"
+        android:id="@+id/editTextText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="30"
         android:hint="Title"
         android:inputType="text"
-        android:text=""
-        android:maxLength="20"/>
+        android:text="" />
 
     <TextView
         android:layout_width="match_parent"
@@ -89,8 +88,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:padding="5dp"
-            android:text="SET">
-        </Button>
+            android:text="SET"></Button>
     </LinearLayout>
 
 
