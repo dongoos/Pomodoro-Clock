@@ -66,7 +66,7 @@
             android:max="1000"
             android:progress="0"
             android:padding="30dp"
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            style="@style/Widget.AppCompat.ProgressBar"
             android:background="@drawable/circle_shape"
             android:progressDrawable="@drawable/pomodoro_progress_bar"
 

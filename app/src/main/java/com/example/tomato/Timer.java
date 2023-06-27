@@ -25,14 +25,14 @@ public class Timer extends Activity implements View.OnClickListener {
     private Button btnStart;
     private CountDownTimer countDownTimer;
     private long timeLeftInMillis;
-    private static boolean timerRunning;
+    private boolean timerRunning;
 
     private Button btnInfo;
 
     private ProgressBar timeProgress;
     private long interval;
     private long ogTime;
-    private static long soFar = 0;
+    private long soFar = 0;
     private long max =1000;
 
     private AlertDialog dlg;
@@ -40,13 +40,6 @@ public class Timer extends Activity implements View.OnClickListener {
     Button submitEvt;
 
 
-    public static void setSoFar(long sF) {
-        soFar = sF;
-    }
-
-    public static boolean isTimerRunning() {
-        return timerRunning;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +75,7 @@ public class Timer extends Activity implements View.OnClickListener {
         timeProgress.setMax((int)max);
 
 
-        ogTime = MainActivity.getTimeMili();
+        ogTime = 60000;
         if(soFar == 0){
             soFar = ogTime;
         }

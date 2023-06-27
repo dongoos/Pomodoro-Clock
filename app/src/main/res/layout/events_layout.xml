@@ -5,7 +5,6 @@
     android:layout_height="139dp"
     android:visibility="visible"
     app:cardElevation="4dp"
-    android:clickable="true"
 
     >
 
@@ -40,11 +39,11 @@
                         </LinearLayout>
 
                         <Button
-                            android:id="@+id/btn_set"
+                            android:id="@+id/button9"
                             android:layout_width="80dp"
                             android:layout_height="80dp"
                             android:layout_weight="1"
-                            android:text="Set" />
+                            android:text="开始" />
 
                     </LinearLayout>
 

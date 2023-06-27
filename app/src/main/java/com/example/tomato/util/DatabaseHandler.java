@@ -30,7 +30,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db){
         //create tables - add local tables here
         Log.i("Database","-------------------------------Creating Tables--------------------------------");
-        db.execSQL("CREATE TABLE IF NOT EXISTS events( eid INTEGER PRIMARY KEY AUTOINCREMENT, uid INTEGER, eventName TEXT, timeMinutes INTEGER ,timeSecond INTEGER ) ");
+        db.execSQL("CREATE TABLE IF NOT EXISTS events( eid INTEGER PRIMARY KEY AUTOINCREMENT, uid INTEGER, eventName TEXT, timeMinutes INTEGER  ) ");
     }
 
     @Override
@@ -57,7 +57,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         ContentValues cv = new ContentValues();
         cv.put("eventName", evt.getTask());
         cv.put("timeMinutes",evt.getTimeMinute());
-        cv.put("timeSecond",evt.getTimeSec());
         long res = db.insertOrThrow("events",null, cv);
         if(res == -1){
             Log.i("Database", "FAILED TO INSERT FUNCTION BEGIN CRYING IN 3.. 2.. 1..");
@@ -68,7 +67,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     }
 
-    //Selecting values
+    //Rearrange order for events for in case of deletion... i think
     @SuppressLint("Range")
     public List<Model> getAllEvents(){
         List<Model> eventList = new ArrayList<>();
@@ -82,8 +81,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                         Model event = new Model();
                         event.setId(cur.getInt(cur.getColumnIndex("eid")));
                         event.setTask(cur.getString(cur.getColumnIndex("eventName")));
-                        event.setTimeMinute(cur.getInt(cur.getColumnIndex("timeMinutes")));
-                        event.setTimeSec(cur.getInt(cur.getColumnIndex("timeSecond")));
                        //Log.i("Database",cur.getString(cur.getColumnIndex("eventName")) );
                        eventList.add(event);
 
@@ -99,16 +96,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     }
 
-    public void updateEvent(int id, String name, int min, int sec){
+    public void updateEventTitle(int id, String name){
         ContentValues cv = new ContentValues();
         cv.put("eventName", name);
-        cv.put("timeMinutes", min);
-        cv.put("timeSecond", sec);
-        Log.i("Testing---------------------------------------------------",String.valueOf(id));
-        String where = "eid ="+id;
         db.update("events",cv,"eid=?", new String[] {String.valueOf(id)});
     }
-
 
     public void deleteTask(int id){
         db.delete("events","eid=?", new String[] {String.valueOf(id)});
