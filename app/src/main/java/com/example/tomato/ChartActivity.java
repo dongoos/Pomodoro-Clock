@@ -2,6 +2,7 @@ package com.example.tomato;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.view.View;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.data.BarData;
@@ -22,7 +23,10 @@ public class ChartActivity extends Activity  {
     static ArrayList<PieEntry> pieEntries = new ArrayList<>();
     //初始化
     public static void initialize_chart(MainActivity activity){
-        barChart = activity.getBc();
+        View rootView;
+        rootView = MainActivity.getView1();
+
+        barChart = rootView.findViewById(R.id.bar_chart);
 
     //use for loop
     for (int i = 1; i < 10; i++) {

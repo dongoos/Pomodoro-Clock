@@ -28,8 +28,7 @@
                                 android:layout_weight="3"
                                 android:fontFamily="sans-serif-black"
                                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                               android:text="Some Random Text"
-                                />
+                               android:text="Some Random Text" />
 
                             <TextView
                                 android:id="@+id/eventTime"

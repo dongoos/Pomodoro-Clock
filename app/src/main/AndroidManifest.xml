@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-feature
+        android:name="android.hardware.telephony"
+        android:required="false" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
@@ -9,14 +12,8 @@
         tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.LOCK_DEVICE"
         tools:ignore="ProtectedPermissions" />
-    <uses-permission
-        android:name="android.permission.PACKAGE_USAGE_STATS"
-        tools:ignore="ProtectedPermissions" />
-    <uses-permission
-        android:name="android.permission.PACKAGE_USAGE_STATS"
-        tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS" tools:ignore="ProtectedPermissions" />
-
+    <uses-permission android:name= "android.permission.CALL_PHONE" />
 
     <application
         android:allowBackup="true"
@@ -53,18 +50,27 @@
             android:name=".OpenAccess"
             android:label="OpenaccessActivity"></activity>
 
-
+        <activity android:name=".SettingActivity"></activity>
+        <activity android:name=".AccountManageActivity"></activity>
+        <activity android:name=".IndividuationActivity"></activity>
+        <activity android:name=".FeedBackActivity"></activity>
+        <activity android:name=".AboutActivity"></activity>
         <activity
             android:name=".LoginActivity"
             android:label="Login ">
         </activity>
 
+        <receiver
+            android:name= ".DeviceAdmin"
 
-        <receiver android:name=".MyAdmin" android:permission="android.permissions.BIND_DEVICE_ADMIN"
+            android:label= "@string/app_name"
+            android:permission= "android.permission.BIND_DEVICE_ADMIN"
             android:exported="true">
-            <meta-data android:name="android.app.device_admin" android:resource="@xml/policies"/>
+            <meta-data
+                android:name= "android.app.device_admin"
+                android:resource= "@xml/policies" />
             <intent-filter>
-                <action  android:name="android.app.action.DEVICE_ADMIN_ENABLED"/>
+                <action android:name= "android.app.action.DEVICE_ADMIN_ENABLED" />
             </intent-filter>
         </receiver>
 

@@ -43,7 +43,7 @@ public class StatisticsInfo {
         this.ShowList = new ArrayList<>();
 
         totalTime = 0;
-
+//遍历
         for (int i = 0; i < AppInfoList.size(); i++) {
             if (AppInfoList.get(i).getUsedTimebyDay() > 0) { //&& AppInfoList.get(i).getTimes() > 0) {
 

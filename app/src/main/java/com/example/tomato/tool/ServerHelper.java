@@ -90,7 +90,7 @@ public class ServerHelper {
                 .url(url)
                 .post(requestBody)
                 .build();
-        Log.i("getallinfo","start");
+        Log.i("getAllInfo","start");
         return FutureCall.futureCallUser(request);
     }
     public CompletableFuture<Boolean> changePassword(String email, String newPwd) {

@@ -21,7 +21,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     private SQLiteDatabase db;
 
-    public DatabaseHandler(Context context){
+    private DatabaseHandler(Context context){
         super(context, NAME, null, VERSION);
 
     }
@@ -47,9 +47,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     //open the database duhh
     public void openDatabase(){
         db = this.getWritableDatabase();
-        //onUpgrade(db,1,2);
-        onCreate(db);
-
     }
 
 
@@ -58,8 +55,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     public void insertEvent(Model evt){
         ContentValues cv = new ContentValues();
-        //cv.put("eid", evt.getId());
-        cv.put("uid", 1);
         cv.put("eventName", evt.getTask());
         cv.put("timeMinutes",evt.getTimeMinute());
         cv.put("timeSecond",evt.getTimeSec());
@@ -80,17 +75,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         Cursor cur = null;
         db.beginTransaction();
         try{
-
             cur = db.query("events",null,null,null,null,null,null,null);
-          // cur = db.rawQuery("SELECT SUM(eventName) from events",null);
-
             if(cur != null){
-               // Log.i("Database",cur.getString(cur.getColumnIndex("eventName")) );
                 if(cur.moveToFirst()){
-//                   int amount = cur.getInt(0);
-//                   String x = ""+amount;
-//                   Log.i("database",x+": is this working like wtf huhhhhhhh");
-                    //Log.i("Database",cur.getString(cur.getColumnIndex("eventName")) );
                     do{
                         Model event = new Model();
                         event.setId(cur.getInt(cur.getColumnIndex("eid")));
@@ -127,5 +114,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.delete("events","eid=?", new String[] {String.valueOf(id)});
 
     }
+
+
 
 }

@@ -111,10 +111,10 @@
                         android:paddingTop="8.0dp"
                         android:paddingBottom="16.0dp">
 
-                        <TextView
+                        <Button
+                            android:id="@+id/setting_individuation"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-
                             android:drawablePadding="10.0dp"
                             android:gravity="center_vertical"
                             android:includeFontPadding="false"
@@ -163,19 +163,46 @@
                         android:layout_width="fill_parent"
                         android:layout_marginLeft="2.0dp"
                         android:layout_marginRight="2.0dp"
-
                         android:paddingTop="16.0dp"
                         android:paddingBottom="16.0dp">
 
-                        <TextView
+                        <Button
+                            android:id="@+id/setting_feedBack"
                             android:layout_width="wrap_content"
                             android:layout_height="fill_parent"
-
                             android:drawablePadding="10.0dp"
                             android:gravity="center_vertical"
                             android:includeFontPadding="false"
                             android:paddingLeft="17.0dp"
                             android:text="意见反馈"
+                            android:textColor="#ff333333"
+                            android:textSize="16.0sp" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="fill_parent"
+                            android:layout_gravity="right"
+                            android:gravity="center_vertical"
+                            android:paddingRight="20.0dip" />
+                    </TableRow>
+                    <TableRow
+                        android:id="@+id/more_page_row9"
+                        android:layout_width="fill_parent"
+                        android:layout_marginLeft="2.0dp"
+                        android:layout_marginRight="2.0dp"
+
+                        android:paddingTop="16.0dp"
+                        android:paddingBottom="16.0dp">
+
+                        <Button
+                            android:id="@+id/setting_accountManage"
+                            android:layout_width="wrap_content"
+                            android:layout_height="fill_parent"
+                            android:drawablePadding="10.0dp"
+                            android:gravity="center_vertical"
+                            android:includeFontPadding="false"
+                            android:paddingLeft="17.0dp"
+                            android:text="账号管理"
                             android:textColor="#ff333333"
                             android:textSize="16.0sp" />
 
@@ -196,10 +223,10 @@
                         android:paddingTop="16.0dip"
                         android:paddingBottom="16.0dip">
 
-                        <TextView
+                        <Button
+                            android:id="@+id/version_update"
                             android:layout_width="wrap_content"
                             android:layout_height="fill_parent"
-
                             android:drawablePadding="10.0dip"
                             android:gravity="center_vertical"
                             android:includeFontPadding="false"
@@ -225,11 +252,10 @@
                         android:paddingTop="16.0dip"
                         android:paddingBottom="16.0dip">
 
-                        <TextView
+                        <Button
+                            android:id="@+id/setting_about"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-
-
                             android:drawablePadding="10.0dip"
                             android:gravity="center_vertical"
                             android:includeFontPadding="false"

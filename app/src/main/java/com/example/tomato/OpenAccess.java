@@ -16,7 +16,9 @@ public class OpenAccess {
     private Button OpenButton;
 
     public void initialize_button(MainActivity activity) {
-        OpenButton = activity.getOBtn();
+        View rootView;
+        rootView = MainActivity.getView1();
+        OpenButton=rootView.findViewById(R.id.OpenButton);
         // 设置按钮点击事件监听器
         OpenButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -39,12 +41,11 @@ public class OpenAccess {
             }
         });
     }
-//    @Override
+
 //    protected void onResume() {
-//        super.onResume();
 //        try {
 //            // 检查是否设置了应用统计的使用权限
-//            if (isStatAccessPermissionSet(this)) {
+//            if (isStatAccessPermissionSet()) {
 //                // 如果设置了权限，跳转到应用统计列表界面
 //                Intent intent3 = new Intent(activity, RecordPageInfo.class);
 //                startActivity(intent3);

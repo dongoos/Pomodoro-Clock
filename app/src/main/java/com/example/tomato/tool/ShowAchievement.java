@@ -14,7 +14,6 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.example.tomato.R;
-import com.example.tomato.databinding.AchievementPopupBinding;
 
 public class ShowAchievement {
 
@@ -24,7 +23,7 @@ public class ShowAchievement {
         PopupWindow achievementPopup = new PopupWindow(context);
 
         // 加载布局文件
-        View popupView = LayoutInflater.from(context).inflate(R.layout.achievement_popup, null);
+        View popupView = LayoutInflater.from(context).inflate(R.layout.activity_achievement, null);
 
         // 找到布局中的控件
         ImageView iconImageView = popupView.findViewById(R.id.achievement_icon);

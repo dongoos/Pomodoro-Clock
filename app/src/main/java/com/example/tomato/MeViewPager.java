@@ -1,32 +1,27 @@
 package com.example.tomato;
 
-import android.app.admin.DeviceAdminReceiver;
-import android.app.admin.DevicePolicyManager;
-import android.content.ComponentName;
 import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.app.Activity;
-import android.app.admin.DevicePolicyManager;
-import android.content.ComponentName;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
+import android.widget.ImageButton;
 
+import com.example.tomato.dialogFragment.FriendDialog;
 import com.example.tomato.tool.ShowAchievement;
 
 public class MeViewPager {
-    private static Button btn_info, btn_friend, btn_achievement, btn_feedback, btn_setting;
+    private static Button btn_info, btn_friend, btn_achievement, btn_setting;
+    private static ImageButton ibtn_setting;
 
     public static void init(MainActivity activity) {
-        btn_info = activity.getBtnInfo();
-        btn_friend = activity.getBtnFriend();
-        btn_achievement = activity.getBtnAchievement();
-        btn_feedback = activity.getBtnFeedback();
-        btn_setting = activity.getBtnSetting();
+
+        View rootView;
+        rootView = MainActivity.getView2();
+        btn_info=rootView.findViewById(R.id.infoButton);
+        btn_friend=rootView.findViewById(R.id.btn_friend);
+        btn_achievement=rootView.findViewById(R.id.btn_achievements);
+        ibtn_setting=rootView.findViewById(R.id.ib_setting);
+        btn_setting=rootView.findViewById(R.id.btn_setting);
 
         btn_info.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -40,8 +35,9 @@ public class MeViewPager {
         btn_friend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(activity, ViewPagerInfo.class);
-                activity.startActivity(intent);
+                FriendDialog friendDialog = new FriendDialog();
+                friendDialog.show(activity.getSupportFragmentManager(), "Friend_dialog");
+
             }
         });
 
@@ -51,19 +47,19 @@ public class MeViewPager {
                 ShowAchievement.show(activity);
             }
         });
-        btn_feedback.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                   Intent intent =new Intent(activity,RecordPageInfo.class);
-            }
-        });
         btn_setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(activity,SettingActivity.class);
+                activity.startActivity(intent);
             }
         });
-
-
+        ibtn_setting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(activity,SettingActivity.class);
+                activity.startActivity(intent);
+            }
+        });
     }
 }
