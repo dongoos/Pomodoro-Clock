@@ -21,7 +21,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     private SQLiteDatabase db;
 
-    private DatabaseHandler(Context context){
+    public DatabaseHandler(Context context){
         super(context, NAME, null, VERSION);
 
     }
@@ -30,7 +30,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db){
         //create tables - add local tables here
         Log.i("Database","-------------------------------Creating Tables--------------------------------");
-        db.execSQL("CREATE TABLE IF NOT EXISTS events( eid INTEGER PRIMARY KEY AUTOINCREMENT, uid INTEGER, eventName TEXT, timeMinutes INTEGER  ) ");
+        db.execSQL("CREATE TABLE IF NOT EXISTS events( eid INTEGER PRIMARY KEY AUTOINCREMENT, uid INTEGER, eventName TEXT, timeMinutes INTEGER ,timeSecond INTEGER ) ");
     }
 
     @Override
@@ -57,6 +57,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         ContentValues cv = new ContentValues();
         cv.put("eventName", evt.getTask());
         cv.put("timeMinutes",evt.getTimeMinute());
+        cv.put("timeSecond",evt.getTimeSec());
         long res = db.insertOrThrow("events",null, cv);
         if(res == -1){
             Log.i("Database", "FAILED TO INSERT FUNCTION BEGIN CRYING IN 3.. 2.. 1..");
@@ -67,7 +68,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     }
 
-    //Rearrange order for events for in case of deletion... i think
+    //Selecting values
     @SuppressLint("Range")
     public List<Model> getAllEvents(){
         List<Model> eventList = new ArrayList<>();
@@ -81,8 +82,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                         Model event = new Model();
                         event.setId(cur.getInt(cur.getColumnIndex("eid")));
                         event.setTask(cur.getString(cur.getColumnIndex("eventName")));
-                       //Log.i("Database",cur.getString(cur.getColumnIndex("eventName")) );
-                       eventList.add(event);
+                        event.setTimeMinute(cur.getInt(cur.getColumnIndex("timeMinutes")));
+                        event.setTimeSec(cur.getInt(cur.getColumnIndex("timeSecond")));
+                        //Log.i("Database",cur.getString(cur.getColumnIndex("eventName")) );
+                        eventList.add(event);
 
 
                     }while(cur.moveToNext());
@@ -96,11 +99,16 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     }
 
-    public void updateEventTitle(int id, String name){
+    public void updateEvent(int id, String name, int min, int sec){
         ContentValues cv = new ContentValues();
         cv.put("eventName", name);
+        cv.put("timeMinutes", min);
+        cv.put("timeSecond", sec);
+        Log.i("Testing---------------------------------------------------",String.valueOf(id));
+        String where = "eid ="+id;
         db.update("events",cv,"eid=?", new String[] {String.valueOf(id)});
     }
+
 
     public void deleteTask(int id){
         db.delete("events","eid=?", new String[] {String.valueOf(id)});
