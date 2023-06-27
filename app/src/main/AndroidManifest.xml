@@ -2,18 +2,24 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-feature
+        android:name="android.hardware.telephony"
+        android:required="false" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 <<<<<<< HEAD
     <uses-permission
         android:name="android.permission.PACKAGE_USAGE_STATS"
         tools:ignore="ProtectedPermissions" />
-    <uses-permission
-        android:name="android.permission.PACKAGE_USAGE_STATS"
-        tools:ignore="ProtectedPermissions" />
 =======
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.BIND_DEVICE_ADMIN"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.LOCK_DEVICE"
+        tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS" tools:ignore="ProtectedPermissions" />
->>>>>>> 515f5346f976d2f9faa156e43fea5c0fca55eb76
+    <uses-permission android:name= "android.permission.CALL_PHONE" />
+>>>>>>> d3c63e3e806cd946ba63d520e8eaa500193c9e1c
 
     <application
         android:allowBackup="true"
@@ -26,10 +32,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Tomato"
         tools:targetApi="31">
-
+        <activity
+            android:name=".AchievementActivity"
+            android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:lockTaskMode="if_whitelisted">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -38,10 +47,33 @@
         </activity> <!-- 窗口名与标题 -->
         <activity
             android:name=".ViewPagerInfo"
-            android:label="ViewPager Information"></activity> <!-- 窗口名与标题 -->
+            android:label="ViewPager Information" /> <!-- 窗口名与标题 -->
         <activity
             android:name=".RecordPageInfo"
 <<<<<<< HEAD
+            android:label="RecordPage Information" />
+        <activity
+            android:name=".Timer"
+            android:label="Pomodoro Timer" />
+        <activity
+            android:name=".LoginActivity"
+            android:label="Login " />
+        <activity
+            android:name=".SettingActivity"
+            android:label="Setting" />
+        <activity
+            android:name=".AboutActivity"
+            android:label="About" />
+        <activity
+            android:name=".FeedBackActivity"
+            android:label="FeedBack" />
+        <activity
+            android:name=".AccountManageActivity"
+            android:label="AccountManage" />
+        <activity
+            android:name=".IndividuationActivity"
+            android:label="Individuation" />
+=======
             android:label="RecordPage Information"></activity>
         <activity
             android:name=".Timer"
@@ -50,19 +82,27 @@
             android:name=".OpenAccess"
             android:label="OpenaccessActivity"></activity>
 
-=======
-            android:label="RecordPage Information">
-        </activity>
+
         <activity
             android:name=".LoginActivity"
             android:label="Login ">
         </activity>
-        <activity
-            android:name=".Timer"
-            android:label="Pomodoro Timer"
-            >
-        </activity>
->>>>>>> 515f5346f976d2f9faa156e43fea5c0fca55eb76
+
+        <receiver
+            android:name= ".DeviceAdmin"
+
+            android:label= "@string/app_name"
+            android:permission= "android.permission.BIND_DEVICE_ADMIN"
+            android:exported="true">
+            <meta-data
+                android:name= "android.app.device_admin"
+                android:resource= "@xml/policies" />
+            <intent-filter>
+                <action android:name= "android.app.action.DEVICE_ADMIN_ENABLED" />
+            </intent-filter>
+        </receiver>
+
+>>>>>>> d3c63e3e806cd946ba63d520e8eaa500193c9e1c
     </application>
 
 </manifest>

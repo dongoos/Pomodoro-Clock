@@ -27,8 +27,11 @@ public class User {
         setPassword(password);
     }
 
-    public void clearUserSession() {
-
+    public static void clearUserSession() {
+        setEmail(null);
+        setUid(0);
+        setPassword(null);
+        setName(null);
     }
     // Getters
     public static String getName() {

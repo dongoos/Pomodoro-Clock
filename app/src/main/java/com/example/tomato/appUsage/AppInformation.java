@@ -17,7 +17,7 @@ public class AppInformation {
     private Context context;
     private int times;
 
-
+    //  构造函数同时对异常信息进行处理，在控制台打印输出
     public AppInformation(UsageStats usageStats, Context context) {
         this.usageStats = usageStats;
         this.context = context;
@@ -30,12 +30,16 @@ public class AppInformation {
     }
 
     private void GenerateInfo() throws PackageManager.NameNotFoundException, NoSuchFieldException, IllegalAccessException {
+        //获取包名
         PackageManager packageManager = context.getPackageManager();
         this.packageName = usageStats.getPackageName();
         if (this.packageName != null && !this.packageName.equals("")) {
             ApplicationInfo applicationInfo = packageManager.getApplicationInfo(this.packageName, 0);
+            //获取应用信息
             this.label = (String) packageManager.getApplicationLabel(applicationInfo);
+            //前台使用总时长
             this.UsedTimebyDay = usageStats.getTotalTimeInForeground();
+            //使用次数
             this.times = (Integer) usageStats.getClass().getDeclaredField("mLaunchCount").get(usageStats);
 
             if (this.UsedTimebyDay > 0) {
@@ -82,9 +86,6 @@ public class AppInformation {
 
 
     public void setTimeStampMoveToForeground(long timeStampMoveToForeground) {
-//        if (timeStampMoveToForeground > bootTime()){
-//            timesPlusPlus();
-//        }
         this.timeStampMoveToForeground = timeStampMoveToForeground;
     }
 
@@ -103,7 +104,7 @@ public class AppInformation {
     public long getTimeStampMoveToForeground() {
         return timeStampMoveToForeground;
     }
-
+    //用来计算程序的运行时间，设计巧妙
     public void calculateRunningTime() {
 
         if (timeStampMoveToForeground < 0 || timeStampMoveToBackGround < 0) {

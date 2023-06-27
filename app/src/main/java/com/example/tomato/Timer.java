@@ -2,6 +2,7 @@ package com.example.tomato;
 
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.widget.ProgressBar;
@@ -10,6 +11,7 @@ import android.widget.Button;
 import android.os.CountDownTimer;
 import android.view.View;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -30,25 +32,23 @@ public class Timer extends Activity implements View.OnClickListener {
     private ProgressBar timeProgress;
     private long interval;
     private long ogTime;
-    private int soFar;
+    private long soFar = 0;
+    private long max =1000;
+
+    private AlertDialog dlg;
+    private View dlgView;
+    Button submitEvt;
 
 
 
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_lock);
-//
-//
-//        btnStart =  findViewById(R.id.btnStart);
-//
-//
-////        btnStart.setOnClickListener(new View.OnClickListener() {
-////
-////        });
-//
-//    }
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_lock);
+
+
+    }
+
     @Override
     public void onClick(View v) {
 
@@ -58,21 +58,32 @@ public class Timer extends Activity implements View.OnClickListener {
 
         Log.i("test","Testing it button click works");
 
-                if (timerRunning) {
-                    stopTimer();
-                } else {
-                    startTimer();
-                }
+            if (timerRunning) {
+                stopTimer();
+            } else {
+                startTimer();
+            }
+
+
+
     }
 
 
 
     private void startTimer() {
+
+        timeProgress.setMax((int)max);
+
+
         ogTime = 60000;
-        timeLeftInMillis = 60000; // 1 minute
+        if(soFar == 0){
+            soFar = ogTime;
+        }
+
+        timeLeftInMillis = soFar; // 1 minute
         timerRunning = true;
-        interval = ogTime/100;
-        interval = (ogTime+interval)/100;
+        interval = ogTime/max;
+        interval = (ogTime+interval)/max;
 
 
         countDownTimer = new CountDownTimer(timeLeftInMillis, 100) {
@@ -85,6 +96,8 @@ public class Timer extends Activity implements View.OnClickListener {
             @Override
             public void onFinish() {
                 timerRunning = false;
+                int x = (int)max*2;
+                timeProgress.setProgress(x);
                 btnStart.setText("Start Timer");
             }
         }.start();
@@ -93,10 +106,16 @@ public class Timer extends Activity implements View.OnClickListener {
     }
 
     private void stopTimer() {
-
+        if(timeLeftInMillis != 0){
+            soFar = timeLeftInMillis;
+            btnStart.setText("Continue Timer");
+        }else{
+            soFar = 0;
+            btnStart.setText("Start Timer");
+        }
         countDownTimer.cancel();
         timerRunning = false;
-        btnStart.setText("Start Timer");
+
     }
 
     private void updateCountdownText() {
