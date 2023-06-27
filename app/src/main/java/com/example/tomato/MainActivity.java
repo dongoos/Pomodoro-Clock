@@ -1,22 +1,16 @@
 package com.example.tomato;
 
 
-
-import static java.security.AccessController.getContext;
-
 import android.app.ActivityManager;
 import android.app.ActivityOptions;
 import android.app.AlertDialog;
-import android.app.admin.DeviceAdminReceiver;
 import android.app.admin.DevicePolicyManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Parcel;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,16 +18,10 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
-<<<<<<< HEAD
-=======
-import android.widget.ProgressBar;
->>>>>>> d3c63e3e806cd946ba63d520e8eaa500193c9e1c
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -41,18 +29,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-
 import com.example.tomato.adapter.EventListAdapter;
-
 import com.example.tomato.model.Model;
-import com.example.tomato.util.ToastUtil;
-import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.charts.PieChart;
 
-import org.jetbrains.annotations.TestOnly;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,19 +54,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private RadioButton tab1,tab2,tab3;
 
 
-<<<<<<< HEAD
-    //文本框
-    private TextView tv5;
-    private TextView tv6;
-    private TextView tv7;
 
-    private static Button btn_info,btn_friend,btn_achievement,btn_setting;
-    private static Button bt_time;
-=======
+
+
     private static Button bt_time,btn_wl;
     private static ImageButton btn_event;
     //Widgets from Activity_lock
->>>>>>> d3c63e3e806cd946ba63d520e8eaa500193c9e1c
+
     private static TextView timer;
     private static ProgressBar progress;
     private AlertDialog dlgTime;
@@ -96,13 +69,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private EventListAdapter elAdapter;
     private List<Model> eventList;
 
-<<<<<<< HEAD
+
     private static ImageButton ibtn_setting;
 
-    private List<View> mViews;   //存放视图
-=======
+
+
     private static List<View> mViews;   //存放视图
->>>>>>> d3c63e3e806cd946ba63d520e8eaa500193c9e1c
+
 
     //create instance of timer to allow for the clicklistener to be elsewhere
     Timer timerButton = new Timer();
@@ -161,31 +134,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
 
 
-<<<<<<< HEAD
-    //初始化图表
-    public static BarChart getBc(){
-        return barChart;
-    }
-    public static PieChart getPc(){
-        return pieChart;
-    }
-    //初始化列表
-    public Button getOBtn(){
-        return OpenButton;
-    }
-    public static Button getBtnInfo(){return btn_info;}
-    public static Button getBtnFriend(){return btn_friend;}
-    public static Button getBtnAchievement(){return btn_achievement;}
-    public static Button getBtnSetting(){return btn_setting;}
-    public static ImageButton getiBtnSetting(){return ibtn_setting;}
-
-    public Button getBtnD(){return buttonDay;}
-    public Button getBtnM(){return buttonMonth;}
-    public Button getBtnY(){return buttonYear;}
-
-    public ListView getLv(){return listView;}
-
-=======
 //    @Override
 //    public void onResume(){
 //        super.onResume();
@@ -231,7 +179,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
 
 
->>>>>>> d3c63e3e806cd946ba63d520e8eaa500193c9e1c
     private void initView() {
         //初始化控件
         mViewPager=findViewById(R.id.viewpager);
@@ -246,27 +193,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         mViews.add(LayoutInflater.from(this).inflate(R.layout.activity_me,null));
 
         bt_time=mViews.get(0).findViewById(R.id.btnStart);
-        btn_wl=mViews.get(0).findViewById(R.id.whitelistBtn);
+        btn_wl=mViews.get(0).findViewById(R.id.whiteListBtn);
         btn_event=mViews.get(0).findViewById(R.id.addEventBtn);
         timer=mViews.get(0).findViewById(R.id.timer);
         progress=mViews.get(0).findViewById(R.id.progressBar);
-<<<<<<< HEAD
-        btn_friend=mViews.get(2).findViewById(R.id.btn_friend);
-        btn_achievement=mViews.get(2).findViewById(R.id.btn_achievements);
-        btn_setting=mViews.get(2).findViewById(R.id.btn_setting);
-        ibtn_setting=mViews.get(2).findViewById(R.id.ib_setting);
 
-        //柱状图和饼状图
-        barChart = mViews.get(1).findViewById(R.id.bar_chart);
-        pieChart = mViews.get(1).findViewById(R.id.pie_chart);
-        //record_background
-        tv5 = mViews.get(1).findViewById(R.id.tv5);
-        tv6 = mViews.get(1).findViewById(R.id.tv6);
-        tv7 = mViews.get(1).findViewById(R.id.tv7);
-        tv5.setBackgroundResource(R.drawable.shape_rect);
-        tv6.setBackgroundResource(R.drawable.shape_rect);
-        tv7.setBackgroundResource(R.drawable.shape_rect);
-=======
+
 
         eventList = new ArrayList<>();
         eventRecyclerView = mViews.get(0).findViewById(R.id.eventList);
@@ -283,8 +215,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         eventList.add(task);
 
         elAdapter.setEvent(eventList);
-
->>>>>>> d3c63e3e806cd946ba63d520e8eaa500193c9e1c
 
         //ButtonListener
 

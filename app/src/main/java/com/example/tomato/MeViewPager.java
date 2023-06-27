@@ -2,7 +2,6 @@ package com.example.tomato;
 
 import android.content.Intent;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -15,22 +14,15 @@ public class MeViewPager {
     private static ImageButton ibtn_setting;
 
     public static void init(MainActivity activity) {
-<<<<<<< HEAD
-        btn_info = activity.getBtnInfo();
-        btn_friend = activity.getBtnFriend();
-        btn_achievement = activity.getBtnAchievement();
-        btn_setting = activity.getBtnSetting();
-        ibtn_setting = activity.getiBtnSetting();
-=======
+
         View rootView;
         rootView = MainActivity.getView2();
         btn_info=rootView.findViewById(R.id.infoButton);
         btn_friend=rootView.findViewById(R.id.btn_friend);
         btn_achievement=rootView.findViewById(R.id.btn_achievements);
-        btn_feedback=rootView.findViewById(R.id.btn_feedback);
+        ibtn_setting=rootView.findViewById(R.id.ib_setting);
         btn_setting=rootView.findViewById(R.id.btn_setting);
 
->>>>>>> d3c63e3e806cd946ba63d520e8eaa500193c9e1c
         btn_info.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

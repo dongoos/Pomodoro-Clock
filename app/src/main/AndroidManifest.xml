@@ -7,11 +7,6 @@
         android:required="false" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-<<<<<<< HEAD
-    <uses-permission
-        android:name="android.permission.PACKAGE_USAGE_STATS"
-        tools:ignore="ProtectedPermissions" />
-=======
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.BIND_DEVICE_ADMIN"
         tools:ignore="ProtectedPermissions" />
@@ -19,7 +14,6 @@
         tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS" tools:ignore="ProtectedPermissions" />
     <uses-permission android:name= "android.permission.CALL_PHONE" />
->>>>>>> d3c63e3e806cd946ba63d520e8eaa500193c9e1c
 
     <application
         android:allowBackup="true"
@@ -32,9 +26,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Tomato"
         tools:targetApi="31">
-        <activity
-            android:name=".AchievementActivity"
-            android:exported="false" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -47,33 +39,9 @@
         </activity> <!-- 窗口名与标题 -->
         <activity
             android:name=".ViewPagerInfo"
-            android:label="ViewPager Information" /> <!-- 窗口名与标题 -->
+            android:label="ViewPager Information"></activity> <!-- 窗口名与标题 -->
         <activity
             android:name=".RecordPageInfo"
-<<<<<<< HEAD
-            android:label="RecordPage Information" />
-        <activity
-            android:name=".Timer"
-            android:label="Pomodoro Timer" />
-        <activity
-            android:name=".LoginActivity"
-            android:label="Login " />
-        <activity
-            android:name=".SettingActivity"
-            android:label="Setting" />
-        <activity
-            android:name=".AboutActivity"
-            android:label="About" />
-        <activity
-            android:name=".FeedBackActivity"
-            android:label="FeedBack" />
-        <activity
-            android:name=".AccountManageActivity"
-            android:label="AccountManage" />
-        <activity
-            android:name=".IndividuationActivity"
-            android:label="Individuation" />
-=======
             android:label="RecordPage Information"></activity>
         <activity
             android:name=".Timer"
@@ -82,7 +50,11 @@
             android:name=".OpenAccess"
             android:label="OpenaccessActivity"></activity>
 
-
+        <activity android:name=".SettingActivity"></activity>
+        <activity android:name=".AccountManageActivity"></activity>
+        <activity android:name=".IndividuationActivity"></activity>
+        <activity android:name=".FeedBackActivity"></activity>
+        <activity android:name=".AboutActivity"></activity>
         <activity
             android:name=".LoginActivity"
             android:label="Login ">
@@ -102,7 +74,6 @@
             </intent-filter>
         </receiver>
 
->>>>>>> d3c63e3e806cd946ba63d520e8eaa500193c9e1c
     </application>
 
 </manifest>
