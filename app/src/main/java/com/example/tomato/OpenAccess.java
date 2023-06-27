@@ -16,7 +16,9 @@ public class OpenAccess {
     private Button OpenButton;
 
     public void initialize_button(MainActivity activity) {
-        OpenButton = activity.getOBtn();
+        View rootView;
+        rootView = MainActivity.getView1();
+        OpenButton=rootView.findViewById(R.id.OpenButton);
         // 设置按钮点击事件监听器
         OpenButton.setOnClickListener(new View.OnClickListener() {
             @Override

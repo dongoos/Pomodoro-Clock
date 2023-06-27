@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.text.format.DateUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -27,6 +28,7 @@ public class RecordPageInfo  {
     private Button buttonDay,buttonMonth,buttonYear;
     private ListView listView;
     private final Context context;
+    
 
 
     public RecordPageInfo(Context context) {
@@ -34,10 +36,13 @@ public class RecordPageInfo  {
     }
 
     protected void init(MainActivity activity) {
-        buttonDay = activity.getBtnD();
-        buttonMonth = activity.getBtnM();
-        buttonYear = activity.getBtnY();
-        listView = activity.getLv();
+        View rootView;
+        rootView = MainActivity.getView1();
+
+        buttonDay = rootView.findViewById(R.id.daybuttonlist3);
+        buttonMonth = rootView.findViewById(R.id.monthbuttonlist3);
+        buttonYear = rootView.findViewById(R.id.yearbuttonlist3);
+        listView = rootView.findViewById(R.id.AppStatisticsList);
 
         // 获取视图元素
         this.style = StatisticsInfo.DAY;

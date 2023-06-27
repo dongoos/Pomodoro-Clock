@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.tomato.tool.ServerHelper;
 import com.example.tomato.User;
@@ -15,7 +16,7 @@ public class LoginActivity extends Activity {
     private EditText et_email,et_password;
     Button btn_login;
     String email,password;
-
+    TextView tv_signup,tv_forgetPwd;
 
 
 
@@ -27,7 +28,8 @@ public class LoginActivity extends Activity {
          et_password=findViewById(R.id.et_pwd);
 
          btn_login=findViewById(R.id.btn_login);
-
+         tv_signup = findViewById(R.id.tv_signup);
+         tv_forgetPwd=findViewById(R.id.tv_forgetPwd);
          btn_login.setOnClickListener(view -> {
              email=et_email.getText().toString();
              password=et_password.getText().toString();
@@ -57,8 +59,35 @@ public class LoginActivity extends Activity {
                      });
          });
 
-                 /**初始化EditText,默认都为未选中状态**/
-                 et_email.setBackgroundResource(R.drawable.et_underline_unselected);
+        tv_forgetPwd.setOnClickListener(view -> {
+
+        });
+
+        tv_signup.setOnClickListener(view -> {
+
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /**初始化EditText,默认都为未选中状态**/
+         et_email.setBackgroundResource(R.drawable.et_underline_unselected);
         et_password.setBackgroundResource(R.drawable.et_underline_unselected);
         /**第一个EditText的焦点监听事件**/
         et_email.setOnFocusChangeListener(new View.OnFocusChangeListener() {
