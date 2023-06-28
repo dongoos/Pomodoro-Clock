@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.text.format.DateUtils;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -151,9 +150,10 @@ public class RecordPageInfo  {
         for (AppInformation appInformation : ShowList) {
             map = new HashMap<String, Object>();
             map.put("label", appInformation.getLabel());
-            map.put("info", "运行时间: " + DateUtils.formatElapsedTime(appInformation.getUsedTimebyDay() / 1000));
+            map.put("info", "运行时间: " + DateUtils.formatElapsedTime(appInformation.getUsedTimeByDay() / 1000));
             map.put("times", "本次开机操作次数: " + appInformation.getTimes());
             map.put("icon", appInformation.getIcon());
+            Log.i("RecordPage-getDataList",DateUtils.formatElapsedTime(appInformation.getUsedTimeByDay() / 1000)+appInformation.getLabel());
             dataList.add(map);
         }
 

@@ -8,6 +8,7 @@ import android.app.usage.UsageStats;
 import android.app.usage.UsageStatsManager;
 import android.content.Context;
 import android.os.Build;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -45,10 +46,10 @@ public class StatisticsInfo {
         totalTime = 0;
 //遍历
         for (int i = 0; i < AppInfoList.size(); i++) {
-            if (AppInfoList.get(i).getUsedTimebyDay() > 0) { //&& AppInfoList.get(i).getTimes() > 0) {
-
+            if (AppInfoList.get(i).getUsedTimeByDay() > 0) { //&& AppInfoList.get(i).getTimes() > 0) {
+                Log.i("ShowListInit",AppInfoList.get(i).getPackageName());
                 this.ShowList.add(AppInfoList.get(i));
-                totalTime += AppInfoList.get(i).getUsedTimebyDay();
+                totalTime += AppInfoList.get(i).getUsedTimeByDay();
                 totalTimes += AppInfoList.get(i).getTimes();
             }
         }
@@ -56,7 +57,7 @@ public class StatisticsInfo {
         //将显示列表中的应用按显示顺序排序
         for (int i = 0; i < this.ShowList.size() - 1; i++) {
             for (int j = 0; j < this.ShowList.size() - i - 1; j++) {
-                if (this.ShowList.get(j).getUsedTimebyDay() < this.ShowList.get(j + 1).getUsedTimebyDay()) {
+                if (this.ShowList.get(j).getUsedTimeByDay() < this.ShowList.get(j + 1).getUsedTimeByDay()) {
                     AppInformation temp = this.ShowList.get(j);
                     this.ShowList.set(j, this.ShowList.get(j + 1));
                     this.ShowList.set(j + 1, temp);
@@ -78,6 +79,12 @@ public class StatisticsInfo {
             if (style == DAY) {
                 this.result = m.queryUsageStats(UsageStatsManager.INTERVAL_BEST, beginTime, now);
                 AppInfoList = getAccurateDailyStatsList(context, result, m, beginTime, now);
+                Log.i("AppInfoListInit",AppInfoList.get(0).getPackageName());
+                Log.i("AppInfoListInit",AppInfoList.get(1).getPackageName());
+                Log.i("AppInfoListInit",AppInfoList.get(2).getPackageName());
+                Log.i("AppInfoListInit",AppInfoList.get(3).getPackageName());
+                Log.i("AppInfoListInit",AppInfoList.get(4).getPackageName());
+
             } else {
                 if (style == MONTH)
                     this.result = m.queryUsageStats(UsageStatsManager.INTERVAL_MONTHLY, beginTime, now);
@@ -104,12 +111,15 @@ public class StatisticsInfo {
         HashMap<String, AppInformation> mapData = new HashMap<>();
         //得到包名
         for (UsageStats stats : result) {
+            Log.i("Statistic-getPackageName",stats.getPackageName());
+
             if (stats.getLastTimeUsed() > begintime && stats.getTotalTimeInForeground() > 0) {
                 if (mapData.get(stats.getPackageName()) == null) {
+                    Log.i("getAccurateDailyStatsList-Null",stats.getPackageName());
                     AppInformation information = new AppInformation(stats, context);
                     //重置总运行时间  开机操作次数
                     information.setTimes(0);
-                    information.setUsedTimebyDay(0);
+                    information.setUsedTimeByDay(0);
                     mapData.put(stats.getPackageName(), information);
                 }
             }
@@ -173,6 +183,8 @@ public class StatisticsInfo {
 
         UsageEvents events = m.queryEvents(bootTime(), System.currentTimeMillis());
         for (AppInformation information : AppInfoList) {
+            Log.i("CalculateTimes",information.getPackageName());
+
             mapData.put(information.getPackageName(), information);
             information.setTimes(0);
         }
@@ -234,10 +246,14 @@ public class StatisticsInfo {
         return Mergeresult;
     }
 
-    private int FoundUsageStats(List<UsageStats> Mergeresult, UsageStats usageStats) {
-        for (int i = 0; i < Mergeresult.size(); i++) {
-            if (Mergeresult.get(i).getPackageName().equals(usageStats.getPackageName())) {
+    private int FoundUsageStats(List<UsageStats> mergeResult, UsageStats usageStats) {
+        for (int i = 0; i < mergeResult.size(); i++) {
+            Log.i("FoundUsageStats",mergeResult.get(i).getPackageName());
+            if (mergeResult.get(i).getPackageName().equals(usageStats.getPackageName())) {
+                Log.i("FoundUsageStats-equal",mergeResult.get(i).getPackageName());
+
                 return i;
+
             }
         }
         return -1;
