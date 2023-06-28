@@ -52,12 +52,14 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
                     Toast.makeText(activity,"Timer is still running",Toast.LENGTH_SHORT).show();
                 }else{
 
-                    MainActivity.setTimeMili(milliseconds);
+                    //MainActivity.setTimeMili(milliseconds);
+                    MainActivity.setEid(pos);
+                    MainActivity.setEventName(item.getTask());
                     String timeLeftFormatted = String.format("%02d:%02d", item.getTimeMinute(), item.getTimeSec());
                     time.setText(timeLeftFormatted);
-                    Timer.setSoFar(0);
+                    MainActivity.setTimeMili(milliseconds);
                     progressBar.setProgress(0);
-                    btn_start.setText("Start Timer");
+
 
                 }
 

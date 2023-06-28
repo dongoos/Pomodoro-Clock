@@ -30,7 +30,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db){
         //create tables - add local tables here
         Log.i("Database","-------------------------------Creating Tables--------------------------------");
+        //table events is for the new events
         db.execSQL("CREATE TABLE IF NOT EXISTS events( eid INTEGER PRIMARY KEY AUTOINCREMENT, uid INTEGER, eventName TEXT, timeMinutes INTEGER ,timeSecond INTEGER ) ");
+        //stats is to show the completed versions to check for achievements
+        db.execSQL("CREATE TABLE IF NOT EXISTS stats(id INTEGER PRIMARY KEY AUTOINCREMENT, eventName TEXT, timeMinutes INTEGER ,timeSecond INTEGER) ");
     }
 
     @Override
@@ -39,6 +42,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         //Dropping tables -- delete all the tables that you've created to clear/ create new db
         Log.i("Database","-------------------------------Dropping Tables--------------------------------");
         db.execSQL("DROP TABLE IF EXISTS events");
+        db.execSQL("DROP TABLE IF EXISTS stats");
         //create tables
         onCreate(db);
 
@@ -47,6 +51,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     //open the database duhh
     public void openDatabase(){
         db = this.getWritableDatabase();
+        onCreate(db);
+       // onUpgrade(db,1,2);
     }
 
 
@@ -59,6 +65,21 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         cv.put("timeMinutes",evt.getTimeMinute());
         cv.put("timeSecond",evt.getTimeSec());
         long res = db.insertOrThrow("events",null, cv);
+        if(res == -1){
+            Log.i("Database", "FAILED TO INSERT FUNCTION BEGIN CRYING IN 3.. 2.. 1..");
+        }else{
+            Log.i("Database", "INSERT FUNCTION SUCCESSFUL");
+        }
+
+
+    }
+
+    public void insertStats(Model evt){
+        ContentValues cv = new ContentValues();
+        cv.put("eventName", evt.getTask());
+        cv.put("timeMinutes",evt.getTimeMinute());
+        cv.put("timeSecond",evt.getTimeSec());
+        long res = db.insertOrThrow("stats",null, cv);
         if(res == -1){
             Log.i("Database", "FAILED TO INSERT FUNCTION BEGIN CRYING IN 3.. 2.. 1..");
         }else{
@@ -96,6 +117,39 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             cur.close();
         }
         return eventList;
+
+    }
+
+    @SuppressLint("Range")
+    public int getStats(boolean potions){
+        int sum = 0;
+        int min = 0;
+        int sec = 0;
+        Cursor cur = null;
+        db.beginTransaction();
+        try{
+            cur = db.query("stats",null,null,null,null,null,null,null);
+            if(cur != null){
+                if(cur.moveToFirst()){
+                    do{
+                      sum++;
+                      min +=cur.getInt(cur.getColumnIndex("timeMinutes"));
+                      sec +=cur.getInt(cur.getColumnIndex("timeSecond"));
+
+
+                    }while(cur.moveToNext());
+                }
+            }
+        }finally {
+            db.endTransaction();
+            cur.close();
+        }
+        min +=(int)(sec/60);
+        if(potions){
+            return sum;
+        }else{
+            return min;
+        }
 
     }
 
