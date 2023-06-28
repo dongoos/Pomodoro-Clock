@@ -58,17 +58,6 @@ public class FloatingWindow extends Service {
 
     private static boolean justOpened = true;
 
-
-//    public static ProgressBar getProgressBar() {
-//        return progressBar;
-//    }
-
-    public static TextView getTimer() {
-        return timer;
-    }
-
-    // As FloatingWindowGFG inherits Service class,
-    // it actually overrides the onBind method
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -100,18 +89,17 @@ public class FloatingWindow extends Service {
 
         floatView = (ViewGroup) inflater.inflate(R.layout.floating_layout, null);
 
-        stop = floatView.findViewById(R.id.btnStop);
+        //stop = floatView.findViewById(R.id.btnStop);
         timer = floatView.findViewById(R.id.timer);
         timeProgress =  floatView.findViewById(R.id.progressBar);
 
 //        maximizeBtn = floatView.findViewById(R.id.buttonMaximize);
 //        toAPP = floatView.findViewById(R.id.buttonApp2);
-        Log.i("TESTING____________________________________","DID I EVEN GET HERE????? - sdk if statements");
 
-//        if(justOpened){
-//            startTimer();
-//            justOpened = false;
-//        }
+        if(justOpened){
+            startTimer();
+            justOpened = false;
+        }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             //sdk 23 above only
@@ -143,43 +131,10 @@ public class FloatingWindow extends Service {
         windowManager.addView(floatView, floatWindowLayoutParam);
 
 
-        // The button that helps to maximize the app
-
-        stop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                closeFloat();
-
-//                new AlertDialog.Builder(FloatingWindow.this)
-//                        .setTitle("Warning: Leave timer")
-//                                .setMessage("Are you sure you want to leave?")
-//                                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-//                                            @Override
-//                                            public void onClick(DialogInterface dialogInterface, int i) {
-//                                                closeFloat();
-//                                            }
-//                                        }).setNegativeButton(android.R.string.no,null)
-//                        .setIcon(android.R.drawable.ic_dialog_alert).show();
-
-            }
-        });
-
-//        maximizeBtn.setOnClickListener(new View.OnClickListener() {
+//        stop.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
 //                closeFloat();
-//            }
-//        });
-
-        //Sample test attempt to access another app
-//        toAPP.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Uri webpage = Uri.parse("https://www.android.com");
-//                Intent webIntent = new Intent(Intent.ACTION_VIEW, webpage);
-//                webIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                startActivity(webIntent);
 //            }
 //        });
 
@@ -213,6 +168,7 @@ public class FloatingWindow extends Service {
                 timerRunning = false;
                 int x = (int)max*2;
                 justOpened=false;
+                MainActivity.setTimeMili(0);
 
                 closeFloat();
             }

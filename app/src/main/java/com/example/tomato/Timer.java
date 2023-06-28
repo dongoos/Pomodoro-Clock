@@ -121,95 +121,15 @@ public class Timer extends Activity {
     public void test(View v) {
 
         btnStart = MainActivity.getBtnT();
-//        timer =MainActivity.getTimer();
-//        timeProgress = MainActivity.getPB();
-//       timer = FloatingWindow.getTimer();
-//      timeProgress =FloatingWindow.getProgressBar();
-
-//        if (checkOverlayDisplayPermission()) {
-//
-//            Log.i("TESTING____________________________________","DID I EVEN GET HERE?????");
-//            // FloatingWindowGFG service is started
-//            startService(new Intent(Timer.this, FloatingWindow.class));
-//            // The MainActivity closes here
-//            Log.i("TESTING____________________________________","DID I EVEN GET HERE?????");
-//            finish();
-//        } else {
-//            // If permission is not given,
-//            // it shows the AlertDialog box and
-//            // redirects to the Settings
-//            requestOverlayDisplayPermission();
-//        }
-
-//        if (timerRunning) {
-//            stopTimer();
-//        } else {
-//            startTimer();
-//        }
-
+        new AlertDialog.Builder(Timer.this)
+                        .setTitle("Warning: Leave timer")
+                                .setMessage("Are you sure you want to leave?")
+                                        .setPositiveButton(android.R.string.yes, null).setNegativeButton(android.R.string.no,null)
+                        .setIcon(android.R.drawable.ic_dialog_alert).show();
 
 
     }
 
-
-
-    private void startTimer() {
-
-        timeProgress.setMax((int)max);
-
-
-        ogTime = MainActivity.getTimeMili();
-        if(soFar == 0){
-            soFar = ogTime;
-        }
-
-        timeLeftInMillis = soFar; // 1 minute
-        timerRunning = true;
-        interval = ogTime/max;
-        interval = (ogTime+interval)/max;
-
-
-        countDownTimer = new CountDownTimer(timeLeftInMillis, 100) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                timeLeftInMillis = millisUntilFinished;
-                updateCountdownText();
-            }
-
-            @Override
-            public void onFinish() {
-                timerRunning = false;
-                int x = (int)max*2;
-                timeProgress.setProgress(x);
-                btnStart.setText("Start Timer");
-            }
-        }.start();
-
-        btnStart.setText("Pause Timer");
-    }
-
-    private void stopTimer() {
-        if(timeLeftInMillis != 0){
-            soFar = timeLeftInMillis;
-            btnStart.setText("Continue Timer");
-        }else{
-            soFar = 0;
-            btnStart.setText("Start Timer");
-        }
-        countDownTimer.cancel();
-        timerRunning = false;
-
-    }
-
-    private void updateCountdownText() {
-        int minutes = (int) (timeLeftInMillis / 1000) / 60;
-        int seconds = (int) (timeLeftInMillis / 1000) % 60;
-        int progress = (int) ((ogTime-timeLeftInMillis)/interval);
-
-        timeProgress.setProgress(progress);
-        String timeLeftFormatted = String.format("%02d:%02d", minutes, seconds);
-        timer.setText(timeLeftFormatted);
-    }
 
 
 }

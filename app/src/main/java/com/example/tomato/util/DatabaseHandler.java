@@ -31,6 +31,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         //create tables - add local tables here
         Log.i("Database","-------------------------------Creating Tables--------------------------------");
         db.execSQL("CREATE TABLE IF NOT EXISTS events( eid INTEGER PRIMARY KEY AUTOINCREMENT, uid INTEGER, eventName TEXT, timeMinutes INTEGER ,timeSecond INTEGER ) ");
+        db.execSQL("CREATE TABLE IF NOT EXISTS stats(uid INTEGER PRIMARY KEY AUTOINCREMENT, totalTime INTEGER, successfulTimers INTEGER) ");
     }
 
     @Override
@@ -39,6 +40,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         //Dropping tables -- delete all the tables that you've created to clear/ create new db
         Log.i("Database","-------------------------------Dropping Tables--------------------------------");
         db.execSQL("DROP TABLE IF EXISTS events");
+        db.execSQL("DROP TABLE IF EXISTS stats");
         //create tables
         onCreate(db);
 
@@ -47,6 +49,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     //open the database duhh
     public void openDatabase(){
         db = this.getWritableDatabase();
+        onCreate(db);
        // onUpgrade(db,1,2);
     }
 

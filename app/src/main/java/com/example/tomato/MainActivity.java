@@ -388,23 +388,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             @Override
             public void onClick(View view) {
 
-                if (checkOverlayDisplayPermission()) {
 
-            Log.i("TESTING____________________________________","DID I EVEN GET HERE?????");
-           // justOpened = true;
-            // FloatingWindowGFG service is started
-            startService(new Intent(MainActivity.this, FloatingWindow.class));
-            // The MainActivity closes here
-            Log.i("TESTING____________________________________","DID I EVEN GET HERE?????");
-            finish();
-        } else {
-            // If permission is not given,
-            // it shows the AlertDialog box and
-            // redirects to the Settings
-            requestOverlayDisplayPermission();
-        }
 
-                Toast.makeText(context,"APOLOGIES THIS IS STILL IN DEVELOPMENT \n THANK YOU FOR USING OUR APP", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context,"APOLOGIES THIS IS STILL IN DEVELOPMENT \nTHANK YOU FOR USING OUR APP", Toast.LENGTH_SHORT).show();
                 //startLockTask();
             }
         });
@@ -427,25 +413,43 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         });
         bt_time.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
 
-                if (checkOverlayDisplayPermission()) {
+                if(getTimeMili()==0){
+                    new AlertDialog.Builder(MainActivity.this)
+                            .setTitle("Warning: NO TIME SET")
+                            .setMessage("Please set a time time before starting")
+                            .setPositiveButton(android.R.string.yes, null).setNegativeButton(android.R.string.no,null)
+                            .setIcon(android.R.drawable.ic_dialog_alert).show();
+                }else{
+                    new AlertDialog.Builder(MainActivity.this)
+                            .setTitle("BEGIN TIMER")
+                            .setMessage("Once you begin the timer you will not be able to exit. \nAre you sure you want to begin the timer?")
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    if (checkOverlayDisplayPermission()) {
 
-            Log.i("TESTING____________________________________","DID I EVEN GET HERE?????");
-            // FloatingWindowGFG service is started
-                   // justOpened = true;
-            startService(new Intent(MainActivity.this, FloatingWindow.class));
-            // The MainActivity closes here
-            Log.i("TESTING____________________________________","DID I EVEN GET HERE?????");
-            finish();
-        } else {
-            // If permission is not given,
-            // it shows the AlertDialog box and
-            // redirects to the Settings
-            requestOverlayDisplayPermission();
-        }
-                timerButton.test(view);
+                                        startService(new Intent(MainActivity.this, FloatingWindow.class));
+                                        // The MainActivity closes here
+                                        finish();
+                                    } else {
+                                        // If permission is not given,
+                                        // it shows the AlertDialog box and
+                                        // redirects to the Settings
+                                        requestOverlayDisplayPermission();
+                                    }
+                                }
+                            }).setNegativeButton(android.R.string.no,null)
+                            .setIcon(android.R.drawable.ic_dialog_alert).show();
+
+
+                }
+//
+
+
             }
         });
         //Record_Button
