@@ -71,6 +71,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private static EventListAdapter elAdapter;
     private static List<Model> eventList;
 
+    private static boolean timeFinish = false;
+
 
     private static ImageButton ibtn_setting;
 
@@ -108,6 +110,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         context = MainActivity.this;
         devicePolicyManager = (DevicePolicyManager) getSystemService(DEVICE_POLICY_SERVICE) ;
         componentName = new ComponentName(this, MyAdmin.class);
+
         //mRefSetActiveAdmin(componentName, false);
 
 
@@ -137,6 +140,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         return progress;
     }
 
+    public static void setTimeFinish(boolean timeFinish) {
+        MainActivity.timeFinish = timeFinish;
+    }
 
     public static void setTimeMili(long timeMili) {
         setTime = timeMili;
@@ -162,6 +168,24 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     protected void OnResume(){
         super.onResume();
         boolean isActive = devicePolicyManager.isAdminActive(componentName);
+    }
+
+    public static void congrats(MainActivity activity){
+        View dlgViewTime = LayoutInflater.from(activity).inflate(R.layout.dialog_congrats, null);
+
+        Button finish = dlgViewTime.findViewById(R.id.finish);
+
+        finish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dlgTime.dismiss();
+            }
+        });
+        dlgTime = new AlertDialog.Builder(activity)
+                .setView(dlgViewTime)
+                .create();
+        dlgTime.show();
+
     }
 
     public static void createEvent(MainActivity activity, boolean update, int eid){
@@ -322,6 +346,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 // one is the Intent and the other is
                 // an requestCode Integer. Here it is -1.
                 startActivityForResult(intent, RESULT_OK);
+
             }
         });
         dialog = builder.create();
@@ -378,6 +403,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         db.openDatabase();
         eventList = db.getAllEvents();
         elAdapter.setEvent(eventList);
+
+        if(timeFinish){
+            congrats(MainActivity.this);
+            timeFinish = false;
+        }
 
         //ButtonListener
 

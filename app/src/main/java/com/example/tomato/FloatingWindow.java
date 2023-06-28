@@ -57,6 +57,7 @@ public class FloatingWindow extends Service {
     private long max =1000;
 
     private static boolean justOpened = true;
+    MainActivity activity;
 
     @Nullable
     @Override
@@ -72,6 +73,7 @@ public class FloatingWindow extends Service {
         Intent backToHome = new Intent(FloatingWindow.this, MainActivity.class);
 
         backToHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        MainActivity.setTimeFinish(true);
         startActivity(backToHome);
     }
 
