@@ -135,4 +135,5 @@ public class AppInformation {
         return System.currentTimeMillis() - SystemClock.elapsedRealtime();
     }
 
+
 }

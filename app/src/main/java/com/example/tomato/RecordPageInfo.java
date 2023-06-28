@@ -28,7 +28,7 @@ public class RecordPageInfo  {
     private ListView listView;
     private final Context context;
     
-
+    OpenAccess openAccess = new OpenAccess();
 
     public RecordPageInfo(Context context) {
         this.context = context;
@@ -42,17 +42,17 @@ public class RecordPageInfo  {
         buttonMonth = rootView.findViewById(R.id.monthbuttonlist3);
         buttonYear = rootView.findViewById(R.id.yearbuttonlist3);
         listView = rootView.findViewById(R.id.AppStatisticsList);
-
         // 获取视图元素
         this.style = StatisticsInfo.DAY;
-        Refresh();
+        Refresh(activity);
         buttonDay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(style != StatisticsInfo.DAY) {
                     Log.i("test","reset");
                     style = StatisticsInfo.DAY;
-                    Refresh();
+                    openAccess.JudgmentAuthority(activity);
+                    Refresh(activity);
                 }
             }
         });
@@ -62,7 +62,8 @@ public class RecordPageInfo  {
             public void onClick(View view) {
                 if(style != StatisticsInfo.MONTH) {
                     style = StatisticsInfo.MONTH;
-                    Refresh();
+                    openAccess.JudgmentAuthority(activity);
+                    Refresh(activity);
                 }
             }
         });
@@ -73,7 +74,8 @@ public class RecordPageInfo  {
                     style = StatisticsInfo.YEAR;
                     Toast toast = Toast.makeText(activity, "nian", Toast.LENGTH_SHORT);
                     toast.show();
-                    Refresh();
+                    openAccess.JudgmentAuthority(activity);
+                    Refresh(activity);
                 }
             }
         });
@@ -92,13 +94,13 @@ public class RecordPageInfo  {
         // 根据统计样式设置相应按钮的文字颜色
         switch (style) {
             case StatisticsInfo.DAY:
-                buttonDay.setTextColor(Color.WHITE);
+                buttonDay.setTextColor(Color.BLACK);
                 break;
             case StatisticsInfo.MONTH:
-                buttonMonth.setTextColor(Color.WHITE);
+                buttonMonth.setTextColor(Color.BLACK);
                 break;
             case StatisticsInfo.YEAR:
-                buttonYear.setTextColor(Color.WHITE);
+                buttonYear.setTextColor(Color.BLACK);
                 break;
         }
 
@@ -106,59 +108,53 @@ public class RecordPageInfo  {
 
 
     // 每次重新进入界面的时候加载listView
-    public void Refresh() {
+    public void Refresh(MainActivity activity) {
+        if (openAccess.JudgmentAuthority(activity)) {
+            SetButtonColor();
+            List<Map<String, Object>> dataList = null;
+            // 创建 StatisticsInfo 对象，根据统计样式获取相应的统计信息
+            StatisticsInfo statisticsInfo = new StatisticsInfo(context, this.style);
+            totalTime = statisticsInfo.getTotalTime();
+            totalTimes = statisticsInfo.getTotalTimes();
+            dataList = getDataList(statisticsInfo.getShowList());
 
-        SetButtonColor();
-        List<Map<String, Object>> dataList = null;
-        // 创建 StatisticsInfo 对象，根据统计样式获取相应的统计信息
-        StatisticsInfo statisticsInfo = new StatisticsInfo(context, this.style);
-        totalTime = statisticsInfo.getTotalTime();
-        totalTimes = statisticsInfo.getTotalTimes();
-        dataList = getDataList(statisticsInfo.getShowList());
+            SimpleAdapter adapter = new SimpleAdapter(context, dataList, R.layout.inner_list,
+                    new String[]{"label", "info", "times", "icon"},
+                    new int[]{R.id.label, R.id.info, R.id.times, R.id.icon});
+            listView.setAdapter(adapter);
 
-        SimpleAdapter adapter = new SimpleAdapter(context, dataList, R.layout.inner_list,
-                new String[]{"label", "info", "times", "icon"},
-                new int[]{R.id.label, R.id.info, R.id.times, R.id.icon});
-        listView.setAdapter(adapter);
-
-        // 设置视图绑定器，用于设置图标的显示
-        adapter.setViewBinder(new SimpleAdapter.ViewBinder() {
-            @Override
-            public boolean setViewValue(View view, Object o, String s) {
-                if (view instanceof ImageView && o instanceof Drawable) {
-                    ImageView iv = (ImageView) view;
-                    iv.setImageDrawable((Drawable) o);
-                    return true;
-                } else return false;
-            }
-        });
+            // 设置视图绑定器，用于设置图标的显示
+            adapter.setViewBinder(new SimpleAdapter.ViewBinder() {
+                @Override
+                public boolean setViewValue(View view, Object o, String s) {
+                    if (view instanceof ImageView && o instanceof Drawable) {
+                        ImageView iv = (ImageView) view;
+                        iv.setImageDrawable((Drawable) o);
+                        return true;
+                    } else return false;
+                }
+            });
+        }
     }
-
-    // 获取数据列表
-    public List<Map<String, Object>> getDataList(ArrayList<AppInformation> ShowList) {
-        List<Map<String, Object>> dataList = new ArrayList<Map<String, Object>>();
+        // 获取数据列表
+        public List<Map<String, Object>> getDataList (ArrayList < AppInformation > ShowList) {
+            List<Map<String, Object>> dataList = new ArrayList<Map<String, Object>>();
 
         // 添加全部应用的统计信息
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put("label", "全部应用");
-        map.put("info", "运行时间: " + DateUtils.formatElapsedTime(totalTime / 1000));
-        map.put("times", "本次开机操作次数: " + totalTimes);
-        map.put("icon", R.drawable.use);
-        dataList.add(map);
+            // 添加每个应用的统计信息
+            for (AppInformation appInformation : ShowList) {
+                map = new HashMap<String, Object>();
+                map.put("label", appInformation.getLabel());
+                map.put("info", "运行时间: " + DateUtils.formatElapsedTime(appInformation.getUsedTimeByDay() / 1000));
+                map.put("times", "本次开机操作次数: " + appInformation.getTimes());
+                map.put("icon", appInformation.getIcon());
+                dataList.add(map);
+            }
 
-        // 添加每个应用的统计信息
-        for (AppInformation appInformation : ShowList) {
-            map = new HashMap<String, Object>();
-            map.put("label", appInformation.getLabel());
-            map.put("info", "运行时间: " + DateUtils.formatElapsedTime(appInformation.getUsedTimeByDay() / 1000));
-            map.put("times", "本次开机操作次数: " + appInformation.getTimes());
-            map.put("icon", appInformation.getIcon());
-            Log.i("RecordPage-getDataList",DateUtils.formatElapsedTime(appInformation.getUsedTimeByDay() / 1000)+appInformation.getLabel());
-            dataList.add(map);
+            return dataList;
         }
 
-        return dataList;
-    }
 
 }
 

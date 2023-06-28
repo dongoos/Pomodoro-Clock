@@ -9,7 +9,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.tomato.tool.ServerHelper;
-import com.example.tomato.User;
 
 public class LoginActivity extends Activity {
 
@@ -49,6 +48,7 @@ public class LoginActivity extends Activity {
                                              User.setUserSession(user.getName(),user.getEmail(),user.getUid(),password);
                                              Log.i("name,email,uid",User.getName()+User.getEmail()+User.getUid());
                                          }else{
+
                                              Log.i("配置信息","wrong");
                                          }
                                      });

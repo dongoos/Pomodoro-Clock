@@ -42,19 +42,23 @@ public class OpenAccess {
         });
     }
 
-//    protected void onResume() {
-//        try {
-//            // 检查是否设置了应用统计的使用权限
-//            if (isStatAccessPermissionSet()) {
-//                // 如果设置了权限，跳转到应用统计列表界面
-//                Intent intent3 = new Intent(activity, RecordPageInfo.class);
-//                startActivity(intent3);
-//                finish();
-//            }
-//        } catch (PackageManager.NameNotFoundException e) {
-//            e.printStackTrace();
-//        }
-//    }
+    public boolean JudgmentAuthority(MainActivity activity) {
+        try {
+            // 检查是否设置了应用统计的使用权限
+            if (isStatAccessPermissionSet(activity)) {
+            return true;
+            }else {
+                Toast toast = Toast.makeText(activity, "请点击权限按钮开启权限", Toast.LENGTH_SHORT);
+                toast.show();
+                return false;
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     // 检查是否设置了应用统计的使用权限

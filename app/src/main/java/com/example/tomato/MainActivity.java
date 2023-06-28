@@ -311,7 +311,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         rb[2] = tab3;
         for(RadioButton r:rb){
             Drawable[] drawables = r.getCompoundDrawables();
-            Rect rect = new Rect(0,0,drawables[1].getMinimumWidth()/5,drawables[1].getMinimumHeight()/5);
+            Rect rect = new Rect(0,0,drawables[1].getMinimumWidth()/6,drawables[1].getMinimumHeight()/6);
             drawables[1].setBounds(rect);
             r.setCompoundDrawables(null , drawables[1] , null ,null);
         }
