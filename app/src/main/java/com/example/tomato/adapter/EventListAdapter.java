@@ -59,7 +59,7 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
                     time.setText(timeLeftFormatted);
                     MainActivity.setTimeMili(milliseconds);
                     progressBar.setProgress(0);
-                    btn_start.setText("Start Timer");
+
 
                 }
 

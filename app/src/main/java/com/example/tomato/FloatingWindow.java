@@ -170,7 +170,6 @@ public class FloatingWindow extends Service {
                 timerRunning = false;
                 int x = (int)max*2;
                 justOpened=false;
-                MainActivity.setTimeMili(0);
 
                 closeFloat();
             }
