@@ -9,6 +9,8 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -186,6 +188,17 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         tab1=findViewById(R.id.rb_lock);
         tab2=findViewById(R.id.rb_record);
         tab3=findViewById(R.id.rb_me);
+        //设置drawableTop时对图片进行比例缩放
+        RadioButton[] rb = new RadioButton[3];
+        rb[0] = tab1;//radiobutton对应id
+        rb[1] = tab2;
+        rb[2] = tab3;
+        for(RadioButton r:rb){
+            Drawable[] drawables = r.getCompoundDrawables();
+            Rect rect = new Rect(0,0,drawables[1].getMinimumWidth()/5,drawables[1].getMinimumHeight()/5);
+            drawables[1].setBounds(rect);
+            r.setCompoundDrawables(null , drawables[1] , null ,null);
+        }
 
         mViews=new ArrayList<View>();//加载，添加视图
         mViews.add(LayoutInflater.from(this).inflate(R.layout.activity_lock,null));

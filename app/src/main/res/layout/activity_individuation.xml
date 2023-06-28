@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:text="请选择您的主题"
             android:gravity="center"
-            android:textSize="30sp"/>
+            android:textSize="25sp"/>
         <RadioGroup
             android:id="@+id/theme"
             android:layout_width="match_parent"
@@ -38,19 +38,19 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="普通模式"/>
+                android:text="普通主题"/>
             <RadioButton
                 android:id="@+id/theme_succinct"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="简洁模式"/>
+                android:text="简洁主题"/>
             <RadioButton
                 android:id="@+id/theme_cool"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="酷炫模式"/>
+                android:text="酷炫主题"/>
         </RadioGroup>
     </LinearLayout>
     <LinearLayout

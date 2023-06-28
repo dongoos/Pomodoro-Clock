@@ -40,57 +40,6 @@
             android:paddingRight="10.0dp"
             android:paddingBottom="60.0dp">
             <LinearLayout
-                android:id="@+id/ll_anchor_left"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingTop="10dp">
-                <!--头像-->
-                <ImageButton
-                    android:id="@+id/btn_avatar"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:padding="3dp"
-                    android:src="@drawable/ic_launcher_foreground"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:background="@color/white"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:padding="5dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_weight="1"
-                    android:text="username"
-                    android:textColor="#C222DD"/>
-
-                <TextView
-                    android:id="@+id/tv_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="20dp"
-                    android:text="null"
-                    android:textColor="#C222DD"/>
-                <ImageButton
-                    android:id="@+id/btn_name"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:backgroundTint="@color/white"
-                    android:scaleType="centerInside"
-                    android:src="@drawable/right"/>
-
-
-
-            </LinearLayout>
-            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -113,7 +62,7 @@
 
                         <Button
                             android:id="@+id/setting_individuation"
-                            android:layout_width="wrap_content"
+                            android:layout_width="897dp"
                             android:layout_height="match_parent"
                             android:drawablePadding="10.0dp"
                             android:gravity="center_vertical"
@@ -128,7 +77,8 @@
                             android:layout_height="match_parent"
                             android:layout_gravity="right"
                             android:gravity="center_vertical"
-                            android:paddingRight="20.0dp" />
+                            android:paddingRight="20.0dp"
+                            />
                     </TableRow>
                 </TableLayout>
             </LinearLayout>

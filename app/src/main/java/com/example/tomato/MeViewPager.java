@@ -7,7 +7,6 @@ import android.widget.Button;
 import android.widget.ImageButton;
 
 import com.example.tomato.dialogFragment.FriendDialog;
-import com.example.tomato.tool.ShowAchievement;
 
 public class MeViewPager {
     private static Button btn_info, btn_friend, btn_achievement, btn_setting;
@@ -44,7 +43,8 @@ public class MeViewPager {
         btn_achievement.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ShowAchievement.show(activity);
+                Intent intent = new Intent(activity, AchievementActivity.class);
+                activity.startActivity(intent);
             }
         });
         btn_setting.setOnClickListener(new View.OnClickListener() {

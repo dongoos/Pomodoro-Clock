@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.text.format.DateUtils;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -112,12 +111,12 @@ public class RecordPageInfo  {
         SetButtonColor();
         List<Map<String, Object>> dataList = null;
         // 创建 StatisticsInfo 对象，根据统计样式获取相应的统计信息
-        StatisticsInfo statisticsInfo = new StatisticsInfo(this.context, this.style);
+        StatisticsInfo statisticsInfo = new StatisticsInfo(context, this.style);
         totalTime = statisticsInfo.getTotalTime();
         totalTimes = statisticsInfo.getTotalTimes();
         dataList = getDataList(statisticsInfo.getShowList());
 
-        SimpleAdapter adapter = new SimpleAdapter(this.context, dataList, R.layout.inner_list,
+        SimpleAdapter adapter = new SimpleAdapter(context, dataList, R.layout.inner_list,
                 new String[]{"label", "info", "times", "icon"},
                 new int[]{R.id.label, R.id.info, R.id.times, R.id.icon});
         listView.setAdapter(adapter);

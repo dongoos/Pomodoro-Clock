@@ -28,7 +28,6 @@ public class AboutActivity extends AppCompatActivity {
                 .addItem(adElement)
                 .addGroup("Connect with us")
                 .addEmail("2022302111001@whu.edu.cn")
-                .addFacebook("the.medy")
                 .addInstagram("medyo80")
                 .addGitHub("medyo")
                 .addItem(getCopyRightsElement())

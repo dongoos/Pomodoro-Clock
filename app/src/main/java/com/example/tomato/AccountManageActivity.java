@@ -16,6 +16,7 @@ public class AccountManageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_account_manage);
         Button logoutBtn = findViewById(R.id.logout_btn);
         Button reLoginBtn = findViewById(R.id.relogin_btn);
+        Button changePasswordBtn = findViewById(R.id.changePasswordBtn);
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -28,6 +29,13 @@ public class AccountManageActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(AccountManageActivity.this,LoginActivity.class);
+                startActivity(intent);
+            }
+        });
+        changePasswordBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(AccountManageActivity.this,ChangePwd.class);
                 startActivity(intent);
             }
         });
