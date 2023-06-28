@@ -140,14 +140,8 @@ public class RecordPageInfo  {
         public List<Map<String, Object>> getDataList (ArrayList < AppInformation > ShowList) {
             List<Map<String, Object>> dataList = new ArrayList<Map<String, Object>>();
 
-            // 添加全部应用的统计信息
-            Map<String, Object> map = new HashMap<String, Object>();
-            map.put("label", "全部应用");
-            map.put("info", "运行时间: " + DateUtils.formatElapsedTime(totalTime / 1000));
-            map.put("times", "本次开机操作次数: " + totalTimes);
-            map.put("icon", R.drawable.use);
-            dataList.add(map);
-
+        // 添加全部应用的统计信息
+        Map<String, Object> map = new HashMap<String, Object>();
             // 添加每个应用的统计信息
             for (AppInformation appInformation : ShowList) {
                 map = new HashMap<String, Object>();

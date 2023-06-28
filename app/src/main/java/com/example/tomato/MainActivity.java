@@ -7,12 +7,15 @@ import android.app.AlertDialog;
 import android.app.admin.DevicePolicyManager;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,14 +49,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     static final int RESULT_ENABLE = 1 ;
     DevicePolicyManager deviceManger ;
     ComponentName compName ;
-    //>
-    //<test2// Allowlist two apps.
-    private static final String KIOSK_PACKAGE = "com.example.tomato";
-    private static final String PLAYER_PACKAGE = "com.example.player";
-    private static final String[] APP_PACKAGES = {KIOSK_PACKAGE, PLAYER_PACKAGE};
-    //
-    //// ...
-    //
+
+
+    private AlertDialog dialog;
 
     private ViewPager mViewPager;
     private RadioGroup mRadioGroup;
@@ -75,8 +73,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private static EventListAdapter elAdapter;
     private static List<Model> eventList;
 
+    private static boolean timeFinish = false;
+
 
     private static ImageButton ibtn_setting;
+
 
 
 
@@ -98,6 +99,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     static int min = 0;
     static int sec = 0;
 
+    private static int eid;
+    private static String eventName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)  {
         super.onCreate(savedInstanceState);
@@ -111,6 +115,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         context = MainActivity.this;
         devicePolicyManager = (DevicePolicyManager) getSystemService(DEVICE_POLICY_SERVICE) ;
         componentName = new ComponentName(this, MyAdmin.class);
+
         //mRefSetActiveAdmin(componentName, false);
 
 
@@ -133,11 +138,31 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         return bt_time;
     }
 
+    public static String getEventName() {
+        return eventName;
+    }
+
+    public static void setEventName(String eventName) {
+        MainActivity.eventName = eventName;
+    }
+
+    public static int getEid() {
+        return eid;
+    }
+
+    public static void setEid(int eid) {
+        MainActivity.eid = eid;
+    }
+
     public static TextView getTimer(){
         return timer;
     }
     public static ProgressBar getPB(){
         return progress;
+    }
+
+    public static void setTimeFinish(boolean timeFinish) {
+        MainActivity.timeFinish = timeFinish;
     }
 
     public static void setTimeMili(long timeMili) {
@@ -148,22 +173,31 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
 
+    public static void congrats(MainActivity activity){
+        View dlgViewTime = LayoutInflater.from(activity).inflate(R.layout.dialog_congrats, null);
 
-//    @Override
-//    public void onResume(){
-//        super.onResume();
-//        if(devicePolicyManager.isLockTaskPermitted(context.getPackageName())){
-//          MainActivity.this.startLockTask();
-//            Log.i("testing","somethings working ig?");
-//        }else{
-//            Log.i("testing","so uhh idk what this does but u know");
-//        }
-//    }
+        Button finish = dlgViewTime.findViewById(R.id.finish);
+        TextView minTotal = dlgViewTime.findViewById(R.id.minNum);
+        TextView potionNum = dlgViewTime.findViewById(R.id.potionNum);
 
+        db = new DatabaseHandler(activity);
+        db.openDatabase();
+        db.getStats(true);
 
-    protected void OnResume(){
-        super.onResume();
-        boolean isActive = devicePolicyManager.isAdminActive(componentName);
+        minTotal.setText(""+db.getStats(false)+" total minutes");
+        potionNum.setText(""+db.getStats(true)+" potions");
+
+        finish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dlgTime.dismiss();
+            }
+        });
+        dlgTime = new AlertDialog.Builder(activity)
+                .setView(dlgViewTime)
+                .create();
+        dlgTime.show();
+
     }
 
     public static void createEvent(MainActivity activity, boolean update, int eid){
@@ -295,6 +329,60 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
 
+  //Permissions...will put somewhere else later ig
+    private void requestOverlayDisplayPermission() {
+        // An AlertDialog is created
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        // This dialog can be closed, just by
+        // taping outside the dialog-box
+        builder.setCancelable(true);
+
+        // The title of the Dialog-box is set
+        builder.setTitle("Screen Overlay Permission Needed");
+
+        // The message of the Dialog-box is set
+        builder.setMessage("Enable 'Display over other apps' from System Settings.");
+
+        // The event of the Positive-Button is set
+        builder.setPositiveButton("Open Settings", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // The app will redirect to the 'Display over other apps' in Settings.
+                // This is an Implicit Intent. This is needed when any Action is needed
+                // to perform, here it is
+                // redirecting to an other app(Settings).
+                Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + getPackageName()));
+
+                // This method will start the intent. It takes two parameter,
+                // one is the Intent and the other is
+                // an requestCode Integer. Here it is -1.
+                startActivityForResult(intent, RESULT_OK);
+
+            }
+        });
+        dialog = builder.create();
+        // The Dialog will show in the screen
+        dialog.show();
+    }
+    //check for permissions
+    private boolean checkOverlayDisplayPermission() {
+        // Android Version is lesser than Marshmallow
+        // or the API is lesser than 23
+        // doesn't need 'Display over other apps' permission enabling.
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
+            // If 'Display over other apps' is not enabled it
+            // will return false or else true
+            if (!Settings.canDrawOverlays(this)) {
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            return true;
+        }
+    }
+
 
 
     private void initView() {
@@ -339,61 +427,35 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         eventList = db.getAllEvents();
         elAdapter.setEvent(eventList);
 
+        if(timeFinish){
+            congrats(MainActivity.this);
+            timeFinish = false;
+        }
+
         //ButtonListener
+
 
 
 
         btn_wl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //devicePolicyManager.lockNow();
-                startLockTask();
-//                if(devicePolicyManager.isAdminActive(componentName)){
-//                 startLockTask();
-//                }else{
-//                    Toast.makeText(context, "Device Admin aint enabled :(", Toast.LENGTH_SHORT).show();
-//                }
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                    Log.i("Testing","SDK VERSION RIGHT!!");
-                    if(options.getLockTaskMode()==true){
-                        options.setLockTaskEnabled(false);
-                    }else{
-                        options.setLockTaskEnabled(true);
-                    }
-
-                }else{
-                    Log.i("Testing","Uhhh do some research my guy");
-                }
 
 
-//                startLockTask();
+
+                Toast.makeText(context,"APOLOGIES THIS IS STILL IN DEVELOPMENT \nTHANK YOU FOR USING OUR APP", Toast.LENGTH_SHORT).show();
+                //startLockTask();
             }
         });
+
 
         btn_event.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                deviceManger = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
-                compName = new ComponentName(MainActivity.this, DeviceAdmin.class);
-                boolean active = deviceManger.isAdminActive(compName);
-                Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
-                intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, compName);
-                intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION, "You should enable the app!");
-                startActivityForResult(intent, RESULT_ENABLE);
+                createEvent(MainActivity.this, false,0);
 
             }
-
-
         });
-
-//        btn_event.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                createEvent();
-//
-//            }
-//        });
 
         timer.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -403,7 +465,50 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             }
 
         });
-        bt_time.setOnClickListener(timerButton);
+        bt_time.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+
+                if(getTimeMili()==0){
+                    new AlertDialog.Builder(MainActivity.this)
+                            .setTitle("Warning: NO TIME SET")
+                            .setMessage("Please set a time time before starting")
+                            .setPositiveButton(android.R.string.yes, null).setNegativeButton(android.R.string.no,null)
+                            .setIcon(android.R.drawable.ic_dialog_alert).show();
+                }else{
+                    new AlertDialog.Builder(MainActivity.this)
+                            .setTitle("BEGIN TIMER")
+                            .setMessage("Once you begin the timer you will not be able to exit. \nAre you sure you want to begin the timer?")
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    if (checkOverlayDisplayPermission()) {
+
+                                        //
+                                    db = new DatabaseHandler(MainActivity.this);
+                                    db.openDatabase();
+                                    Model temp = db.getAllEvents().get(MainActivity.getEid());
+                                    db.insertStats(temp);
+
+                                        startService(new Intent(MainActivity.this, FloatingWindow.class));
+
+                                        finish();
+                                    } else {
+
+                                        requestOverlayDisplayPermission();
+                                    }
+                                }
+                            }).setNegativeButton(android.R.string.no,null)
+                            .setIcon(android.R.drawable.ic_dialog_alert).show();
+
+
+                }
+//
+
+
+            }
+        });
         //Record_Button
 
 
