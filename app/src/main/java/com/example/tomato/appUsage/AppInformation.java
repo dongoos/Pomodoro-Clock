@@ -60,15 +60,15 @@ public class AppInformation {
         this.times = times;
     }
 
-    public void setUsedTimebyDay(long usedTimebyDay) {
-        this.UsedTimebyDay = usedTimebyDay;
+    public void setUsedTimeByDay(long usedTimeByDay) {
+        this.UsedTimebyDay = usedTimeByDay;
     }
 
     public Drawable getIcon() {
         return Icon;
     }
 
-    public long getUsedTimebyDay() {
+    public long getUsedTimeByDay() {
         return UsedTimebyDay;
     }
 

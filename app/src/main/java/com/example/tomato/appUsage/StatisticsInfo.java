@@ -44,10 +44,10 @@ public class StatisticsInfo {
         totalTime = 0;
 //遍历
         for (int i = 0; i < AppInfoList.size(); i++) {
-            if (AppInfoList.get(i).getUsedTimebyDay() > 0) { //&& AppInfoList.get(i).getTimes() > 0) {
+            if (AppInfoList.get(i).getUsedTimeByDay() > 0) { //&& AppInfoList.get(i).getTimes() > 0) {
 
                 this.ShowList.add(AppInfoList.get(i));
-                totalTime += AppInfoList.get(i).getUsedTimebyDay();
+                totalTime += AppInfoList.get(i).getUsedTimeByDay();
                 totalTimes += AppInfoList.get(i).getTimes();
             }
         }
@@ -55,7 +55,7 @@ public class StatisticsInfo {
         //将显示列表中的应用按显示顺序排序
         for (int i = 0; i < this.ShowList.size() - 1; i++) {
             for (int j = 0; j < this.ShowList.size() - i - 1; j++) {
-                if (this.ShowList.get(j).getUsedTimebyDay() < this.ShowList.get(j + 1).getUsedTimebyDay()) {
+                if (this.ShowList.get(j).getUsedTimeByDay() < this.ShowList.get(j + 1).getUsedTimeByDay()) {
                     AppInformation temp = this.ShowList.get(j);
                     this.ShowList.set(j, this.ShowList.get(j + 1));
                     this.ShowList.set(j + 1, temp);
@@ -108,7 +108,7 @@ public class StatisticsInfo {
                     AppInformation information = new AppInformation(stats, context);
                     //重置总运行时间  开机操作次数
                     information.setTimes(0);
-                    information.setUsedTimebyDay(0);
+                    information.setUsedTimeByDay(0);
                     mapData.put(stats.getPackageName(), information);
                 }
             }

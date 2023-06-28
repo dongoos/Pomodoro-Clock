@@ -27,7 +27,7 @@ public class RecordPageInfo  {
     private Button buttonDay,buttonMonth,buttonYear;
     private ListView listView;
     private final Context context;
-    
+
     OpenAccess openAccess = new OpenAccess();
 
     public RecordPageInfo(Context context) {
@@ -152,7 +152,7 @@ public class RecordPageInfo  {
             for (AppInformation appInformation : ShowList) {
                 map = new HashMap<String, Object>();
                 map.put("label", appInformation.getLabel());
-                map.put("info", "运行时间: " + DateUtils.formatElapsedTime(appInformation.getUsedTimebyDay() / 1000));
+                map.put("info", "运行时间: " + DateUtils.formatElapsedTime(appInformation.getUsedTimeByDay() / 1000));
                 map.put("times", "本次开机操作次数: " + appInformation.getTimes());
                 map.put("icon", appInformation.getIcon());
                 dataList.add(map);
