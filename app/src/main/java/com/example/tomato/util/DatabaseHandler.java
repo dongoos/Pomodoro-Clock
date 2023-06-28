@@ -47,6 +47,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     //open the database duhh
     public void openDatabase(){
         db = this.getWritableDatabase();
+       // onUpgrade(db,1,2);
     }
 
 

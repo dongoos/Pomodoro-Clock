@@ -5,65 +5,83 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white">
-
-    <Button
-        android:id="@+id/buttonMaximize"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginTop="28dp"
-        android:background="@color/design_default_color_primary"
-        android:text="MAXIMIZE"
-        android:textColor="@android:color/white"
-        android:textSize="15sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/titleText"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:layout_marginTop="10dp"
-        android:gravity="center"
-        android:text="AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH"
-        android:textColor="@color/design_default_color_primary"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonMaximize" />
+        <TextView
+            android:id="@+id/floaterName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="60dp"
+            android:fontFamily="sans-serif-black"
+            android:gravity="center_horizontal"
+            android:textSize="30dp"
+            android:text="THIS IS THE TITLE"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
-<!--    <EditText-->
-<!--        android:id="@+id/descEditText"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="0dp"-->
-<!--        android:layout_marginTop="10dp"-->
-<!--        android:layout_marginBottom="10dp"-->
-<!--        android:gravity="start"-->
-<!--        android:hint="Description"-->
-<!--        android:paddingLeft="20dp"-->
-<!--        android:paddingTop="10dp"-->
-<!--        android:paddingRight="20dp"-->
-<!--        android:paddingBottom="10dp"-->
-<!--        android:textColor="@android:color/black"-->
-<!--        android:textSize="16sp"-->
-<!--        app:layout_constraintBottom_toTopOf="@+id/saveBtn"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/titleText" />-->
+        <FrameLayout
+            android:id="@+id/progress_layout"
+            android:layout_width="match_parent"
+            android:layout_height="390dp"
+            android:padding="10dp"
 
-<!--    <Button-->
-<!--        android:id="@+id/saveBtn"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="40dp"-->
-<!--        android:layout_marginBottom="10dp"-->
-<!--        android:background="@color/gfgThemeTwo"-->
-<!--        android:text="SAVE"-->
-<!--        android:textColor="@android:color/white"-->
-<!--        android:textSize="12sp"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent" />-->
+
+
+            >
+
+            <TextView
+                android:id="@+id/textView23"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|top"
+                android:layout_weight="3"
+                android:fontFamily="sans-serif-black"
+                android:paddingTop="10dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:text="WORDS"/>
+
+
+            <TextView
+                android:id="@+id/timer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="3"
+                android:fontFamily="sans-serif-black"
+                android:padding="20dp"
+                android:text="00:00"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textSize="50dp" />
+
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/circle_shape"
+                android:max="1000"
+                android:padding="20dp"
+                android:progress="1000"
+                android:progressDrawable="@drawable/pomodoro_progress_bar"
+
+                />
+
+            <Button
+                android:id="@+id/btnStop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center_horizontal"
+                android:text="STOP" />
+
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

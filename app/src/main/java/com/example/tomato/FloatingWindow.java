@@ -1,10 +1,15 @@
 package com.example.tomato;
 
+import android.app.AlertDialog;
 import android.app.Service;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.PixelFormat;
+import android.net.Uri;
 import android.os.Build;
+import android.os.CountDownTimer;
 import android.os.IBinder;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -19,6 +24,8 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -29,10 +36,36 @@ public class FloatingWindow extends Service {
     // ViewGroup, WindowManager.LayoutParams,
     // WindowManager, Button, EditText classes are created
     private ViewGroup floatView;
+    private AlertDialog dialog;
     private int LAYOUT_TYPE;
     private WindowManager.LayoutParams floatWindowLayoutParam;
     private WindowManager windowManager;
-    private Button maximizeBtn;
+    Context context;
+    Button stop;
+    private static ProgressBar timeProgress;
+    private static TextView timer;
+
+
+
+    private CountDownTimer countDownTimer;
+    private long timeLeftInMillis;
+    private static boolean timerRunning;
+
+    private long interval;
+    private long ogTime;
+    private static long soFar = 0;
+    private long max =1000;
+
+    private static boolean justOpened = true;
+
+
+//    public static ProgressBar getProgressBar() {
+//        return progressBar;
+//    }
+
+    public static TextView getTimer() {
+        return timer;
+    }
 
     // As FloatingWindowGFG inherits Service class,
     // it actually overrides the onBind method
@@ -42,12 +75,21 @@ public class FloatingWindow extends Service {
         return null;
     }
 
+    public void closeFloat(){
+        stopSelf();
+        // The window is removed from the screen
+        windowManager.removeView(floatView);
+
+        Intent backToHome = new Intent(FloatingWindow.this, MainActivity.class);
+
+        backToHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(backToHome);
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
 
-        // The screen height and width are calculated, cause
-        // the height and width of the floating window is set depending on this
         DisplayMetrics metrics = getApplicationContext().getResources().getDisplayMetrics();
         int width = metrics.widthPixels;
         int height = metrics.heightPixels;
@@ -58,14 +100,23 @@ public class FloatingWindow extends Service {
 
         floatView = (ViewGroup) inflater.inflate(R.layout.floating_layout, null);
 
-        maximizeBtn = floatView.findViewById(R.id.buttonMaximize);
+        stop = floatView.findViewById(R.id.btnStop);
+        timer = floatView.findViewById(R.id.timer);
+        timeProgress =  floatView.findViewById(R.id.progressBar);
+
+//        maximizeBtn = floatView.findViewById(R.id.buttonMaximize);
+//        toAPP = floatView.findViewById(R.id.buttonApp2);
         Log.i("TESTING____________________________________","DID I EVEN GET HERE????? - sdk if statements");
 
+//        if(justOpened){
+//            startTimer();
+//            justOpened = false;
+//        }
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            Log.i("TESTING____________________________________","SO SDK IS GOOD?????");
+            //sdk 23 above only
             LAYOUT_TYPE = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;
         } else {
-            Log.i("TESTING____________________________________","I THOUGHT I PHONE WAS NEW...................");
             LAYOUT_TYPE = WindowManager.LayoutParams.TYPE_TOAST;
         }
 
@@ -79,50 +130,105 @@ public class FloatingWindow extends Service {
         // 5) Next parameter is Layout_Format. System chooses a format that supports
         // translucency by PixelFormat.TRANSLUCENT
         floatWindowLayoutParam = new WindowManager.LayoutParams(
-                (int) (width * (0.55f)),
-                (int) (height * (0.58f)),
+                (int) (width ),
+                (int) (height ),
                 LAYOUT_TYPE,
                 WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
                 PixelFormat.TRANSLUCENT
         );
 
-        // The Gravity of the Floating Window is set.
-        // The Window will appear in the center of the screen
-        floatWindowLayoutParam.gravity = Gravity.CENTER;
-
-        // X and Y value of the window is set
-        floatWindowLayoutParam.x = 0;
-        floatWindowLayoutParam.y = 0;
 
         // The ViewGroup that inflates the floating_layout.xml is
         // added to the WindowManager with all the parameters
         windowManager.addView(floatView, floatWindowLayoutParam);
 
+
         // The button that helps to maximize the app
-        maximizeBtn.setOnClickListener(new View.OnClickListener() {
+
+        stop.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                // stopSelf() method is used to stop the service if
-                // it was previously started
-                stopSelf();
+            public void onClick(View view) {
 
-                // The window is removed from the screen
-                windowManager.removeView(floatView);
+                closeFloat();
 
-                // The app will maximize again. So the MainActivity
-                // class will be called again.
-                Intent backToHome = new Intent(FloatingWindow.this, MainActivity.class);
+//                new AlertDialog.Builder(FloatingWindow.this)
+//                        .setTitle("Warning: Leave timer")
+//                                .setMessage("Are you sure you want to leave?")
+//                                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+//                                            @Override
+//                                            public void onClick(DialogInterface dialogInterface, int i) {
+//                                                closeFloat();
+//                                            }
+//                                        }).setNegativeButton(android.R.string.no,null)
+//                        .setIcon(android.R.drawable.ic_dialog_alert).show();
 
-                // 1) FLAG_ACTIVITY_NEW_TASK flag helps activity to start a new task on the history stack.
-                // If a task is already running like the floating window service, a new activity will not be started.
-                // Instead the task will be brought back to the front just like the MainActivity here
-                // 2) FLAG_ACTIVITY_CLEAR_TASK can be used in the conjunction with FLAG_ACTIVITY_NEW_TASK. This flag will
-                // kill the existing task first and then new activity is started.
-                backToHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(backToHome);
             }
         });
 
+//        maximizeBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                closeFloat();
+//            }
+//        });
+
+        //Sample test attempt to access another app
+//        toAPP.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Uri webpage = Uri.parse("https://www.android.com");
+//                Intent webIntent = new Intent(Intent.ACTION_VIEW, webpage);
+//                webIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                startActivity(webIntent);
+//            }
+//        });
+
+    }
+
+    private void startTimer() {
+
+        timeProgress.setMax((int)max);
+
+
+        ogTime = MainActivity.getTimeMili();
+        if(soFar == 0){
+            soFar = ogTime;
+        }
+
+        timeLeftInMillis = soFar; // 1 minute
+        timerRunning = true;
+        interval = ogTime/max;
+        interval = (ogTime+interval)/max;
+
+
+        countDownTimer = new CountDownTimer(timeLeftInMillis, 100) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                timeLeftInMillis = millisUntilFinished;
+                updateCountdownText();
+            }
+
+            @Override
+            public void onFinish() {
+                timerRunning = false;
+                int x = (int)max*2;
+                justOpened=false;
+
+                closeFloat();
+            }
+        }.start();
+
+
+    }
+
+    private void updateCountdownText() {
+        int minutes = (int) (timeLeftInMillis / 1000) / 60;
+        int seconds = (int) (timeLeftInMillis / 1000) % 60;
+        int progress = (int) ((ogTime-timeLeftInMillis)/interval);
+
+        timeProgress.setProgress(progress);
+        String timeLeftFormatted = String.format("%02d:%02d", minutes, seconds);
+        timer.setText(timeLeftFormatted);
     }
 
     // It is called when stopService()

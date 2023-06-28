@@ -76,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
 
 
+
     private static List<View> mViews;   //存放视图
 
 
@@ -135,6 +136,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public static ProgressBar getPB(){
         return progress;
     }
+
 
     public static void setTimeMili(long timeMili) {
         setTime = timeMili;
@@ -345,6 +347,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
 
+
     private void initView() {
         //初始化控件
         mViewPager=findViewById(R.id.viewpager);
@@ -380,51 +383,40 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
 
 
+
         btn_wl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 if (checkOverlayDisplayPermission()) {
 
-                    Log.i("TESTING____________________________________","DID I EVEN GET HERE?????");
-                    // FloatingWindowGFG service is started
-                    startService(new Intent(MainActivity.this, FloatingWindow.class));
-                    // The MainActivity closes here
-                    Log.i("TESTING____________________________________","DID I EVEN GET HERE?????");
-                    finish();
-                } else {
-                    // If permission is not given,
-                    // it shows the AlertDialog box and
-                    // redirects to the Settings
-                    requestOverlayDisplayPermission();
-                }
+            Log.i("TESTING____________________________________","DID I EVEN GET HERE?????");
+           // justOpened = true;
+            // FloatingWindowGFG service is started
+            startService(new Intent(MainActivity.this, FloatingWindow.class));
+            // The MainActivity closes here
+            Log.i("TESTING____________________________________","DID I EVEN GET HERE?????");
+            finish();
+        } else {
+            // If permission is not given,
+            // it shows the AlertDialog box and
+            // redirects to the Settings
+            requestOverlayDisplayPermission();
+        }
+
+                Toast.makeText(context,"APOLOGIES THIS IS STILL IN DEVELOPMENT \n THANK YOU FOR USING OUR APP", Toast.LENGTH_SHORT).show();
                 //startLockTask();
             }
         });
 
+
         btn_event.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                deviceManger = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
-                compName = new ComponentName(MainActivity.this, DeviceAdmin.class);
-                boolean active = deviceManger.isAdminActive(compName);
-                Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
-                intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, compName);
-                intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION, "You should enable the app!");
-                startActivityForResult(intent, RESULT_ENABLE);
+                createEvent(MainActivity.this, false,0);
 
             }
-
-
         });
-
-//        btn_event.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                createEvent();
-//
-//            }
-//        });
 
         timer.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -434,7 +426,28 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             }
 
         });
-        bt_time.setOnClickListener(timerButton);
+        bt_time.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (checkOverlayDisplayPermission()) {
+
+            Log.i("TESTING____________________________________","DID I EVEN GET HERE?????");
+            // FloatingWindowGFG service is started
+                   // justOpened = true;
+            startService(new Intent(MainActivity.this, FloatingWindow.class));
+            // The MainActivity closes here
+            Log.i("TESTING____________________________________","DID I EVEN GET HERE?????");
+            finish();
+        } else {
+            // If permission is not given,
+            // it shows the AlertDialog box and
+            // redirects to the Settings
+            requestOverlayDisplayPermission();
+        }
+                timerButton.test(view);
+            }
+        });
         //Record_Button
 
 
