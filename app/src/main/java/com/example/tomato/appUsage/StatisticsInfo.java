@@ -14,9 +14,11 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
+
 public class StatisticsInfo {
 
     final public static int DAY = 0;
+    final public static int WEEK = 1;
     final public static int MONTH = 2;
     final public static int YEAR = 3;
 
@@ -74,17 +76,19 @@ public class StatisticsInfo {
         if (m != null) {
             Calendar calendar = Calendar.getInstance();
             long now = calendar.getTimeInMillis();
-            long beginTime = getBeginTime();
+            long begintime = getBeginTime();
             if (style == DAY) {
-                this.result = m.queryUsageStats(UsageStatsManager.INTERVAL_BEST, beginTime, now);
-                AppInfoList = getAccurateDailyStatsList(context, result, m, beginTime, now);
+                this.result = m.queryUsageStats(UsageStatsManager.INTERVAL_BEST, begintime, now);
+                AppInfoList = getAccurateDailyStatsList(context, result, m, begintime, now);
             } else {
-                if (style == MONTH)
-                    this.result = m.queryUsageStats(UsageStatsManager.INTERVAL_MONTHLY, beginTime, now);
+                if (style == WEEK)
+                    this.result = m.queryUsageStats(UsageStatsManager.INTERVAL_WEEKLY, begintime, now);
+                else if (style == MONTH)
+                    this.result = m.queryUsageStats(UsageStatsManager.INTERVAL_MONTHLY, begintime, now);
                 else if (style == YEAR)
-                    this.result = m.queryUsageStats(UsageStatsManager.INTERVAL_YEARLY, beginTime, now);
+                    this.result = m.queryUsageStats(UsageStatsManager.INTERVAL_YEARLY, begintime, now);
                 else {
-                    this.result = m.queryUsageStats(UsageStatsManager.INTERVAL_BEST, beginTime, now);
+                    this.result = m.queryUsageStats(UsageStatsManager.INTERVAL_BEST, begintime, now);
                 }
 
                 List<UsageStats> Mergeresult = MergeList(this.result);
@@ -164,38 +168,42 @@ public class StatisticsInfo {
      */
     private void calculateLaunchTimesAfterBootOn(Context context, List<AppInformation> AppInfoList) {
 
-        UsageStatsManager m = (UsageStatsManager) context.getSystemService(Context.USAGE_STATS_SERVICE);
-        if (m == null || AppInfoList == null || AppInfoList.size() < 1) {
-            return;
-        }
-        //针对每个packageName建立一个  使用信息
-        HashMap<String, AppInformation> mapData = new HashMap<>();
-
-        UsageEvents events = m.queryEvents(bootTime(), System.currentTimeMillis());
-        for (AppInformation information : AppInfoList) {
-            mapData.put(information.getPackageName(), information);
-            information.setTimes(0);
-        }
-
-        UsageEvents.Event e = new UsageEvents.Event();
-        while (events.hasNextEvent()) {
-            events.getNextEvent(e);
-            String packageName = e.getPackageName();
-            AppInformation information = mapData.get(packageName);
-            if (information == null) {
-                continue;
-            }
-
-            if (e.getEventType() == UsageEvents.Event.MOVE_TO_FOREGROUND) {
-                information.timesPlusPlus();
-            }
-        }
+//        UsageStatsManager m = (UsageStatsManager) context.getSystemService(Context.USAGE_STATS_SERVICE);
+//        if (m == null || AppInfoList == null || AppInfoList.size() < 1) {
+//            return;
+//        }
+//        //针对每个packageName建立一个  使用信息
+//        HashMap<String, AppInformation> mapData = new HashMap<>();
+//
+//        UsageEvents events = m.queryEvents(boolTime(), System.currentTimeMillis());
+//        for (AppInformation information : AppInfoList) {
+//            mapData.put(information.getPackageName(), information);
+//            information.setTimes(0);
+//        }
+//
+//        UsageEvents.Event e = new UsageEvents.Event();
+//        while (events.hasNextEvent()) {
+//            events.getNextEvent(e);
+//            String packageName = e.getPackageName();
+//            AppInformation information = mapData.get(packageName);
+//            if (information == null) {
+//                continue;
+//            }
+//
+//            if (e.getEventType() == UsageEvents.Event.MOVE_TO_FOREGROUND) {
+//                information.timesPlusPlus();
+//            }
+//        }
     }
 
     private long getBeginTime() {
         Calendar calendar = Calendar.getInstance();
         long begintime;
-         if (style == MONTH) {
+        if (style == WEEK) {
+            //int weekDay = calendar.get(Calendar.DAY_OF_WEEK);
+            calendar.add(Calendar.DATE, -7);
+            begintime = calendar.getTimeInMillis();
+        } else if (style == MONTH) {
             //int mounthDay = calendar.get(Calendar.DAY_OF_MONTH);
             calendar.add(Calendar.DATE, -30);
             begintime = calendar.getTimeInMillis();
