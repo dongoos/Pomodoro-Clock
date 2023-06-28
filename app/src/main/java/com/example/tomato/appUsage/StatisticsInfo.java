@@ -94,8 +94,8 @@ public class StatisticsInfo {
                     this.result = m.queryUsageStats(UsageStatsManager.INTERVAL_BEST, beginTime, now);
                 }
 
-                List<UsageStats> Mergeresult = MergeList(this.result);
-                for (UsageStats usageStats : Mergeresult) {
+                List<UsageStats> mergeResult = MergeList(this.result);
+                for (UsageStats usageStats : mergeResult) {
                     this.AppInfoList.add(new AppInformation(usageStats, context));
                 }
                 calculateLaunchTimesAfterBootOn(context, AppInfoList);

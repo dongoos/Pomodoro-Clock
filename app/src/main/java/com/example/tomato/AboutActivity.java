@@ -24,13 +24,12 @@ public class AboutActivity extends AppCompatActivity {
         View aboutPage = new AboutPage(this)
                 .isRTL(false)
                 .setImage(R.drawable.good)
+                .setDescription("TimeControllers")
                 .addItem(new Element().setTitle("Version 1.0"))
                 .addItem(adElement)
                 .addGroup("Connect with us")
                 .addEmail("2022302111001@whu.edu.cn")
-                .addFacebook("the.medy")
-                .addInstagram("medyo80")
-                .addGitHub("medyo")
+                .addGitHub("TimeControllers")
                 .addItem(getCopyRightsElement())
                 .create();
         setContentView(aboutPage);

@@ -45,7 +45,7 @@ public class RecordPageInfo  {
 
         // 获取视图元素
         this.style = StatisticsInfo.DAY;
-
+        Refresh();
         buttonDay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

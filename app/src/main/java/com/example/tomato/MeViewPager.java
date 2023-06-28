@@ -5,13 +5,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import com.example.tomato.dialogFragment.FriendDialog;
 import com.example.tomato.tool.ShowAchievement;
 
 public class MeViewPager {
     private static Button btn_info, btn_friend, btn_achievement, btn_setting;
-    private static ImageButton ibtn_setting;
+    private static ImageView ibtn_setting;
 
     public static void init(MainActivity activity) {
 
