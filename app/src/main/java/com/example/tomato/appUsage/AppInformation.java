@@ -6,6 +6,7 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.os.SystemClock;
+import android.util.Log;
 
 
 public class AppInformation {
@@ -13,7 +14,7 @@ public class AppInformation {
     private String packageName;
     private String label;
     private Drawable Icon;
-    private long UsedTimebyDay;  //milliseconds
+    private long UsedTimeByDay;  //milliseconds
     private Context context;
     private int times;
 
@@ -28,24 +29,33 @@ public class AppInformation {
             e.printStackTrace();
         }
     }
-
+        //初始化init
     private void GenerateInfo() throws PackageManager.NameNotFoundException, NoSuchFieldException, IllegalAccessException {
         //获取包名
         PackageManager packageManager = context.getPackageManager();
         this.packageName = usageStats.getPackageName();
-        if (this.packageName != null && !this.packageName.equals("")) {
+        Log.i("getPackageName",usageStats.getPackageName());
+
+        if (this.packageName != null && !this.packageName.equals(""))
+       {        Log.i("appConfig",packageName+"---start");
+
             ApplicationInfo applicationInfo = packageManager.getApplicationInfo(this.packageName, 0);
+            Log.i("GenerateInfo-applicationInfo", applicationInfo != null ? "ApplicationInfo found" : "ApplicationInfo not found");
+
             //获取应用信息
             this.label = (String) packageManager.getApplicationLabel(applicationInfo);
+            Log.i("GenerateInfo-label",(String) packageManager.getApplicationLabel(applicationInfo));
+
             //前台使用总时长
-            this.UsedTimebyDay = usageStats.getTotalTimeInForeground();
+            this.UsedTimeByDay = usageStats.getTotalTimeInForeground();
             //使用次数
             this.times = (Integer) usageStats.getClass().getDeclaredField("mLaunchCount").get(usageStats);
+            Log.i("GenerateInfo-timeByDay", String.valueOf(usageStats.getTotalTimeInForeground()));
 
-            if (this.UsedTimebyDay > 0) {
+            if (this.UsedTimeByDay > 0) {
                 this.Icon = applicationInfo.loadIcon(packageManager);
             }
-        }
+        } Log.i("GenerateInfo","over"+usageStats.getPackageName());
     }
 
     public UsageStats getUsageStats() {
@@ -60,16 +70,16 @@ public class AppInformation {
         this.times = times;
     }
 
-    public void setUsedTimebyDay(long usedTimebyDay) {
-        this.UsedTimebyDay = usedTimebyDay;
+    public void setUsedTimeByDay(long usedTimeByDay) {
+        this.UsedTimeByDay = usedTimeByDay;
     }
 
     public Drawable getIcon() {
         return Icon;
     }
 
-    public long getUsedTimebyDay() {
-        return UsedTimebyDay;
+    public long getUsedTimeByDay() {
+        return UsedTimeByDay;
     }
 
     public String getLabel() {
@@ -112,7 +122,7 @@ public class AppInformation {
         }
 
         if (timeStampMoveToBackGround > timeStampMoveToForeground) {
-            UsedTimebyDay += (timeStampMoveToBackGround - timeStampMoveToForeground);
+            UsedTimeByDay += (timeStampMoveToBackGround - timeStampMoveToForeground);
             timeStampMoveToForeground = -1;
             timeStampMoveToBackGround = -1;
         }
