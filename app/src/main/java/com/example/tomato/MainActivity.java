@@ -19,11 +19,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.NumberPicker;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -33,6 +36,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.example.tomato.adapter.EventListAdapter;
 import com.example.tomato.model.Model;
+import com.example.tomato.util.DatabaseHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,11 +69,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     private static TextView timer;
     private static ProgressBar progress;
-    private AlertDialog dlgTime;
-    private static int setTime;
+    private static AlertDialog dlgTime;
+    private static long setTime;
     private RecyclerView eventRecyclerView;
-    private EventListAdapter elAdapter;
-    private List<Model> eventList;
+    private static EventListAdapter elAdapter;
+    private static List<Model> eventList;
 
 
     private static ImageButton ibtn_setting;
@@ -90,10 +94,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private PackageManager packageManager;
     private Context context;
     private Intent launchIntent;
-
+    private static DatabaseHandler db;
+    static int min = 0;
+    static int sec = 0;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();//初始化数据
@@ -134,6 +140,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         return progress;
     }
 
+    public static void setTimeMili(long timeMili) {
+        setTime = timeMili;
+    }
+    public static long getTimeMili(){
+        return setTime;
+    }
+
 
 
 //    @Override
@@ -153,13 +166,116 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         boolean isActive = devicePolicyManager.isAdminActive(componentName);
     }
 
-    public void createEvent(){
-        View dlgViewTime = LayoutInflater.from(MainActivity.this).inflate(R.layout.dialog_create_times, null);
+    public static void createEvent(MainActivity activity, boolean update, int eid){
+        View dlgViewTime = LayoutInflater.from(activity).inflate(R.layout.dialog_create_times, null);
+
         Button btn_evtSubmit = dlgViewTime.findViewById(R.id.submitEvent);
         Button btn_cancel = dlgViewTime.findViewById(R.id.cancelEvent);
+        EditText newEventTitle = dlgViewTime.findViewById(R.id.eventTitle);
+
+
+
+        NumberPicker minPicker =dlgViewTime.findViewById(R.id.minutePicker);
+        minPicker.setMinValue(0);
+        minPicker.setMaxValue(36);
+
+        minPicker.setFormatter(new NumberPicker.Formatter() {
+            @Override
+            public String format(int i) {
+                return String.format("%02d",i*5);
+            }
+        });
+
+        minPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker numberPicker, int i, int i1) {
+                min = i;
+            }
+        });
+
+        NumberPicker secPicker =dlgViewTime.findViewById(R.id.secPicker);
+        secPicker.setMinValue(0);
+        secPicker.setMaxValue(59);
+
+        secPicker.setFormatter(new NumberPicker.Formatter() {
+            @Override
+            public String format(int i) {
+                return String.format("%02d",i);
+            }
+        });
+
+        secPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker numberPicker, int i, int i1) {
+                sec = i;
+            }
+        });
+        //minPicker.setOn
+        //ValueChangedListener( this);
+
+        //@Override
+//        public onValueChange(NumberPicker numberPicker, int i , int j){
+//
+//        }
+        db = new DatabaseHandler(activity);
+        db.openDatabase();
+        if(update){
+            newEventTitle.setText(eventList.get(eid).getTask());
+            minPicker.setValue(eventList.get(eid).getTimeMinute()/5);
+            secPicker.setValue(eventList.get(eid).getTimeSec());
+        }
+        minPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker numberPicker, int i, int i1) {
+                min = i1*5;
+            }
+        });
+        secPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker numberPicker, int i, int i1) {
+                sec = i1;
+            }
+        });
+
+
+
+
+
         btn_evtSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(update){
+                    eventList.get(eid).setTask(newEventTitle.getText().toString());
+                    eventList.get(eid).setTimeMinute(min);
+                    eventList.get(eid).setTimeSec(sec);
+                    Log.i("db",newEventTitle.getText().toString()+" time in mins"+min);
+                    //db.deleteTask(eid);
+                    db.updateEvent(eid,newEventTitle.getText().toString(),min,sec);
+                }else{
+                    Model task = new Model();
+                    task.setTask(newEventTitle.getText().toString());
+                    Log.i("dbTest",""+min);
+                    task.setTimeMinute(min);
+                    task.setTimeSec(sec);
+                    eventList.add(task);
+                    db.insertEvent(task);
+                }
+                long milliseconds = (min*60000)+(sec*1000);
+                if(Timer.isTimerRunning()){
+                    Toast.makeText(activity,"Timer is still running",Toast.LENGTH_SHORT).show();
+                }else{
+                    MainActivity.setTimeMili(milliseconds);
+                    String timeLeftFormatted = String.format("%02d:%02d", min, sec);
+                    timer.setText(timeLeftFormatted);
+                    Timer.setSoFar(0);
+                    progress.setProgress(0);
+                    bt_time.setText("Start Timer");
+                }
+
+                elAdapter.setEvent(eventList);
+                Log.i("dbTest",eventList.toString());
+                Log.i("dbTest",db.getAllEvents().toString());
+
                 dlgTime.dismiss();
 
             }
@@ -171,7 +287,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 dlgTime.dismiss();
             }
         });
-        dlgTime = new AlertDialog.Builder(MainActivity.this)
+        dlgTime = new AlertDialog.Builder(activity)
                 .setView(dlgViewTime)
                 .create();
         dlgTime.show();
@@ -218,15 +334,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         eventRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         elAdapter = new EventListAdapter(this);
         eventRecyclerView.setAdapter(elAdapter);
-
-        Model task = new Model();
-        task.setTask("This is a Test tehe");
-        task.setId(1);
-
-        eventList.add(task);
-        eventList.add(task);
-        eventList.add(task);
-
+        db = new DatabaseHandler(this);
+        db.openDatabase();
+        eventList = db.getAllEvents();
         elAdapter.setEvent(eventList);
 
         //ButtonListener
@@ -289,7 +399,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             @Override
             public void onClick(View view) {
 
-                createEvent();
+                createEvent(MainActivity.this, false,0);
             }
 
         });
