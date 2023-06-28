@@ -182,7 +182,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         db = new DatabaseHandler(activity);
         db.openDatabase();
-        db.getStats(true);
+        //db.getStats(true);
 
         minTotal.setText(""+db.getStats(false)+" total minutes");
         potionNum.setText(""+db.getStats(true)+" potions");
@@ -284,13 +284,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     eventList.get(eid).setTimeSec(sec);
                     Log.i("db",newEventTitle.getText().toString()+" time in mins"+min);
                     //db.deleteTask(eid);
-                    db.updateEvent(eid,newEventTitle.getText().toString(),min,sec);
+                    db.updateEvent(eid+1,newEventTitle.getText().toString(),min,sec);
                 }else{
                     Model task = new Model();
                     task.setTask(newEventTitle.getText().toString());
                     Log.i("dbTest",""+min);
                     task.setTimeMinute(min);
                     task.setTimeSec(sec);
+                    task.setId(eventList.size());
                     eventList.add(task);
                     db.insertEvent(task);
                 }
@@ -307,8 +308,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 }
 
                 elAdapter.setEvent(eventList);
-                Log.i("dbTest",eventList.toString());
-                Log.i("dbTest",db.getAllEvents().toString());
+                Log.i("dbTest","This is the local arraylist"+eventList.toString());
+                Log.i("dbTest","This is the database"+db.getAllEvents().toString());
 
                 dlgTime.dismiss();
 

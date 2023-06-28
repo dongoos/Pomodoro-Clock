@@ -1,5 +1,6 @@
 package com.example.tomato.adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,8 +53,9 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
                     Toast.makeText(activity,"Timer is still running",Toast.LENGTH_SHORT).show();
                 }else{
 
-                    //MainActivity.setTimeMili(milliseconds);
                     MainActivity.setEid(pos);
+                    Log.i("DATABASEEEEE", "This is the position that the item is going by so this is the local list? "+ pos);
+
                     MainActivity.setEventName(item.getTask());
                     String timeLeftFormatted = String.format("%02d:%02d", item.getTimeMinute(), item.getTimeSec());
                     time.setText(timeLeftFormatted);
