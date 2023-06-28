@@ -148,10 +148,8 @@ public class FloatingWindow extends Service {
 
 
         ogTime = MainActivity.getTimeMili();
-        if(soFar == 0){
-            soFar = ogTime;
-        }
-
+        Log.i("Timing work","THe ogTime: "+ ogTime);
+       soFar = ogTime;
         timeLeftInMillis = soFar; // 1 minute
         timerRunning = true;
         interval = ogTime/max;
@@ -169,7 +167,7 @@ public class FloatingWindow extends Service {
             public void onFinish() {
                 timerRunning = false;
                 int x = (int)max*2;
-                justOpened=false;
+                justOpened=true;
 
                 closeFloat();
             }
