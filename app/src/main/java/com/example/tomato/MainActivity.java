@@ -97,6 +97,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     static int min = 0;
     static int sec = 0;
 
+    private static int eid;
+    private static String eventName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)  {
         super.onCreate(savedInstanceState);
@@ -133,6 +136,22 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         return bt_time;
     }
 
+    public static String getEventName() {
+        return eventName;
+    }
+
+    public static void setEventName(String eventName) {
+        MainActivity.eventName = eventName;
+    }
+
+    public static int getEid() {
+        return eid;
+    }
+
+    public static void setEid(int eid) {
+        MainActivity.eid = eid;
+    }
+
     public static TextView getTimer(){
         return timer;
     }
@@ -152,28 +171,19 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
 
-
-//    @Override
-//    public void onResume(){
-//        super.onResume();
-//        if(devicePolicyManager.isLockTaskPermitted(context.getPackageName())){
-//          MainActivity.this.startLockTask();
-//            Log.i("testing","somethings working ig?");
-//        }else{
-//            Log.i("testing","so uhh idk what this does but u know");
-//        }
-//    }
-
-
-    protected void OnResume(){
-        super.onResume();
-        boolean isActive = devicePolicyManager.isAdminActive(componentName);
-    }
-
     public static void congrats(MainActivity activity){
         View dlgViewTime = LayoutInflater.from(activity).inflate(R.layout.dialog_congrats, null);
 
         Button finish = dlgViewTime.findViewById(R.id.finish);
+        TextView minTotal = dlgViewTime.findViewById(R.id.minNum);
+        TextView potionNum = dlgViewTime.findViewById(R.id.potionNum);
+
+        db = new DatabaseHandler(activity);
+        db.openDatabase();
+        db.getStats(true);
+
+        minTotal.setText(""+db.getStats(false)+" total minutes");
+        potionNum.setText(""+db.getStats(true)+" potions");
 
         finish.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -462,13 +472,17 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                                 public void onClick(DialogInterface dialogInterface, int i) {
                                     if (checkOverlayDisplayPermission()) {
 
+                                        //
+                                    db = new DatabaseHandler(MainActivity.this);
+                                    db.openDatabase();
+                                    Model temp = db.getAllEvents().get(MainActivity.getEid());
+                                    db.insertStats(temp);
+
                                         startService(new Intent(MainActivity.this, FloatingWindow.class));
-                                        // The MainActivity closes here
+
                                         finish();
                                     } else {
-                                        // If permission is not given,
-                                        // it shows the AlertDialog box and
-                                        // redirects to the Settings
+
                                         requestOverlayDisplayPermission();
                                     }
                                 }

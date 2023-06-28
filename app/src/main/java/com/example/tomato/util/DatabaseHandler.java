@@ -30,8 +30,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db){
         //create tables - add local tables here
         Log.i("Database","-------------------------------Creating Tables--------------------------------");
+        //table events is for the new events
         db.execSQL("CREATE TABLE IF NOT EXISTS events( eid INTEGER PRIMARY KEY AUTOINCREMENT, uid INTEGER, eventName TEXT, timeMinutes INTEGER ,timeSecond INTEGER ) ");
-        db.execSQL("CREATE TABLE IF NOT EXISTS stats(uid INTEGER PRIMARY KEY AUTOINCREMENT, totalTime INTEGER, successfulTimers INTEGER) ");
+        //stats is to show the completed versions to check for achievements
+        db.execSQL("CREATE TABLE IF NOT EXISTS stats(id INTEGER PRIMARY KEY AUTOINCREMENT, eventName TEXT, timeMinutes INTEGER ,timeSecond INTEGER) ");
     }
 
     @Override
@@ -72,6 +74,21 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     }
 
+    public void insertStats(Model evt){
+        ContentValues cv = new ContentValues();
+        cv.put("eventName", evt.getTask());
+        cv.put("timeMinutes",evt.getTimeMinute());
+        cv.put("timeSecond",evt.getTimeSec());
+        long res = db.insertOrThrow("stats",null, cv);
+        if(res == -1){
+            Log.i("Database", "FAILED TO INSERT FUNCTION BEGIN CRYING IN 3.. 2.. 1..");
+        }else{
+            Log.i("Database", "INSERT FUNCTION SUCCESSFUL");
+        }
+
+
+    }
+
     //Selecting values
     @SuppressLint("Range")
     public List<Model> getAllEvents(){
@@ -100,6 +117,39 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             cur.close();
         }
         return eventList;
+
+    }
+
+    @SuppressLint("Range")
+    public int getStats(boolean potions){
+        int sum = 0;
+        int min = 0;
+        int sec = 0;
+        Cursor cur = null;
+        db.beginTransaction();
+        try{
+            cur = db.query("stats",null,null,null,null,null,null,null);
+            if(cur != null){
+                if(cur.moveToFirst()){
+                    do{
+                      sum++;
+                      min +=cur.getInt(cur.getColumnIndex("timeMinutes"));
+                      sec +=cur.getInt(cur.getColumnIndex("timeSecond"));
+
+
+                    }while(cur.moveToNext());
+                }
+            }
+        }finally {
+            db.endTransaction();
+            cur.close();
+        }
+        min +=(int)(sec/60);
+        if(potions){
+            return sum;
+        }else{
+            return min;
+        }
 
     }
 

@@ -30,6 +30,9 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
+import com.example.tomato.model.Model;
+import com.example.tomato.util.DatabaseHandler;
+
 public class FloatingWindow extends Service {
 
     // The reference variables for the
@@ -44,6 +47,7 @@ public class FloatingWindow extends Service {
     Button stop;
     private static ProgressBar timeProgress;
     private static TextView timer;
+    private TextView eventName;
 
 
 
@@ -58,6 +62,7 @@ public class FloatingWindow extends Service {
 
     private static boolean justOpened = true;
     MainActivity activity;
+    private static DatabaseHandler db;
 
     @Nullable
     @Override
@@ -94,6 +99,7 @@ public class FloatingWindow extends Service {
         //stop = floatView.findViewById(R.id.btnStop);
         timer = floatView.findViewById(R.id.timer);
         timeProgress =  floatView.findViewById(R.id.progressBar);
+        eventName = floatView.findViewById(R.id.floatingName);
 
 //        maximizeBtn = floatView.findViewById(R.id.buttonMaximize);
 //        toAPP = floatView.findViewById(R.id.buttonApp2);
@@ -110,15 +116,6 @@ public class FloatingWindow extends Service {
             LAYOUT_TYPE = WindowManager.LayoutParams.TYPE_TOAST;
         }
 
-        // Now the Parameter of the floating-window layout is set.
-        // 1) The Width of the window will be 55% of the phone width.
-        // 2) The Height of the window will be 58% of the phone height.
-        // 3) Layout_Type is already set.
-        // 4) Next Parameter is Window_Flag. Here FLAG_NOT_FOCUSABLE is used. But
-        // problem with this flag is key inputs can't be given to the EditText.
-        // This problem is solved later.
-        // 5) Next parameter is Layout_Format. System chooses a format that supports
-        // translucency by PixelFormat.TRANSLUCENT
         floatWindowLayoutParam = new WindowManager.LayoutParams(
                 (int) (width ),
                 (int) (height ),
@@ -127,10 +124,9 @@ public class FloatingWindow extends Service {
                 PixelFormat.TRANSLUCENT
         );
 
-
-        // The ViewGroup that inflates the floating_layout.xml is
-        // added to the WindowManager with all the parameters
         windowManager.addView(floatView, floatWindowLayoutParam);
+        eventName.setText(MainActivity.getEventName());
+
 
 
 //        stop.setOnClickListener(new View.OnClickListener() {
@@ -144,7 +140,11 @@ public class FloatingWindow extends Service {
 
     private void startTimer() {
 
+
         timeProgress.setMax((int)max);
+
+
+
 
 
         ogTime = MainActivity.getTimeMili();

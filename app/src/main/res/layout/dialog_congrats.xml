@@ -25,6 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
+        android:layout_gravity="center_horizontal"
 
         android:text=" You have completed \n your potion!"
         android:textColor="@color/black"
@@ -43,6 +44,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
+        android:layout_gravity="center_horizontal"
         android:text=" You now have..."
         android:textColor="@color/black"
         android:paddingTop="3dp"></TextView>
@@ -51,6 +53,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
+        android:layout_gravity="center_horizontal"
         android:textStyle="bold"
         android:text=" ______ total minutes"
         android:paddingLeft="5dp"
