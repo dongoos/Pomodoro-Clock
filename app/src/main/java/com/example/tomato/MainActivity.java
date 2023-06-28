@@ -31,7 +31,9 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.PagerAdapter;
@@ -73,11 +75,15 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private static EventListAdapter elAdapter;
     private static List<Model> eventList;
 
+   ItemTouchHelper itemTouchHelper;
+
     private static boolean timeFinish = false;
 
 
     private static ImageButton ibtn_setting;
+    private EventListAdapter adapter;
 
+    SwipeDelete swipeDelete;
 
 
 
@@ -384,6 +390,45 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
     }
 
+    ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.RIGHT) {
+        @Override
+        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+            return false;
+        }
+
+        @Override
+        public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+            final int position = viewHolder.getAdapterPosition();
+            if(direction == ItemTouchHelper.RIGHT){
+                androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(context);
+                builder.setTitle("Delete Event");
+                builder.setMessage("Are you sure you want to delete this event?");
+                builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        //Toast.makeText(context,"The positions is"+ position,Toast.LENGTH_SHORT).show();
+                        db.deleteTask(position+1);
+                        eventList.remove(position);
+                        elAdapter.setEvent(eventList);
+                        //adapter.deleteItem(position);
+                    }
+                });
+                builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                     elAdapter.setEvent(eventList);
+                    }
+                });
+                androidx.appcompat.app.AlertDialog dlg = builder.create();
+                dlg.show();
+            }else{
+                //
+            }
+        }
+    };
+
+
 
 
     private void initView() {
@@ -421,12 +466,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         eventList = new ArrayList<>();
         eventRecyclerView = mViews.get(0).findViewById(R.id.eventList);
         eventRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        elAdapter = new EventListAdapter(this);
+        elAdapter = new EventListAdapter(db, this);
         eventRecyclerView.setAdapter(elAdapter);
         db = new DatabaseHandler(this);
         db.openDatabase();
         eventList = db.getAllEvents();
         elAdapter.setEvent(eventList);
+        itemTouchHelper = new ItemTouchHelper(simpleCallback);
+        itemTouchHelper.attachToRecyclerView(eventRecyclerView);
 
         if(timeFinish){
             congrats(MainActivity.this);
@@ -434,7 +481,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
 
         //ButtonListener
-
 
 
 

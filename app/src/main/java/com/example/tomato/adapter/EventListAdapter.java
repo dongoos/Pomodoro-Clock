@@ -17,14 +17,17 @@ import com.example.tomato.MainActivity;
 import com.example.tomato.R;
 import com.example.tomato.Timer;
 import com.example.tomato.model.Model;
+import com.example.tomato.util.DatabaseHandler;
 
 import java.util.List;
 
 public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.ViewHolder> {
     private List<Model> eventsList;
     private MainActivity activity;
+    private DatabaseHandler db;
 
-    public EventListAdapter(MainActivity activity){
+    public EventListAdapter(DatabaseHandler db, MainActivity activity){
+        this.db = db;
         this.activity = activity;
 
     }
@@ -36,7 +39,15 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
 
     }
 
+    public void deleteItem(int position){
+        Model item = eventsList.get(position);
+        db.deleteTask(item.getId());
+        eventsList.remove(position);
+        notifyItemRemoved(position);
+    }
+
     public void onBindViewHolder( ViewHolder holder, int position) {
+        //db.openDatabase();
         int pos = position;
         Model item = eventsList.get(position);
         holder.eventName.setText(item.getTask());
