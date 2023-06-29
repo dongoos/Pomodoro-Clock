@@ -315,7 +315,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
                 elAdapter.setEvent(eventList);
                 Log.i("dbTest","This is the local arraylist"+eventList.toString());
-                Log.i("dbTest","This is the database"+db.getAllEvents().toString());
+//                Log.i("dbTest","This is the database"+db.getAllEvents().toString());
 
                 dlgTime.dismiss();
 
@@ -470,7 +470,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         eventRecyclerView.setAdapter(elAdapter);
         db = new DatabaseHandler(this);
         db.openDatabase();
-        eventList = db.getAllEvents();
+       eventList = db.getAllEvents();
         elAdapter.setEvent(eventList);
         itemTouchHelper = new ItemTouchHelper(simpleCallback);
         itemTouchHelper.attachToRecyclerView(eventRecyclerView);

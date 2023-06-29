@@ -45,6 +45,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         Log.i("Database","-------------------------------Dropping Tables--------------------------------");
         db.execSQL("DROP TABLE IF EXISTS events");
         db.execSQL("DROP TABLE IF EXISTS stats");
+        db.execSQL("DROP TABLE IF EXISTS user");
         //create tables
         onCreate(db);
 
@@ -53,8 +54,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     //open the database duhh
     public void openDatabase(){
         db = this.getWritableDatabase();
-             onCreate(db);
-       //onUpgrade(db,1,2);
+            // onCreate(db);
+             onUpgrade(db,1,2);
     }
 
 
