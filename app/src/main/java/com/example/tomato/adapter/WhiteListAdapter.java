@@ -26,6 +26,7 @@ public class WhiteListAdapter extends RecyclerView.Adapter<WhiteListAdapter.Recy
     private ArrayList<AppInformation> appInformations;
     private Context mcontext;
 
+
     ArrayList<Integer> list = new ArrayList<>();
     private int index = 0;
 
@@ -60,15 +61,28 @@ public class WhiteListAdapter extends RecyclerView.Adapter<WhiteListAdapter.Recy
 //
                     index = position;
                     list.add(index);
-                    MainActivity.addWl(appInformations.get(position));
+                    if(MainActivity.whiteList.contains(index)){
+                        MainActivity.whiteList.remove(MainActivity.whiteList.indexOf(index));
+                        Log.i("AHHH","AAAHHHHHHHHHHHHHHHHHHHHHHHHH");
+                        MainActivity.whiteListApp.remove(appInformations.get(index));
+
+
+                    }else{
+                        MainActivity.whiteList.add(index);
+                        MainActivity.whiteListApp.add(appInformations.get(index));
+
+                    }
                     notifyDataSetChanged();
+
+                    //MainActivity.addWl(appInformations.get(position));
+
 
                 }
 
 
             });
 
-            if(list.contains(position)){
+            if(MainActivity.whiteList.contains(position)){
                 holder.item.setCardBackgroundColor(mcontext.getResources().getColor(R.color.lavender));
             }else{
                 holder.item.setCardBackgroundColor(mcontext.getResources().getColor(R.color.white));

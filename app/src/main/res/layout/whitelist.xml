@@ -58,19 +58,19 @@
 
         >
         <Button
-            android:id="@+id/cancelEvent"
+            android:id="@+id/cancelWL"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
-            android:text="cancel"
+            android:text="SET"
             android:padding="5dp"></Button>
-        <Button
-            android:id="@+id/submitEvent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:padding="5dp"
-            android:text="SET"></Button>
+<!--        <Button-->
+<!--            android:id="@+id/submitWL"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="right"-->
+<!--            android:padding="5dp"-->
+<!--            android:text="SET"></Button>-->
     </LinearLayout>
 
 

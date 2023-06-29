@@ -78,8 +78,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private static AlertDialog dlgTime;
     private static long setTime;
     private RecyclerView eventRecyclerView;
+    private RecyclerView whiteListDisplay;
     private static EventListAdapter elAdapter;
+    private static SmallWhiteListAdapter wladapter2;
     private static List<Model> eventList;
+
+    public static ArrayList<Integer> whiteList = new ArrayList<>();
+    public static ArrayList<AppInformation> whiteListApp = new ArrayList<>();
 
     //private static ArrayList<AppInformation> wl = new ArrayList<>();
 
@@ -197,6 +202,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
 
+
+
     public static void congrats(MainActivity activity){
         View dlgViewTime = LayoutInflater.from(activity).inflate(R.layout.dialog_congrats, null);
 
@@ -224,25 +231,32 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     }
 
-    public static void whiteList(MainActivity activity){
+    public  void whiteList(MainActivity activity){
         View dlgViewTime = LayoutInflater.from(activity).inflate(R.layout.whitelist, null);
 
         RecyclerView recyclerView = dlgViewTime.findViewById(R.id.appList);
         RecyclerView whitelist = dlgViewTime.findViewById(R.id.whitelist);
+        Button cancel = dlgViewTime.findViewById(R.id.cancelWL);
         ArrayList <AppInformation> appInfo;
-        ArrayList <AppInformation> wl_array;
         StatisticsInfo statisticsInfo = new StatisticsInfo(activity, 3);
-        StatisticsInfo statisticsInfo2 = new StatisticsInfo(activity, 1);
         appInfo = statisticsInfo.getShowList();
-        wl_array = statisticsInfo2.getShowList();
 
         WhiteListAdapter wladapter = new WhiteListAdapter(appInfo,activity);
-
-        SmallWhiteListAdapter wladapter2 = new SmallWhiteListAdapter(wl_array,activity);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(activity,4);
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setAdapter(wladapter);
+
+        SmallWhiteListAdapter wladapter2 = new SmallWhiteListAdapter(whiteListApp,activity);
         whitelist.setAdapter(wladapter2);
+
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MainActivity.wladapter2.setArrayList(whiteListApp);
+                dlgTime.dismiss();
+            }
+        });
 
 
         dlgTime = new AlertDialog.Builder(activity)
@@ -503,7 +517,15 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         eventList = new ArrayList<>();
         eventRecyclerView = mViews.get(0).findViewById(R.id.eventList);
+        whiteListDisplay= mViews.get(0).findViewById(R.id.whitelist);
+
         eventRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        whiteListDisplay.setLayoutManager(new LinearLayoutManager(this));
+
+        wladapter2 = new SmallWhiteListAdapter(whiteListApp,MainActivity.this);
+        whiteListDisplay.setAdapter(wladapter2);
+
+
         elAdapter = new EventListAdapter(db, this);
         eventRecyclerView.setAdapter(elAdapter);
         db = new DatabaseHandler(this);
@@ -512,6 +534,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         elAdapter.setEvent(eventList);
         itemTouchHelper = new ItemTouchHelper(simpleCallback);
         itemTouchHelper.attachToRecyclerView(eventRecyclerView);
+
+        wladapter2.setArrayList(whiteListApp);
+
+
 
         if(timeFinish){
             congrats(MainActivity.this);
@@ -529,7 +555,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
 
 
-                Toast.makeText(context,"APOLOGIES THIS IS STILL IN DEVELOPMENT \nTHANK YOU FOR USING OUR APP", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context,"APOLOGIES THIS IS STILL IN DEVELOPMENT \nTHANK YOU FOR USING OUR APP", Toast.LENGTH_SHORT).show();
                 //startLockTask();
             }
         });

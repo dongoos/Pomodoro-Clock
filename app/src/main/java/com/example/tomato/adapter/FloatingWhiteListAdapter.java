@@ -9,27 +9,32 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.tomato.FloatingWindow;
+import com.example.tomato.MainActivity;
 import com.example.tomato.R;
 import com.example.tomato.appUsage.AppInformation;
 import com.example.tomato.appUsage.StatisticsInfo;
-import com.example.tomato.model.Model;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SmallWhiteListAdapter extends RecyclerView.Adapter<SmallWhiteListAdapter.RecyclerViewHolder> {
+public class FloatingWhiteListAdapter extends RecyclerView.Adapter<FloatingWhiteListAdapter.RecyclerViewHolder> {
 
     private ArrayList<AppInformation> appInformations;
     private Context mcontext;
 
+
+
     ArrayList<Integer> list = new ArrayList<>();
     private int index = 0;
 
-    public SmallWhiteListAdapter(ArrayList<AppInformation> appInformations, Context mcontext) {
+    public FloatingWhiteListAdapter(ArrayList<AppInformation> appInformations, Context mcontext) {
         this.appInformations =appInformations;
         this.mcontext = mcontext;
     }
@@ -53,17 +58,28 @@ public class SmallWhiteListAdapter extends RecyclerView.Adapter<SmallWhiteListAd
         holder.icon.setImageDrawable(appInfo.getIcon());
         holder.appName.setText(appInfo.getLabel());
 //            holder.item.setOnClickListener();
-        //holder.item.setPadding(-50,-10,-50,-10);
+        holder.item.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
+//
+                Toast.makeText(mcontext,"The Package is"+ appInfo.getPackageName(),Toast.LENGTH_SHORT).show();
+                Log.i("THE PACKAGEEEE", "The package is "+appInfo.getPackageName() + " The name is "+ appInfo.getLabel());
+
+
+            }
+
+
+        });
+
+        if(MainActivity.whiteList.contains(position)){
+            holder.item.setCardBackgroundColor(mcontext.getResources().getColor(R.color.lavender));
+        }else{
+            holder.item.setCardBackgroundColor(mcontext.getResources().getColor(R.color.white));
+        }
 
 
     }
-
-    public void setArrayList (ArrayList<AppInformation> appInfo){
-        this.appInformations = appInfo;
-        notifyDataSetChanged();
-    }
-
 
     @Override
     public int getItemCount() {
@@ -87,3 +103,4 @@ public class SmallWhiteListAdapter extends RecyclerView.Adapter<SmallWhiteListAd
         }
     }
 }
+
