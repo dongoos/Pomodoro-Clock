@@ -126,7 +126,7 @@ public class Timer extends Activity {
 //                                .setMessage("Are you sure you want to leave?")
 //                                        .setPositiveButton(android.R.string.yes, null).setNegativeButton(android.R.string.no,null)
 //                        .setIcon(android.R.drawable.ic_dialog_alert).show();
-
+//
 
     }
 

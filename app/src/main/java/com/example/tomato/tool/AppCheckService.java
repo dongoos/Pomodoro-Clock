@@ -14,6 +14,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 
+import androidx.annotation.Nullable;
+
+import com.example.tomato.R;
+
 public class AppCheckService extends Service {
     private Handler handler;
     private BroadcastReceiver appExitedReceiver;
@@ -27,7 +31,7 @@ public class AppCheckService extends Service {
         appExitedReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                if (intent.getAction().equals("com.example.app.EXITED")) {
+                if (intent.getAction().equals(packageName+".EXITED")) {
                     // 处理应用退出的逻辑
                     // 启动悬浮窗口
                     showFloatingWindow();
@@ -36,7 +40,7 @@ public class AppCheckService extends Service {
         };
 
         // 设置悬浮窗口
-        floatingView = LayoutInflater.from(this).inflate(R.layout.floating_window_layout, null);
+//        floatingView = LayoutInflater.from(this).inflate(R.layout.floating_window_layout, null);
 
         // 配置窗口参数
         WindowManager.LayoutParams params = new WindowManager.LayoutParams(
@@ -58,7 +62,7 @@ public class AppCheckService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         // 注册appExitedReceiver以监听应用退出事件
-        IntentFilter intentFilter = new IntentFilter("com.example.app.EXITED");
+        IntentFilter intentFilter = new IntentFilter(packageName+".EXITED");
         registerReceiver(appExitedReceiver, intentFilter);
 
         return START_STICKY;
@@ -67,7 +71,6 @@ public class AppCheckService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        // 移除appExitedReceiver
         unregisterReceiver(appExitedReceiver);
 
         // 从窗口管理器中移除悬浮窗口
@@ -76,10 +79,16 @@ public class AppCheckService extends Service {
         }
     }
 
+    @Nullable
     @Override
     public IBinder onBind(Intent intent) {
         return null;
     }
+
+//    @Override
+//   public IBinder onBind(Intent intent) {
+//        return null;
+//    }
 
     // 显示悬浮窗口
     private void showFloatingWindow() {
