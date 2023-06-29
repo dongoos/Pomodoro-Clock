@@ -1,5 +1,6 @@
 package com.example.tomato.adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,14 +17,17 @@ import com.example.tomato.MainActivity;
 import com.example.tomato.R;
 import com.example.tomato.Timer;
 import com.example.tomato.model.Model;
+import com.example.tomato.util.DatabaseHandler;
 
 import java.util.List;
 
 public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.ViewHolder> {
     private List<Model> eventsList;
     private MainActivity activity;
+    private DatabaseHandler db;
 
-    public EventListAdapter(MainActivity activity){
+    public EventListAdapter(DatabaseHandler db, MainActivity activity){
+        this.db = db;
         this.activity = activity;
 
     }
@@ -35,7 +39,15 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
 
     }
 
+    public void deleteItem(int position){
+        Model item = eventsList.get(position);
+        db.deleteTask(item.getId());
+        eventsList.remove(position);
+        notifyItemRemoved(position);
+    }
+
     public void onBindViewHolder( ViewHolder holder, int position) {
+        //db.openDatabase();
         int pos = position;
         Model item = eventsList.get(position);
         holder.eventName.setText(item.getTask());
@@ -52,8 +64,9 @@ public class EventListAdapter extends RecyclerView.Adapter<EventListAdapter.View
                     Toast.makeText(activity,"Timer is still running",Toast.LENGTH_SHORT).show();
                 }else{
 
-                    //MainActivity.setTimeMili(milliseconds);
                     MainActivity.setEid(pos);
+                    Log.i("DATABASEEEEE", "This is the position that the item is going by so this is the local list? "+ pos);
+
                     MainActivity.setEventName(item.getTask());
                     String timeLeftFormatted = String.format("%02d:%02d", item.getTimeMinute(), item.getTimeSec());
                     time.setText(timeLeftFormatted);

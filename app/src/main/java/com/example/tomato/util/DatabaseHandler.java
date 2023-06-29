@@ -31,9 +31,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         //create tables - add local tables here
         Log.i("Database","-------------------------------Creating Tables--------------------------------");
         //table events is for the new events
-        db.execSQL("CREATE TABLE IF NOT EXISTS events( eid INTEGER PRIMARY KEY AUTOINCREMENT, uid INTEGER, eventName TEXT, timeMinutes INTEGER ,timeSecond INTEGER ) ");
+        //add an unlock id in events later
+        db.execSQL("CREATE TABLE IF NOT EXISTS events( eid INTEGER PRIMARY KEY AUTOINCREMENT, eventName TEXT, timeMinutes INTEGER ,timeSecond INTEGER, unlockpw TEXT ) ");
         //stats is to show the completed versions to check for achievements
         db.execSQL("CREATE TABLE IF NOT EXISTS stats(id INTEGER PRIMARY KEY AUTOINCREMENT, eventName TEXT, timeMinutes INTEGER ,timeSecond INTEGER) ");
+        db.execSQL("CREATE TABLE IF NOT EXISTS user(uid INTEGER PRIMARY KEY, email TEXT, name TEXT, password TEXT) ");
     }
 
     @Override
@@ -43,6 +45,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         Log.i("Database","-------------------------------Dropping Tables--------------------------------");
         db.execSQL("DROP TABLE IF EXISTS events");
         db.execSQL("DROP TABLE IF EXISTS stats");
+        db.execSQL("DROP TABLE IF EXISTS user");
         //create tables
         onCreate(db);
 
@@ -51,8 +54,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     //open the database duhh
     public void openDatabase(){
         db = this.getWritableDatabase();
-        onCreate(db);
-       // onUpgrade(db,1,2);
+            // onCreate(db);
+             onUpgrade(db,1,2);
     }
 
 
@@ -154,13 +157,19 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     public void updateEvent(int id, String name, int min, int sec){
+        //db.rawQuery("UPDATE events SET eventName = ?, timeMinutes =?, timeSecond =? WHERE eid =?",new String[] {name, String.valueOf(min), String.valueOf(sec), String.valueOf(id)});
+       // db.rawQuery("UPDATE events SET eventName = hi, timeMinutes =1, timeSecond =1 WHERE eid =0",null);
         ContentValues cv = new ContentValues();
         cv.put("eventName", name);
         cv.put("timeMinutes", min);
         cv.put("timeSecond", sec);
         Log.i("Testing---------------------------------------------------",String.valueOf(id));
         String where = "eid ="+id;
-        db.update("events",cv,"eid=?", new String[] {String.valueOf(id)});
+
+
+        if( db.update("events",cv,"eid=?", new String[] {String.valueOf(id)})==0){
+            Log.i("DB TESTINGGGGG","returned 0 narrrrr cant find nothing");
+        }
     }
 
 
