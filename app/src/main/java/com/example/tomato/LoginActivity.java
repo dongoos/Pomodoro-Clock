@@ -12,8 +12,6 @@ import android.widget.Toast;
 
 import com.example.tomato.tool.ServerHelper;
 
-import java.util.List;
-
 public class LoginActivity extends Activity {
 
     private EditText et_email,et_password;
@@ -49,7 +47,7 @@ public class LoginActivity extends Activity {
                                      .thenAccept(user ->{
                                          if(user!=null){
                                              Log.i("配置信息","started");
-                                             User.setUserSession(user.getName(),user.getEmail(),user.getUid(),password);
+                                             User.setUserSession(user.getName(),user.getEmail(),user.getUid(),password,null);
                                              Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                              startActivity(intent);
                                              Log.i("name,email,uid",User.getName()+User.getEmail()+User.getUid());
@@ -66,7 +64,7 @@ public class LoginActivity extends Activity {
                      });
          });
 
-        tv_forgetPwd.setOnClickListener(view -> {
+        btn_forgetPwd.setOnClickListener(view -> {
             ServerHelper serverHelper=new ServerHelper();
             serverHelper.setScore("200")
                     .thenAccept(complete -> {

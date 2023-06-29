@@ -1,6 +1,5 @@
 package com.example.tomato.tool;
 
-import android.app.ActivityManager;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -13,6 +12,8 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+
+import com.example.tomato.R;
 
 public class AppCheckService extends Service {
     private Handler handler;
@@ -36,7 +37,7 @@ public class AppCheckService extends Service {
         };
 
         // 设置悬浮窗口
-        floatingView = LayoutInflater.from(this).inflate(R.layout.floating_window_layout, null);
+        floatingView = LayoutInflater.from(this).inflate(R.layout.floating_layout,null);
 
         // 配置窗口参数
         WindowManager.LayoutParams params = new WindowManager.LayoutParams(

@@ -6,11 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-<<<<<<< HEAD
-    android:background="#ffffff"
-=======
     android:background="#FFFFFF"
->>>>>>> bfeca94e2fbd86e7de9558b78974d086c4cd20ca
     tools:context="MainActivity">
 
 
