@@ -17,9 +17,11 @@ public class Achievement {
 
     }
     //定义储存数据的数组
-    private static int[] iconArray={R.drawable.achievement,R.drawable.achievement,R.drawable.achievement,R.drawable.achievement,R.drawable.achievement,R.drawable.achievement};
-    private static String[] nameArray = {"初来乍到","牛刀小试","初窥门径","登堂入室","炉火纯青","心静如水"};
-    private static String[] detailsArray = {"打开应用","打开应用","打开应用","打开应用","打开应用","打开应用"};
+    private static int[] iconArray={R.drawable.achievement1,R.drawable.achievement2,R.drawable.achievement3,R.drawable.achievement4,R.drawable.achievement5,
+            R.drawable.achievement6,R.drawable.achievement7,R.drawable.achievement8};
+    private static String[] nameArray = {"初来乍到","初出茅庐","牛刀小试","初窥门径","登堂入室","炉火纯青","出类拔萃","心静如水","出神入化",};
+    private static String[] detailsArray = {"首次打开番茄钟","使用番茄钟超过五次","使用番茄钟超过十次","使用番茄钟超过二十次","使用番茄钟超过三十次","使用番茄钟超过五十次",
+            "使用番茄钟超过一百次","使用番茄钟超过一百五次"};
 
     //构建上述三个数组的集合，方便使用
     public static List<Achievement> getDefaultList()   {
@@ -27,6 +29,10 @@ public class Achievement {
         for (int i = 0;i < iconArray.length;i++)    {
             achievementList.add(new Achievement(iconArray[i],nameArray[i],detailsArray[i] ));
         }
+        return achievementList;
+    }
+    public static List<Achievement> getNullDefaultList()   {
+        List<Achievement> achievementList = new ArrayList<Achievement>();
         return achievementList;
     }
 }

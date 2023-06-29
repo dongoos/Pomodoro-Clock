@@ -11,21 +11,22 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.SEND_EMAIL" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission
         android:name="android.permission.BIND_DEVICE_ADMIN"
         tools:ignore="ProtectedPermissions" />
     <uses-permission
         android:name="android.permission.LOCK_DEVICE"
         tools:ignore="ProtectedPermissions" />
-    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS" tools:ignore="ProtectedPermissions" />
-    <uses-permission android:name= "android.permission.CALL_PHONE" />
-
+    <uses-permission
+        android:name="android.permission.PACKAGE_USAGE_STATS"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.GET_PACKAGE_SIZE" />
-    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"
+    <uses-permission
+        android:name="android.permission.QUERY_ALL_PACKAGES"
         tools:ignore="QueryAllPackagesPermission" />
-
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
-
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <application
         android:allowBackup="true"
@@ -38,7 +39,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Tomato"
         tools:targetApi="31">
-
+        <activity
+            android:name=".RegisterActivity"
+            android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -49,9 +52,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity> <!-- 窗口名与标题 -->
-        <activity
-            android:name=".ViewPagerInfo"
-            android:label="ViewPager Information" /> <!-- 窗口名与标题 -->
+         <!-- 窗口名与标题 -->
         <activity
             android:name=".RecordPageInfo"
             android:label="RecordPage Information" />
@@ -65,13 +66,11 @@
         <activity android:name=".AboutActivity" />
         <activity
             android:name=".LoginActivity"
-
             android:label="Login " />
         <activity android:name=".AchievementActivity" />
-        <activity android:name=".ChangePwd"/>
+        <activity android:name=".ChangePwd" />
 
-
-        <service android:name=".FloatingWindow"/>
+        <service android:name=".FloatingWindow" />
 
         <service
             android:name=".tool.AppCheckService"

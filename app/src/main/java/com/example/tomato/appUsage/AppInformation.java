@@ -71,6 +71,9 @@ public class AppInformation {
     }
 
     public void setUsedTimeByDay(long usedTimeByDay) {
+
+        this.UsedTimeByDay = usedTimeByDay;
+
         this.UsedTimeByDay = usedTimeByDay;
     }
 
@@ -79,7 +82,10 @@ public class AppInformation {
     }
 
     public long getUsedTimeByDay() {
+
         return UsedTimeByDay;
+
+
     }
 
     public String getLabel() {

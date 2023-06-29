@@ -52,18 +52,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     static final int RESULT_ENABLE = 1 ;
     DevicePolicyManager deviceManger ;
     ComponentName compName ;
-
-
     private AlertDialog dialog;
-
     private ViewPager mViewPager;
     private RadioGroup mRadioGroup;
     private RadioButton tab1,tab2,tab3;
-
-
-
-
-
     private static Button bt_time,btn_wl;
     private static ImageButton btn_event;
     //Widgets from Activity_lock
@@ -191,14 +183,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         Button finish = dlgViewTime.findViewById(R.id.finish);
         TextView minTotal = dlgViewTime.findViewById(R.id.minNum);
         TextView potionNum = dlgViewTime.findViewById(R.id.potionNum);
-
+        AchievementActivity achievementActivity = new AchievementActivity();
         db = new DatabaseHandler(activity);
         db.openDatabase();
         //db.getStats(true);
 
         minTotal.setText(""+db.getStats(false)+" total minutes");
         potionNum.setText(""+db.getStats(true)+" potions");
-
+        achievementActivity.getAchievement();
         finish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

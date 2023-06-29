@@ -10,37 +10,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="145px"
-            android:orientation="horizontal"
-            android:id="@+id/buttonbarList3">
 
-            <Button
-                android:text="DAY"
-                android:layout_width="0dp"
-                android:layout_weight="1.0"
-                android:layout_height="wrap_content"
-                android:id="@+id/daybuttonlist3"
-                android:background="@drawable/bt_layout" />
-
-
-            <Button
-                android:text="MONTH"
-                android:layout_width="0px"
-                android:layout_weight="1.0"
-                android:layout_height="wrap_content"
-                android:id="@+id/monthbuttonlist3"
-                android:background="@drawable/bt_layout" />
-
-            <Button
-                android:text="YEAR"
-                android:layout_width="0px"
-                android:layout_weight="1.0"
-                android:layout_height="wrap_content"
-                android:id="@+id/yearbuttonlist3"
-                android:background="@drawable/bt_layout" />
-        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -95,21 +65,55 @@
                 android:layout_marginBottom="8dp"
                 android:layout_weight="1" />
         </LinearLayout>
-
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="2000dp"
-            android:orientation="vertical">
+            android:layout_height="145px"
+            android:orientation="horizontal"
+            android:id="@+id/buttonbarList3">
 
-            <ListView
-                android:id="@+id/AppStatisticsList"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_above="@+id/ActionBarList3"
-                android:layout_below="@+id/pie_chart" />
+            <Button
+                android:text="DAY"
+                android:layout_width="0dp"
+                android:layout_weight="1.0"
+                android:layout_height="wrap_content"
+                android:id="@+id/daybuttonlist3"
+                android:background="@drawable/bt_layout" />
 
 
+            <Button
+                android:text="MONTH"
+                android:layout_width="0px"
+                android:layout_weight="1.0"
+                android:layout_height="wrap_content"
+                android:id="@+id/monthbuttonlist3"
+                android:background="@drawable/bt_layout" />
+
+            <Button
+                android:text="YEAR"
+                android:layout_width="0px"
+                android:layout_weight="1.0"
+                android:layout_height="wrap_content"
+                android:id="@+id/yearbuttonlist3"
+                android:background="@drawable/bt_layout" />
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <ListView
+                    android:id="@+id/AppStatisticsList"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_above="@+id/ActionBarList3"
+                    android:layout_below="@+id/pie_chart" />
+            </LinearLayout>
+        </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

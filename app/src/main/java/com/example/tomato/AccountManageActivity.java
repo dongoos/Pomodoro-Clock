@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +18,8 @@ public class AccountManageActivity extends AppCompatActivity {
         Button logoutBtn = findViewById(R.id.logout_btn);
         Button reLoginBtn = findViewById(R.id.relogin_btn);
         Button changePasswordBtn = findViewById(R.id.changePasswordBtn);
+        TextView tv_manager_email = findViewById(R.id.tv_manage_email);
+        tv_manager_email.setText(User.getEmail());
         logoutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

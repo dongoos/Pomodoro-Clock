@@ -74,7 +74,7 @@
         android:layout_marginTop="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <TextView
+        <Button
             android:id="@+id/tv_signup"
             android:layout_alignParentRight="true"
             android:layout_marginRight="20dp"
@@ -83,7 +83,7 @@
             android:layout_height="wrap_content"
             android:text="新用户注册"/>
 
-        <TextView
+        <Button
             android:id="@+id/tv_forgetPwd"
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="20dp"
