@@ -1,3 +1,0 @@
-C:/Users/18761/Documents/GitHub/Pomodoro-Clock/app/.cxx/RelWithDebInfo/2h4j6r6c/x86/CMakeFiles/tomato.dir
-C:/Users/18761/Documents/GitHub/Pomodoro-Clock/app/.cxx/RelWithDebInfo/2h4j6r6c/x86/CMakeFiles/edit_cache.dir
-C:/Users/18761/Documents/GitHub/Pomodoro-Clock/app/.cxx/RelWithDebInfo/2h4j6r6c/x86/CMakeFiles/rebuild_cache.dir

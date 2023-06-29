@@ -26,7 +26,7 @@ public class MeViewPager {
         tv_name=rootView.findViewById(R.id.user_name);
         tv_email=rootView.findViewById(R.id.user_email);
         tv_score=rootView.findViewById(R.id.user_score);
-        tv_name.setText("用户");
+    //    tv_name.setText("用户");
         tv_email.setText(User.getEmail());
         tv_score.setText("");
 
