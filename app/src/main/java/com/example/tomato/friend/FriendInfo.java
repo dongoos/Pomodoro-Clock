@@ -1,6 +1,4 @@
-package com.example.tomato.firend;
-
-import android.graphics.drawable.Drawable;
+package com.example.tomato.friend;
 
 public class FriendInfo {
     private int Icon;

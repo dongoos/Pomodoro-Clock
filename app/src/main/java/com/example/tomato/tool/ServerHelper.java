@@ -2,20 +2,15 @@ package com.example.tomato.tool;
 
 import android.util.Log;
 
+import com.example.tomato.FUser;
 import com.example.tomato.User;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import okhttp3.Call;
-import okhttp3.Callback;
+
 import okhttp3.FormBody;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
-import okhttp3.Response;
 
 public class ServerHelper {
 
@@ -33,7 +28,7 @@ public class ServerHelper {
                 .url(url)
                 .post(requestBody)
                 .build();
-        return FutureCall.futureCall(request);
+        return FutureCall.futureCallBoolean(request);
     }
 
     public CompletableFuture<Boolean> login(String email, String password) {
@@ -48,7 +43,7 @@ public class ServerHelper {
                 .build();
         Log.i("login","start");
 
-        return FutureCall.futureCall(request);
+        return FutureCall.futureCallBoolean(request);
     }
 
     public CompletableFuture<Boolean> setName(String email, String name) {
@@ -61,7 +56,7 @@ public class ServerHelper {
                 .url(url)
                 .post(requestBody)
                 .build();
-        return FutureCall.futureCall(request);
+        return FutureCall.futureCallBoolean(request);
     }
 
 
@@ -78,8 +73,29 @@ public class ServerHelper {
         return FutureCall.futureCallUser(request);
     }
 
-
-
+    public CompletableFuture<Boolean> setScore(String score) {
+        String url = "http://" + ip + ":" + port + "/server/SetScore";
+        RequestBody requestBody = new FormBody.Builder()
+                .add("uid", String.valueOf(User.getUid()))
+                .add("score", score)
+                .build();
+        Request request = new Request.Builder()
+                .url(url)
+                .post(requestBody)
+                .build();
+        return FutureCall.futureCallBoolean(request);
+    }
+    public CompletableFuture<String> getScore() {
+        String url = "http://" + ip + ":" + port + "/server/GetScore";
+        RequestBody requestBody = new FormBody.Builder()
+                .add("uid", String.valueOf(User.getUid()))
+                .build();
+        Request request = new Request.Builder()
+                .url(url)
+                .post(requestBody)
+                .build();
+        return FutureCall.futureCallString(request);
+    }
 
     public CompletableFuture<User> getAllInfo(String email) {
         String url = "http://" + ip + ":" + port + "/server/GetAllInfo";
@@ -103,38 +119,85 @@ public class ServerHelper {
                 .url(url)
                 .post(requestBody)
                 .build();
-        return FutureCall.futureCall(request);
+        return FutureCall.futureCallBoolean(request);
     }
 
-    public CompletableFuture<Boolean> sendFriendRequest(String email) {
-        CompletableFuture<Boolean> future = new CompletableFuture<>();
-
-        return future;
+    public CompletableFuture<Boolean> sendFriendRequest(String fid) {
+        String url = "http://" + ip + ":" + port + "/server/SendFriendRequest";
+        RequestBody requestBody = new FormBody.Builder()
+                .add("uid", String.valueOf(User.getUid()))
+                .add("fid", fid)
+                .build();
+        Request request = new Request.Builder()
+                .url(url)
+                .post(requestBody)
+                .build();
+        return FutureCall.futureCallBoolean(request);
     }
-    public CompletableFuture<Boolean> getFriendRequest(String email) {
-        CompletableFuture<Boolean> future = new CompletableFuture<>();
 
-        return future;
+
+    public CompletableFuture<Boolean> setUnLockId(String unLockId) {
+
+        String url = "http://" + ip + ":" + port + "/server/SetUnLockId";
+        RequestBody requestBody = new FormBody.Builder()
+                .add("uid", String.valueOf(User.getUid()))
+                .add("unLockId",User.getUnLockId())
+                .build();
+        Request request = new Request.Builder()
+                .url(url)
+                .post(requestBody)
+                .build();
+        return FutureCall.futureCallBoolean(request);
+
     }
-    public CompletableFuture<Boolean> setLockId() {
-        CompletableFuture<Boolean> future = new CompletableFuture<>();
-
-        return future;
+    public CompletableFuture<String> getUnLockId(int fid) {
+        String url = "http://" + ip + ":" + port + "/server/GetUnLockId";
+        RequestBody requestBody = new FormBody.Builder()
+                .add("fid", String.valueOf(fid))
+                .build();
+        Request request = new Request.Builder()
+                .url(url)
+                .post(requestBody)
+                .build();
+        return FutureCall.futureCallString(request);
     }
-    public CompletableFuture<Boolean> getLockId(String fid) {
-        CompletableFuture<Boolean> future = new CompletableFuture<>();
+    public CompletableFuture<List<FUser>> showFriendList() {
+        Log.i("showFriendList","start");
+        String url = "http://" + ip + ":" + port + "/server/ShowFriendList";
+        RequestBody requestBody = new FormBody.Builder()
+                .add("uid", String.valueOf(User.getUid()))
+                .build();
+        Request request = new Request.Builder()
+                .url(url)
+                .post(requestBody)
+                .build();
+        Log.i("showFriendList","RequestBuild");
 
-        return future;
+        return FutureCall.futureCallUserList(request);
     }
-    public CompletableFuture<Boolean> showFriendList(String email) {
-        CompletableFuture<Boolean> future = new CompletableFuture<>();
-
-        return future;
+    public CompletableFuture<List<FUser>> getFriendRequest() {
+        String url = "http://" + ip + ":" + port + "/server/GetFriendRequest";
+        RequestBody requestBody = new FormBody.Builder()
+                .add("uid", "1000")
+                .build();
+        Request request = new Request.Builder()
+                .url(url)
+                .post(requestBody)
+                .build();
+        return FutureCall.futureCallUserList(request);
     }
-    public CompletableFuture<Boolean> isFriend(String email) {
-        CompletableFuture<Boolean> future = new CompletableFuture<>();
-
-        return future;
+    public CompletableFuture<Boolean> isFriend(boolean let,int fid) {
+        String url = "http://" + ip + ":" + port + "/server/IsFriend";
+        RequestBody requestBody = new FormBody.Builder()
+                .add("is", String.valueOf(let))
+                .add("uid", String.valueOf(User.getUid()))
+                .add("fid", String.valueOf(fid))
+                .build();
+        Request request = new Request.Builder()
+                .url(url)
+                .post(requestBody)
+                .build();
+        return FutureCall.futureCallBoolean(request);
     }
 
 }

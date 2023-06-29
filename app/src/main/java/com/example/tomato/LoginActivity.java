@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import com.example.tomato.tool.ServerHelper;
 
+import java.util.List;
+
 public class LoginActivity extends Activity {
 
     private EditText et_email,et_password;
@@ -64,10 +66,18 @@ public class LoginActivity extends Activity {
                      });
          });
 
-        btn_forgetPwd.setOnClickListener(view -> {
-            User.clearUserSession();
-            Toast toast = Toast.makeText(LoginActivity.this, "已退出登录", Toast.LENGTH_SHORT);
-            toast.show();
+        tv_forgetPwd.setOnClickListener(view -> {
+            ServerHelper serverHelper=new ServerHelper();
+            serverHelper.setScore("200")
+                    .thenAccept(complete -> {
+                        Log.i("complete", String.valueOf(complete));
+                        if (complete) {
+                            Log.i("分数","设置成功" );
+                        } else {
+                            Log.i("分数", "失败");
+                        }
+                    });
+
         });
 
         btn_signup.setOnClickListener(view -> {
