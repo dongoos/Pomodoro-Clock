@@ -42,14 +42,14 @@ public class LoginActivity extends Activity {
                          Log.i("complete", String.valueOf(complete));
                          // 处理异步操作结果
                          if (complete == true) {
-                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                             startActivity(intent);
                              Log.i("登录", "成功，unlockedId: "  + ", uid: " );
                              serverHelper.getAllInfo(email)
                                      .thenAccept(user ->{
                                          if(user!=null){
                                              Log.i("配置信息","started");
                                              User.setUserSession(user.getName(),user.getEmail(),user.getUid(),password);
+                                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                             startActivity(intent);
                                              Log.i("name,email,uid",User.getName()+User.getEmail()+User.getUid());
                                          }else{
                                              Log.i("配置信息","wrong");

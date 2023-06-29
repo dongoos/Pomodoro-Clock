@@ -4,14 +4,15 @@ import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.tomato.dialogFragment.FriendDialog;
 
 public class MeViewPager {
     private static Button btn_info, btn_friend, btn_achievement, btn_setting;
     private static ImageView ibtn_setting;
+    private static TextView tv_name,tv_email,tv_score;
 
     public static void init(MainActivity activity) {
 
@@ -22,6 +23,12 @@ public class MeViewPager {
         btn_achievement=rootView.findViewById(R.id.btn_achievements);
         ibtn_setting=rootView.findViewById(R.id.ib_setting);
         btn_setting=rootView.findViewById(R.id.btn_setting);
+        tv_name=rootView.findViewById(R.id.user_name);
+        tv_email=rootView.findViewById(R.id.user_email);
+        tv_score=rootView.findViewById(R.id.user_score);
+        tv_name.setText("用户");
+        tv_email.setText(User.getEmail());
+        tv_score.setText("");
 
         btn_info.setOnClickListener(new View.OnClickListener() {
             @Override

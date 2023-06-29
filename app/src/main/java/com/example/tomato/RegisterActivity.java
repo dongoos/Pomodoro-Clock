@@ -34,8 +34,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         email=et_email.getText().toString();
         password=et_password.getText().toString();
         passwordRePut=et_password_rePut.getText().toString();
-        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-        startActivity(intent);
+
         if(password.equals(passwordRePut)){
             ServerHelper serverHelper =new ServerHelper();
             serverHelper.signup(email, password)
@@ -44,20 +43,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                         // 处理异步操作结果
                         if (complete != false) {
                             Log.i("注册", "成功，: "  + ", uid: " );
-
-
-//                            serverHelper.getAllInfo(email)
-//                                    .thenAccept(user ->{
-//                                        if(user!=null){
-//                                            Log.i("配置信息","started");
-//                                            User.setUserSession(user.getName(),user.getEmail(),user.getUid(),password);
-//
-//                                            Log.i("name,email,uid",User.getName()+User.getEmail()+User.getUid());
-//                                        }else{
-//
-//                                            Log.i("配置信息","wrong");
-//                                        }
-//                                    });
+                            Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                            startActivity(intent);
                         } else {
                             // 登录失败
                             Log.i("注册", "失败");

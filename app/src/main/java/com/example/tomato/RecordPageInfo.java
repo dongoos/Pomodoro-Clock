@@ -136,7 +136,8 @@ public class RecordPageInfo  {
             });
         }
     }
-        // 获取数据列表
+
+    // 获取数据列表
         public List<Map<String, Object>> getDataList (ArrayList < AppInformation > ShowList) {
             List<Map<String, Object>> dataList = new ArrayList<Map<String, Object>>();
 

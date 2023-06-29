@@ -11,6 +11,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.SEND_EMAIL" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission
         android:name="android.permission.BIND_DEVICE_ADMIN"
         tools:ignore="ProtectedPermissions" />
@@ -51,9 +52,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity> <!-- 窗口名与标题 -->
-        <activity
-            android:name=".ViewPagerInfo"
-            android:label="ViewPager Information" /> <!-- 窗口名与标题 -->
+         <!-- 窗口名与标题 -->
         <activity
             android:name=".RecordPageInfo"
             android:label="RecordPage Information" />

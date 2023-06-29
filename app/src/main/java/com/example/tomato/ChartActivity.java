@@ -17,19 +17,17 @@ public class ChartActivity extends Activity  {
     //柱状图
     private static BarChart barChart;
 
-
     //lists
     static ArrayList<BarEntry> barEntries = new ArrayList<>();
-    static ArrayList<PieEntry> pieEntries = new ArrayList<>();
+
     //初始化
     public static void initialize_chart(MainActivity activity){
         View rootView;
         rootView = MainActivity.getView1();
-
         barChart = rootView.findViewById(R.id.bar_chart);
 
     //use for loop
-    for (int i = 1; i < 10; i++) {
+    for (int i = 1; i < 8; i++) {
         // 将值转换为浮点型
         float value = (float) (i * 10.0);
         // 初始化 BarEntry 对象
@@ -38,7 +36,6 @@ public class ChartActivity extends Activity  {
         PieEntry pieEntry = new PieEntry(i, value);
         // 将对象添加到数组列表中
         barEntries.add(barEntry);
-        pieEntries.add(pieEntry);
     }
 
 
