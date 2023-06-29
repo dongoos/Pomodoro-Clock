@@ -1,5 +1,6 @@
 package com.example.tomato.dialogFragment;
 
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -7,9 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import androidx.fragment.app.DialogFragment;
 
@@ -20,10 +22,9 @@ import com.example.tomato.friend.FriendInfo;
 import com.example.tomato.tool.ServerHelper;
 
 import java.util.ArrayList;
-import java.util.IdentityHashMap;
 import java.util.List;
 
-public class FriendDialog extends DialogFragment {
+public class FriendRequestDialog extends DialogFragment {
     private List<FriendInfo> list_friend = new ArrayList<FriendInfo>();
     private int[] images = {R.drawable.good, R.drawable.good, R.drawable.good,R.drawable.good,R.drawable.good};
     private String[] names = {"子鼠", "丑牛", "寅虎", "卯兔", "5"};
@@ -31,42 +32,35 @@ public class FriendDialog extends DialogFragment {
     private int[] scores = {6,4,5,3,4};
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.friend, container, false);
+        View view = inflater.inflate(R.layout.friendrequest, container, false);
         initFriends();
         FriendListAdapter adapter = new FriendListAdapter(getActivity(), R.layout.frienditem, list_friend);
         ListView lv_friend = view.findViewById(R.id.friendListView);
-        ImageButton btn_addFriend =view.findViewById(R.id.addFriendButton);
-        ImageButton btn_findFriend=view.findViewById(R.id.findFriendButton);
-        btn_addFriend.setOnClickListener(view1 -> {
-            dismiss();
-            FriendRequestDialog friendRequestDialog = new FriendRequestDialog();
-            friendRequestDialog.show(requireActivity().getSupportFragmentManager(), "FriendRequest_dialog");
+        lv_friend.setAdapter(adapter);
+        ImageButton btn_addFriend=view.findViewById(R.id.addFriendButton);
+        EditText et_search =view.findViewById(R.id.searchEditText);
 
-        });
-        btn_findFriend.setOnClickListener(view12 -> {
+        btn_addFriend.setOnClickListener(view1 -> {
+            String fid=et_search.getText().toString();
             ServerHelper serverHelper =new ServerHelper();
             Log.i("RequestSend-uid", String.valueOf(User.getUid()));
-//            serverHelper.getScore()
-//                    .thenAccept(complete -> {
-//                        Log.i("complete", String.valueOf(complete));
-//                        if (complete != null) {
-//                            Log.i("分数", complete);
-//
-//                        } else {
-//                            Log.i("分数", "失败");
-//                        }
-//                    });
-            serverHelper.setScore("200")
+            Log.i("fid",fid);
+
+            serverHelper.sendFriendRequest(fid)
                     .thenAccept(complete -> {
                         Log.i("complete", String.valueOf(complete));
-                        if (complete) {
-                            Log.i("分数","设置成功" );
+                        // 处理异步操作结果
+                        if (complete != false) {
+                            Log.i("发送", "成功");
                         } else {
-                            Log.i("分数", "失败");
+                            //
+                            Log.i("链接", "失败");
                         }
                     });
+
+
         });
-        lv_friend.setAdapter(adapter);
+
         return view;
     }
 

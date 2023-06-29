@@ -4,7 +4,7 @@ plugins {
 
 android {
     namespace 'com.example.tomato'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.example.tomato"
@@ -49,6 +49,8 @@ dependencies {
     implementation 'com.squareup.okio:okio:1.17.5'
     implementation 'androidx.drawerlayout:drawerlayout:1.1.1'
     implementation 'androidx.preference:preference:1.2.0'
+    implementation files('libs\\activation-1.1.1.jar')
+    implementation files('libs\\commons-email-1.0.jar')
     //
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

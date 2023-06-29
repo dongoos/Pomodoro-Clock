@@ -114,7 +114,7 @@ public class AppInformation {
     public long getTimeStampMoveToForeground() {
         return timeStampMoveToForeground;
     }
-    //用来计算程序的运行时间，设计巧妙
+    //用来计算程序的运行时间
     public void calculateRunningTime() {
 
         if (timeStampMoveToForeground < 0 || timeStampMoveToBackGround < 0) {
@@ -129,8 +129,6 @@ public class AppInformation {
 
     }
 
-
-    // 返回开机时间，单位微妙
     public static long bootTime() {
         return System.currentTimeMillis() - SystemClock.elapsedRealtime();
     }
