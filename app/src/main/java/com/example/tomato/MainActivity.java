@@ -23,6 +23,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.NumberPicker;
 import android.widget.ProgressBar;
@@ -33,6 +34,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -40,6 +42,10 @@ import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.tomato.adapter.EventListAdapter;
+import com.example.tomato.adapter.SmallWhiteListAdapter;
+import com.example.tomato.adapter.WhiteListAdapter;
+import com.example.tomato.appUsage.AppInformation;
+import com.example.tomato.appUsage.StatisticsInfo;
 import com.example.tomato.model.Model;
 import com.example.tomato.util.DatabaseHandler;
 
@@ -75,7 +81,17 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private static EventListAdapter elAdapter;
     private static List<Model> eventList;
 
+    //private static ArrayList<AppInformation> wl = new ArrayList<>();
+
    ItemTouchHelper itemTouchHelper;
+
+//    public static void addWl(AppInformation item) {
+//        wl.add(item);
+//    }
+//
+//    public static void removeWl(AppInformation item) {
+//        wl.remove(item);
+//    }
 
     private static boolean timeFinish = false;
 
@@ -107,6 +123,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     private static int eid;
     private static String eventName;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState)  {
@@ -206,6 +224,35 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     }
 
+    public static void whiteList(MainActivity activity){
+        View dlgViewTime = LayoutInflater.from(activity).inflate(R.layout.whitelist, null);
+
+        RecyclerView recyclerView = dlgViewTime.findViewById(R.id.appList);
+        RecyclerView whitelist = dlgViewTime.findViewById(R.id.whitelist);
+        ArrayList <AppInformation> appInfo;
+        ArrayList <AppInformation> wl_array;
+        StatisticsInfo statisticsInfo = new StatisticsInfo(activity, 3);
+        StatisticsInfo statisticsInfo2 = new StatisticsInfo(activity, 1);
+        appInfo = statisticsInfo.getShowList();
+        wl_array = statisticsInfo2.getShowList();
+
+        WhiteListAdapter wladapter = new WhiteListAdapter(appInfo,activity);
+
+        SmallWhiteListAdapter wladapter2 = new SmallWhiteListAdapter(wl_array,activity);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(activity,4);
+        recyclerView.setLayoutManager(gridLayoutManager);
+        recyclerView.setAdapter(wladapter);
+        whitelist.setAdapter(wladapter2);
+
+
+        dlgTime = new AlertDialog.Builder(activity)
+                .setView(dlgViewTime)
+                .create();
+        dlgTime.show();
+
+
+    }
+
     public static void createEvent(MainActivity activity, boolean update, int eid){
         View dlgViewTime = LayoutInflater.from(activity).inflate(R.layout.dialog_create_times, null);
 
@@ -250,13 +297,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 sec = i;
             }
         });
-        //minPicker.setOn
-        //ValueChangedListener( this);
 
-        //@Override
-//        public onValueChange(NumberPicker numberPicker, int i , int j){
-//
-//        }
         db = new DatabaseHandler(activity);
         db.openDatabase();
         if(update){
@@ -276,9 +317,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 sec = i1;
             }
         });
-
-
-
 
 
         btn_evtSubmit.setOnClickListener(new View.OnClickListener() {
@@ -487,6 +525,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         btn_wl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                whiteList(MainActivity.this);
 
 
 

@@ -18,6 +18,8 @@ public class AppInformation {
     private Context context;
     private int times;
 
+    private boolean onWhitelist = false;
+
     //  构造函数同时对异常信息进行处理，在控制台打印输出
     public AppInformation(UsageStats usageStats, Context context) {
         this.usageStats = usageStats;
@@ -60,6 +62,14 @@ public class AppInformation {
 
     public UsageStats getUsageStats() {
         return usageStats;
+    }
+
+    public boolean isOnWhitelist() {
+        return onWhitelist;
+    }
+
+    public void setOnWhitelist(boolean onWhitelist) {
+        this.onWhitelist = onWhitelist;
     }
 
     public int getTimes() {

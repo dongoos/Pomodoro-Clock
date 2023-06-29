@@ -13,7 +13,6 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.tomato.MainActivity;
 import com.example.tomato.R;
 import com.example.tomato.appUsage.AppInformation;
 import com.example.tomato.appUsage.StatisticsInfo;
@@ -21,7 +20,7 @@ import com.example.tomato.appUsage.StatisticsInfo;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WhiteListAdapter extends RecyclerView.Adapter<WhiteListAdapter.RecyclerViewHolder> {
+public class SmallWhiteListAdapter extends RecyclerView.Adapter<SmallWhiteListAdapter.RecyclerViewHolder> {
 
     private ArrayList<AppInformation> appInformations;
     private Context mcontext;
@@ -29,7 +28,7 @@ public class WhiteListAdapter extends RecyclerView.Adapter<WhiteListAdapter.Recy
     ArrayList<Integer> list = new ArrayList<>();
     private int index = 0;
 
-    public WhiteListAdapter(ArrayList<AppInformation> appInformations, Context mcontext) {
+    public SmallWhiteListAdapter(ArrayList<AppInformation> appInformations, Context mcontext) {
         this.appInformations =appInformations;
         this.mcontext = mcontext;
     }
@@ -50,29 +49,11 @@ public class WhiteListAdapter extends RecyclerView.Adapter<WhiteListAdapter.Recy
 //        list.add(holder.item);
 
         AppInformation appInfo = appInformations.get(position);
-            holder.icon.setImageDrawable(appInfo.getIcon());
-            holder.appName.setText(appInfo.getLabel());
+        holder.icon.setImageDrawable(appInfo.getIcon());
+        holder.appName.setText(appInfo.getLabel());
 //            holder.item.setOnClickListener();
-            holder.item.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
+        //holder.item.setPadding(-50,-10,-50,-10);
 
-//
-                    index = position;
-                    list.add(index);
-                    MainActivity.addWl(appInformations.get(position));
-                    notifyDataSetChanged();
-
-                }
-
-
-            });
-
-            if(list.contains(position)){
-                holder.item.setCardBackgroundColor(mcontext.getResources().getColor(R.color.lavender));
-            }else{
-                holder.item.setCardBackgroundColor(mcontext.getResources().getColor(R.color.white));
-            }
 
 
     }
@@ -99,4 +80,3 @@ public class WhiteListAdapter extends RecyclerView.Adapter<WhiteListAdapter.Recy
         }
     }
 }
-
