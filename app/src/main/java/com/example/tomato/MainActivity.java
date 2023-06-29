@@ -179,14 +179,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         Button finish = dlgViewTime.findViewById(R.id.finish);
         TextView minTotal = dlgViewTime.findViewById(R.id.minNum);
         TextView potionNum = dlgViewTime.findViewById(R.id.potionNum);
-
+        AchievementActivity achievementActivity = new AchievementActivity();
         db = new DatabaseHandler(activity);
         db.openDatabase();
         db.getStats(true);
 
         minTotal.setText(""+db.getStats(false)+" total minutes");
         potionNum.setText(""+db.getStats(true)+" potions");
-
+        achievementActivity.getAchievement();
         finish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

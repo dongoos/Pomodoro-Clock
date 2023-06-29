@@ -17,15 +17,15 @@
     <uses-permission
         android:name="android.permission.LOCK_DEVICE"
         tools:ignore="ProtectedPermissions" />
-    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS" tools:ignore="ProtectedPermissions" />
-    <uses-permission android:name= "android.permission.CALL_PHONE" />
-
+    <uses-permission
+        android:name="android.permission.PACKAGE_USAGE_STATS"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.GET_PACKAGE_SIZE" />
-    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"
+    <uses-permission
+        android:name="android.permission.QUERY_ALL_PACKAGES"
         tools:ignore="QueryAllPackagesPermission" />
-
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
-
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <application
         android:allowBackup="true"
@@ -38,7 +38,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Tomato"
         tools:targetApi="31">
-
+        <activity
+            android:name=".RegisterActivity"
+            android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -65,13 +67,11 @@
         <activity android:name=".AboutActivity" />
         <activity
             android:name=".LoginActivity"
-
             android:label="Login " />
         <activity android:name=".AchievementActivity" />
-        <activity android:name=".ChangePwd"/>
+        <activity android:name=".ChangePwd" />
 
-
-        <service android:name=".FloatingWindow"/>
+        <service android:name=".FloatingWindow" />
 
         <receiver
             android:name=".DeviceAdmin"

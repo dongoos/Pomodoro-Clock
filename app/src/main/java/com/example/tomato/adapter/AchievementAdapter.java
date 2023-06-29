@@ -49,4 +49,5 @@ public class AchievementAdapter extends BaseAdapter {
         tv_condition.setText(achievement.details);
         return view;
     }
+
 }

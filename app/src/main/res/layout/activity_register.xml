@@ -20,10 +20,10 @@
 
         <TextView
             android:layout_marginLeft="20dp"
-            android:id="@+id/qq"
+            android:id="@+id/register"
             android:layout_width="wrap_content"
             android:layout_marginTop="35dp"
-            android:text="登录"
+            android:text="新用户注册"
             android:textColor="@color/white"
             android:textSize="24sp"
             android:layout_height="wrap_content" />
@@ -41,8 +41,9 @@
         android:textColor="@color/white"
         android:textColorHint="@color/white"
         android:layout_marginTop="60dp"
-        android:hint="账号"
+        android:hint="请输入你的邮箱"
         android:textSize="20sp" />
+    <!--输入框-->
     <!--输入框-->
     <EditText
         android:id="@+id/et_pwd"
@@ -50,7 +51,22 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
-        android:hint="密码"
+        android:hint="请输入你的密码"
+
+        android:inputType="textPassword"
+        android:paddingLeft="10dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        android:textSize="20sp"
+        android:theme="@style/MyEditText" />
+
+    <EditText
+        android:id="@+id/et_pwd_rePut"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:hint="再次输入密码"
 
         android:textColor="@color/white"
         android:paddingLeft="10dp"
@@ -60,8 +76,8 @@
         android:inputType="textPassword"/>
     <!--按钮-->
     <Button
-        android:id="@+id/btn_login"
-        android:text="登录"
+        android:id="@+id/btn_register"
+        android:text="注册完成"
         android:background="#1E90FF"
         android:textSize="24sp"
         android:textColor="@color/white"
@@ -70,28 +86,6 @@
         android:layout_width="320dp"
         android:layout_height="wrap_content"/>
 
-    <RelativeLayout
-        android:layout_marginTop="15dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <Button
-            android:id="@+id/tv_signup"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="20dp"
-            android:textColor="@color/white"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="新用户注册"/>
-
-        <Button
-            android:id="@+id/tv_forgetPwd"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="20dp"
-            android:textColor="@color/white"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="忘记密码？" />
-    </RelativeLayout>
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"

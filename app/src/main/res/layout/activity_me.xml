@@ -5,12 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#A59929"
     android:orientation="vertical"
-<<<<<<< HEAD
-=======
-    android:background="#000000"
->>>>>>> 734196cbd1a320ffd5aff9fdcfbe5bcbd6176718
+    android:background="#ffffff"
     tools:context="MainActivity">
 
 
