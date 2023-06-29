@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import com.example.tomato.tool.ServerHelper;
 
+import java.util.List;
+
 public class LoginActivity extends Activity {
 
     private EditText et_email,et_password;
@@ -45,7 +47,7 @@ public class LoginActivity extends Activity {
                                      .thenAccept(user ->{
                                          if(user!=null){
                                              Log.i("配置信息","started");
-                                             User.setUserSession(user.getName(),user.getEmail(),user.getUid(),password);
+//                                             User.setUserSession(user.getName(),user.getEmail(),user.getUid(),password);
                                              Log.i("name,email,uid",User.getName()+User.getEmail()+User.getUid());
                                          }else{
 
@@ -60,6 +62,16 @@ public class LoginActivity extends Activity {
          });
 
         tv_forgetPwd.setOnClickListener(view -> {
+            ServerHelper serverHelper=new ServerHelper();
+            serverHelper.setScore("200")
+                    .thenAccept(complete -> {
+                        Log.i("complete", String.valueOf(complete));
+                        if (complete) {
+                            Log.i("分数","设置成功" );
+                        } else {
+                            Log.i("分数", "失败");
+                        }
+                    });
 
         });
 

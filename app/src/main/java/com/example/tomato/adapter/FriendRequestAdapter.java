@@ -1,6 +1,5 @@
 package com.example.tomato.adapter;
 
-
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,15 +18,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class FriendListAdapter extends ArrayAdapter<FriendInfo> {
+public class FriendRequestAdapter extends ArrayAdapter<FriendInfo> {
     private ArrayList<FUser> friendList;
     private int resourceId;
-    public FriendListAdapter( Context context, int resource,  List<FriendInfo> objects) {
+    public FriendRequestAdapter( Context context, int resource,  List<FriendInfo> objects) {
         super(context, resource, objects);
         resourceId = resource;
         ServerHelper serverHelper=new ServerHelper();
         Log.i("showFriend","ready" );
-        serverHelper.showFriendList()
+        serverHelper.getFriendRequest()
                 .thenAccept(complete -> {
                     Log.i("showFriend","start" );
                     Log.i("complete", String.valueOf(complete));
@@ -43,6 +42,7 @@ public class FriendListAdapter extends ArrayAdapter<FriendInfo> {
                         Log.i("登录", "失败");
                     }});
     }
+
     @Override
     public View getView(int position, View convertView,  ViewGroup parent) {
         FriendInfo friendInfo = getItem(position);

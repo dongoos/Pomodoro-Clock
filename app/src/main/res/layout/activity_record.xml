@@ -103,7 +103,7 @@
 
             <ListView
                 android:id="@+id/AppStatisticsList"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_above="@+id/ActionBarList3"
                 android:layout_below="@+id/pie_chart" />

@@ -5,22 +5,33 @@ public class User {
     private static String password;
     private static String email;
     private static int uid;
-    private static int unLockId;
+    private static String unLockId;
 
-    public User(String name, String email, int uid, int unLockId) {
+    private static int score;
+
+
+
+    public User(String name, String email, int uid, String unLockId) {
         this.name = name;
         this.password = password;
         this.email = email;
         this.uid = uid;
         this.unLockId = unLockId;
+
     }
 
     public User() {
 
     }
+    public static int getScore() {
+        return score;
+    }
 
+    public static void setScore(int score) {
+        User.score = score;
+    }
     // User session methods
-    public static void setUserSession(String name, String email, int uid, String password) {
+    public static void setUserSession(String name, String email, int uid, String password,String score) {
         setEmail(email);
         setName(name);
         setUid(uid);
@@ -50,7 +61,7 @@ public class User {
         return uid;
     }
 
-    public static int getUnLockId() {
+    public static String getUnLockId() {
         return unLockId;
     }
 
@@ -71,7 +82,7 @@ public class User {
         User.uid = uid;
     }
 
-    public static void setUnLockId(int unLockId) {
+    public static void setUnLockId(String unLockId) {
         User.unLockId = unLockId;
     }
 

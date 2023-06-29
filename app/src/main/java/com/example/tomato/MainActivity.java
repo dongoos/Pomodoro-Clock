@@ -41,6 +41,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.example.tomato.adapter.EventListAdapter;
 import com.example.tomato.model.Model;
+import com.example.tomato.tool.AppCheckService;
 import com.example.tomato.util.DatabaseHandler;
 
 import java.util.ArrayList;
@@ -114,8 +115,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         setContentView(R.layout.activity_main);
         initView();//初始化数据
 
+        Intent serviceIntent = new Intent(this, AppCheckService.class);
+        startService(serviceIntent);
+
+
+
         //对单选按钮进行监听，选中、未选中
-        //lock device properties init
+        // lock device properties init
         activityManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
         options = ActivityOptions.makeBasic();
         context = MainActivity.this;

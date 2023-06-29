@@ -32,7 +32,6 @@ public class StatisticsInfo {
             this.style = style;
             setUsageStatsList(context);
             setShowList();
-
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
         }
@@ -76,6 +75,8 @@ public class StatisticsInfo {
             long now = calendar.getTimeInMillis();
             long beginTime = getBeginTime();
             if (style == DAY) {
+
+                //得到一个app的List
                 this.result = m.queryUsageStats(UsageStatsManager.INTERVAL_BEST, beginTime, now);
                 AppInfoList = getAccurateDailyStatsList(context, result, m, beginTime, now);
                 Log.i("AppInfoListInit",AppInfoList.get(0).getPackageName());
