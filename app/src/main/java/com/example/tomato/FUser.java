@@ -9,16 +9,23 @@ public class FUser {
     private  int id;
     private  String unLockId;
     private  int score;
+    private  String avatar;
 
+    public String getAvatar() {
+        return avatar;
+    }
 
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
 
-    public FUser(String name, String email, int id, String unLockId) {
+    public FUser(String name, String email, int id, String unLockId, String avatar) {
         this.name = name;
         this.password = password;
         this.email = email;
         this.id = id;
         this.unLockId = unLockId;
-
+        this.avatar=avatar;
     }
 
     public FUser() {
