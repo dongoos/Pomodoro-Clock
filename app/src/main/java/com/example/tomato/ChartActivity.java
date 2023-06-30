@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 public class ChartActivity extends Activity  {
     //柱状图
-    private static BarChart barChart;
+
     private static DatabaseHandler db;
 
     //lists
@@ -28,7 +28,7 @@ public class ChartActivity extends Activity  {
     public static void initialize_chart(MainActivity activity){
         View rootView;
         rootView = MainActivity.getView1();
-        barChart = rootView.findViewById(R.id.bar_chart);
+
         db = new DatabaseHandler(activity);
         db.openDatabase();
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
@@ -55,12 +55,11 @@ public class ChartActivity extends Activity  {
     //Hide draw value
         barDataSet.setDrawValues(false);
     //Set bar data
-        barChart.setData(new BarData(barDataSet));
+
     //set animation
-        barChart.animateY(5000);
+
     //Set description text and color
-        barChart.getDescription().setText("time");
-        barChart.getDescription().setTextColor(Color.BLUE);
+
 
 
     }

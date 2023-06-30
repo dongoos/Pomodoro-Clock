@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
@@ -23,10 +24,10 @@ public class MeViewPager {
     private static Button btn_login, btn_friend, btn_achievement, btn_setting,btn_changeAvatar;
     private static ImageView ibtn_setting,avatar;
     private static TextView tv_name,tv_email,tv_score;
-   private static Context context;
-   private static final List<String> availableAvatarList = new ArrayList<>();
-   private static int[] scoreThresholds = {0, 50, 100, 150};//分数阈值
-   private static String[] avatarList = {"avatar1", "avatar2", "avatar3"};
+    private static Context context;
+    private static List<String> availableAvatarList = new ArrayList<>();
+    private static int[] scoreThresholds = {0, 50, 100, 150};//分数阈值
+    private static String[] avatarList = {"avatar1", "avatar2", "avatar3"};
     public static void init(MainActivity activity) {
         View rootView;
         rootView = MainActivity.getView2();
@@ -50,8 +51,8 @@ public class MeViewPager {
         if(User.getEmail()!=null){
             btn_login.setVisibility(View.GONE);
             tv_name.setText(User.getName());
-             tv_email.setText(User.getEmail());
-             tv_score.setText(String.valueOf(User.getScore()));
+            tv_email.setText(User.getEmail());
+            tv_score.setText(String.valueOf(User.getScore()));
             int avatarResourceId = context.getResources().getIdentifier("avatar1", "drawable", context.getPackageName());
             Drawable avatarDrawable = ContextCompat.getDrawable(context, avatarResourceId);
             // 设置用户的新头像
@@ -70,8 +71,8 @@ public class MeViewPager {
 
         btn_friend.setOnClickListener(view -> {
             if(User.getEmail()!=null) {
-            FriendDialog friendDialog = new FriendDialog();
-            friendDialog.show(activity.getSupportFragmentManager(), "Friend_dialog");
+                FriendDialog friendDialog = new FriendDialog();
+                friendDialog.show(activity.getSupportFragmentManager(), "Friend_dialog");
             }else   Toast.makeText(activity, "请登录", Toast.LENGTH_SHORT).show();
         });
 
@@ -92,9 +93,9 @@ public class MeViewPager {
         });
         btn_changeAvatar.setOnClickListener(view -> {
             if(User.getEmail()!=null) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setTitle("选择头像");
-
+                availableAvatarList=new ArrayList<>();
                 // 根据分数确定可供选择的头像
                 int availableAvatars = 0;
                 for (int i = 0; i < avatarList.length; i++) {

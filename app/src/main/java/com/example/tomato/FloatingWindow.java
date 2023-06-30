@@ -1,5 +1,6 @@
 package com.example.tomato;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Service;
 import android.content.Context;
@@ -64,7 +65,7 @@ public class FloatingWindow extends Service {
     private static DatabaseHandler db;
     private RecyclerView recyclerView;
     FloatingWhiteListAdapter wladapter;
-
+    Activity mactivity;
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
@@ -86,7 +87,7 @@ public class FloatingWindow extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-
+        activity=FloatingWindow.this;
         DisplayMetrics metrics = getApplicationContext().getResources().getDisplayMetrics();
         int width = metrics.widthPixels;
         int height = metrics.heightPixels;
@@ -103,7 +104,7 @@ public class FloatingWindow extends Service {
         eventName = floatView.findViewById(R.id.floatingName);
         recyclerView = floatView.findViewById(R.id.whiteList);
 
-        wladapter = new FloatingWhiteListAdapter(MainActivity.whiteListApp,activity);
+        wladapter = new FloatingWhiteListAdapter(MainActivity.whiteListApp, activity);
         recyclerView.setAdapter(wladapter);
 
 

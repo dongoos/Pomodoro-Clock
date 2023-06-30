@@ -16,7 +16,7 @@
         android:fontFamily="sans-serif-black"
         android:padding="10dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:text="Create a setting?"/>
+        android:text="创造一个事件"/>
 
 
     <EditText
@@ -24,7 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="30"
-        android:hint="Title"
+        android:hint="标题"
         android:inputType="text"
         android:text="" />
 
@@ -32,7 +32,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="left"
-        android:text=" SELECT TIME SLOT"
+        android:text=" 选择时间"
         android:textColor="@color/black"
         android:paddingTop="10dp"></TextView>
 
@@ -80,7 +80,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
-            android:text="cancel"
+            android:text="取消"
             android:padding="5dp"></Button>
         <Button
             android:id="@+id/submitEvent"
@@ -88,7 +88,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:padding="5dp"
-            android:text="SET"></Button>
+            android:text="确认"></Button>
     </LinearLayout>
 
 

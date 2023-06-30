@@ -20,7 +20,7 @@
             android:fontFamily="sans-serif-black"
             android:gravity="center_horizontal"
             android:textSize="30dp"
-            android:text="DEVELOPING POTION..."
+            android:text="药水正在不断被填满..."
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
         <TextView
             android:id="@+id/floatingName"
@@ -54,16 +54,16 @@
                 android:translationY="23dp" />
 
 
-            <TextView
-                android:id="@+id/textView24"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:paddingTop="5dp"
-                android:text="YOU GOT THIS!!!"
-                android:textSize="18dp"
-                android:textStyle="bold"
-                android:translationY="15dp" />
+<!--            <TextView-->
+<!--                android:id="@+id/textView24"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="center_horizontal"-->
+<!--                android:paddingTop="5dp"-->
+<!--                android:text="YOU GOT THIS!!!"-->
+<!--                android:textSize="18dp"-->
+<!--                android:textStyle="bold"-->
+<!--                android:translationY="15dp" />-->
 
             <com.mikhaellopez.circularfillableloaders.CircularFillableLoaders
                 android:id="@+id/progressBar"
@@ -137,18 +137,45 @@
 <!--            app:cfl_progress="50"-->
 <!--            app:cfl_wave_amplitude=".06"-->
 <!--            app:cfl_wave_color="@color/lavender" />-->
+        <LinearLayout
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="白名单app"
+                android:textStyle="bold"
+                android:textSize="15sp" />
+
+        </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/whiteList"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="93dp"
             android:orientation="horizontal"
-
+            android:layout_marginTop="8dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:layout_gravity="center_horizontal"
             ></androidx.recyclerview.widget.RecyclerView>
 
+        <LinearLayout
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="注意：打开白名单app会退出锁屏，并扣除10瓶药水"
+                android:textStyle="bold"
+                android:textSize="15sp" />
+
+        </LinearLayout>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

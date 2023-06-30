@@ -1,6 +1,5 @@
 package com.example.tomato.adapter;
 
-
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,51 +17,64 @@ import com.example.tomato.tool.ServerHelper;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class FriendListAdapter extends ArrayAdapter<FriendInfo> {
     private ArrayList<FUser> friendList;
     private int resourceId;
-    public FriendListAdapter( Context context, int resource,  List<FriendInfo> objects) {
+
+    public FriendListAdapter(Context context, int resource, List<FriendInfo> objects) {
         super(context, resource, objects);
         resourceId = resource;
-        ServerHelper serverHelper=new ServerHelper();
-        Log.i("showFriend","ready" );
-        serverHelper.showFriendList()
-                .thenAccept(complete -> {
-                    Log.i("showFriend","start" );
-                    Log.i("complete", String.valueOf(complete));
-                    if (complete != null) {
-                                     friendList = (ArrayList<FUser>) complete;
-                                    for(FUser user:friendList){
-                                        Log.i("friendInfo",user.getEmail());
-                                    }
-                        Log.i("showFriend","yes" );
-
-                    }
-                    else {
-                        Log.i("showFriend", "失败");
-                    }});
+        friendList = new ArrayList<>();
+        loadFriendListData();
     }
-    @Override
-    public View getView(int position, View convertView,  ViewGroup parent) {
-        FriendInfo friendInfo = getItem(position);
-        View view = LayoutInflater.from(getContext()).inflate(resourceId, null);
-        ImageView ivFriend = (ImageView) view.findViewById(R.id.icon);
-        TextView tv_name = (TextView) view.findViewById(R.id.tv_name);
-        TextView tv_email = (TextView) view.findViewById(R.id.tv_email);
-        if (friendList != null) {
-            if (position >= 0 && position < friendList.size()) {
-                FUser user = friendList.get(position);
-                if (user!=null) {
-                    ivFriend.setImageResource(friendInfo.getIcon());
-                    tv_name.setText(user.getName());
-                    tv_email.setText(user.getEmail());
-                }
-            }
 
+    private void loadFriendListData() {
+        ServerHelper serverHelper = new ServerHelper();
+        serverHelper.showFriendList().thenAccept(complete -> {
+            if (complete != null) {
+                friendList = (ArrayList<FUser>) complete;
+                notifyDataSetChanged();
+            } else {
+                Log.i("showFriend", "失败");
+            }
+        });
+    }
+
+    @Override
+    public int getCount() {
+        return friendList.size();
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        ViewHolder holder;
+        if (convertView == null) {
+            convertView = LayoutInflater.from(getContext()).inflate(resourceId, parent, false);
+            holder = new ViewHolder();
+            holder.ivFriend = convertView.findViewById(R.id.icon);
+            holder.tvName = convertView.findViewById(R.id.tv_name);
+            holder.tvEmail = convertView.findViewById(R.id.tv_email);
+            convertView.setTag(holder);
+        } else {
+            holder = (ViewHolder) convertView.getTag();
         }
 
+        if (position >= 0 && position < friendList.size()) {
+            FUser user = friendList.get(position);
+            if (user != null) {
+                FriendInfo friendInfo = getItem(position);
+                holder.ivFriend.setImageResource(friendInfo.getIcon());
+                holder.tvName.setText(user.getName());
+                holder.tvEmail.setText(user.getEmail());
+            }
+        }
 
-        return view;
+        return convertView;
+    }
+
+    static class ViewHolder {
+        ImageView ivFriend;
+        TextView tvName;
+        TextView tvEmail;
     }
 }

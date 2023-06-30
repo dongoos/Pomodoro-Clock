@@ -18,7 +18,7 @@
         android:fontFamily="sans-serif-black"
         android:paddingTop="10dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:text="Congratulations"/>
+        android:text="恭喜你！"/>
 
 
     <TextView
@@ -27,7 +27,7 @@
         android:gravity="center_horizontal"
         android:layout_gravity="center_horizontal"
 
-        android:text=" You have completed \n your potion!"
+        android:text=" 你已装满了\n你的药水!"
         android:textColor="@color/black"
         android:paddingTop="3dp"></TextView>
 
@@ -45,7 +45,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:layout_gravity="center_horizontal"
-        android:text=" You now have..."
+        android:text=" 你现在有..."
         android:textColor="@color/black"
         android:paddingTop="3dp"></TextView>
     <TextView
@@ -55,7 +55,7 @@
         android:gravity="center_horizontal"
         android:layout_gravity="center_horizontal"
         android:textStyle="bold"
-        android:text=" ______ total minutes"
+        android:text=" ______ 分钟"
         android:paddingLeft="5dp"
         android:textColor="@color/black"
         ></TextView>
@@ -65,7 +65,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:textStyle="bold"
-        android:text="  ______ potions"
+        android:text="  ______ 瓶药水"
         android:textColor="@color/black"
        ></TextView>
 
@@ -82,7 +82,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
-            android:text="NICE!"></Button>
+            android:text="太棒了!"></Button>
     </LinearLayout>
 
 

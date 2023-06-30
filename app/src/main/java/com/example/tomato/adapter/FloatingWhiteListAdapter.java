@@ -69,7 +69,10 @@ public class FloatingWhiteListAdapter extends RecyclerView.Adapter<FloatingWhite
                 Intent launchIntent = packageManager.getLaunchIntentForPackage(packageName);
 
                 if (launchIntent != null) {
+
                     mcontext.startActivity(launchIntent);
+                    Intent serviceIntent = new Intent(mcontext, FloatingWindow.class);
+                    mcontext.stopService(serviceIntent);
                 } else {
                     Toast.makeText(mcontext, "无法启动应用程序：" + appName, Toast.LENGTH_SHORT).show();
                 }
@@ -103,4 +106,3 @@ public class FloatingWhiteListAdapter extends RecyclerView.Adapter<FloatingWhite
         }
     }
 }
-

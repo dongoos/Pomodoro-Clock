@@ -79,11 +79,7 @@ public class StatisticsInfo {
                 //得到一个app的List
                 this.result = m.queryUsageStats(UsageStatsManager.INTERVAL_BEST, beginTime, now);
                 AppInfoList = getAccurateDailyStatsList(context, result, m, beginTime, now);
-                Log.i("AppInfoListInit",AppInfoList.get(0).getPackageName());
-                Log.i("AppInfoListInit",AppInfoList.get(1).getPackageName());
-                Log.i("AppInfoListInit",AppInfoList.get(2).getPackageName());
-                Log.i("AppInfoListInit",AppInfoList.get(3).getPackageName());
-                Log.i("AppInfoListInit",AppInfoList.get(4).getPackageName());
+
 
             } else {
                 if (style == MONTH)

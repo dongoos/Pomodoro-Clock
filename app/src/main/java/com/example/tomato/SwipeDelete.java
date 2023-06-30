@@ -100,7 +100,7 @@ public class SwipeDelete extends ItemTouchHelper.Callback {
             androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(context);
             builder.setTitle("");
             builder.setMessage("");
-            builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                    // Toast.makeText(context,"The positions is"+ position,Toast.LENGTH_SHORT).show();

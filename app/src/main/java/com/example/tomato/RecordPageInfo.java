@@ -1,6 +1,8 @@
 package com.example.tomato;
 
+
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.text.format.DateUtils;
@@ -28,7 +30,7 @@ public class RecordPageInfo  {
     private  int style; // 统计样式，用于表示统计是按天、周、月还是年进行
     private long totalTime; // 总运行时间
     private int totalTimes; // 总操作次数
-    private Button buttonDay,buttonMonth,buttonYear;
+    private Button buttonDay,buttonMonth,buttonYear,OpenButton;
     private ListView listView;
     private final Context context;
     private TextView tv_lock_time,tv_lock_times;
@@ -40,10 +42,10 @@ public class RecordPageInfo  {
         this.context = context;
     }
 
-    protected void init(MainActivity activity) {
+    protected void init(MainActivity activity) throws PackageManager.NameNotFoundException {
         View rootView;
         rootView = MainActivity.getView1();
-
+        OpenButton=rootView.findViewById(R.id.OpenButton);
         buttonDay = rootView.findViewById(R.id.daybuttonlist3);
         buttonMonth = rootView.findViewById(R.id.monthbuttonlist3);
         buttonYear = rootView.findViewById(R.id.yearbuttonlist3);
@@ -56,8 +58,9 @@ public class RecordPageInfo  {
         LocalDateTime now = LocalDateTime.now();
         int lock_times = db.getStats(true,true,dtf.format(now));
         int lock_time = db.getStats(false,true,dtf.format(now));
-        tv_lock_time.setText(""+lock_time);
-        tv_lock_times.setText(""+lock_times);
+//        tv_lock_time.setText(""+lock_time);
+//        tv_lock_times.setText(""+lock_times);
+
         // 获取视图元素
         this.style = StatisticsInfo.DAY;
         Refresh(activity);
@@ -126,6 +129,7 @@ public class RecordPageInfo  {
     public void Refresh(MainActivity activity) {
         if (openAccess.JudgmentAuthority(activity)) {
             SetButtonColor();
+            OpenButton.setVisibility(View.GONE);
             List<Map<String, Object>> dataList = null;
             // 创建 StatisticsInfo 对象，根据统计样式获取相应的统计信息
             StatisticsInfo statisticsInfo = new StatisticsInfo(context, this.style);

@@ -497,10 +497,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
             final int position = viewHolder.getAdapterPosition();
             if(direction == ItemTouchHelper.RIGHT){
-                androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(context);
-                builder.setTitle("Delete Event");
-                builder.setMessage("Are you sure you want to delete this event?");
-                builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(MainActivity.this);
+                builder.setTitle("删除这个事件");
+                builder.setMessage("你确定要删除吗?");
+                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         //Toast.makeText(context,"The positions is"+ position,Toast.LENGTH_SHORT).show();
@@ -624,14 +624,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
                 if(getTimeMili()==0){
                     new AlertDialog.Builder(MainActivity.this)
-                            .setTitle("Warning: NO TIME SET")
-                            .setMessage("Please set a time time before starting")
+                            .setTitle("警告：没有设置时间")
+                            .setMessage("请在开始前设置时间")
                             .setPositiveButton(android.R.string.yes, null).setNegativeButton(android.R.string.no,null)
                             .setIcon(android.R.drawable.ic_dialog_alert).show();
                 }else{
                     new AlertDialog.Builder(MainActivity.this)
-                            .setTitle("BEGIN TIMER")
-                            .setMessage("Once you begin the timer you will not be able to exit. \nAre you sure you want to begin the timer?")
+                            .setTitle("开始计时")
+                            .setMessage("当你开启即使你将不能轻易退出. \n你确定要开启计时吗?")
                             .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
@@ -708,7 +708,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                         OpenAccess openAccess = new OpenAccess();
                         openAccess.initialize_button(MainActivity.this);
                         RecordPageInfo recordPageInfo = new RecordPageInfo(MainActivity.this);
-                        recordPageInfo.init(MainActivity.this);
+                        try {
+                            recordPageInfo.init(MainActivity.this);
+                        } catch (PackageManager.NameNotFoundException e) {
+                            throw new RuntimeException(e);
+                        }
                         ChartActivity.initialize_chart(MainActivity.this);
                         break;
                     case 2:

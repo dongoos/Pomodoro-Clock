@@ -34,7 +34,7 @@
             <GridView
                 android:id="@+id/gv_achievement_not"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="700dp"
                 android:numColumns="2">
 
             </GridView>

@@ -56,7 +56,7 @@
                 android:layout_weight="1"
                 android:layout_margin="5dp"
                 android:gravity="center"
-                android:text=""
+                android:text="5"
                 android:textSize="80dp"/>
 
             <TextView
@@ -66,7 +66,7 @@
                 android:layout_weight="1"
                 android:layout_margin="5dp"
                 android:gravity="center"
-                android:text=""
+                android:text="3"
                 android:textSize="80dp"/>
 
             <TextView
@@ -76,7 +76,7 @@
                 android:layout_weight="1"
                 android:layout_margin="5dp"
                 android:gravity="center"
-                android:text="0"
+                android:text="3"
                 android:textSize="80dp"/>
         </LinearLayout>
 
@@ -94,13 +94,7 @@
                 android:gravity="center"
                 android:text="近七天锁机时间图表" />
 
-            <com.github.mikephil.charting.charts.BarChart
-                android:id="@+id/bar_chart"
-                android:layout_width="match_parent"
-                android:layout_height="215dp"
-                android:layout_marginBottom="8dp"
-                android:layout_weight="1" />
-        </LinearLayout>
+                </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="145px"
@@ -108,7 +102,7 @@
             android:id="@+id/buttonbarList3">
 
             <Button
-                android:text="DAY"
+                android:text="本日"
                 android:layout_width="0dp"
                 android:layout_weight="1.0"
                 android:layout_height="wrap_content"
@@ -117,7 +111,7 @@
 
 
             <Button
-                android:text="MONTH"
+                android:text="本月"
                 android:layout_width="0px"
                 android:layout_weight="1.0"
                 android:layout_height="wrap_content"
@@ -125,7 +119,7 @@
                 android:background="@drawable/bt_layout" />
 
             <Button
-                android:text="YEAR"
+                android:text="今年"
                 android:layout_width="0px"
                 android:layout_weight="1.0"
                 android:layout_height="wrap_content"
@@ -134,7 +128,7 @@
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="250dp"
+            android:layout_height="600dp"
             android:orientation="vertical">
             <LinearLayout
                 android:layout_width="match_parent"
