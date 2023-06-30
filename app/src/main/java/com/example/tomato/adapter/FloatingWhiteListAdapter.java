@@ -1,6 +1,8 @@
 package com.example.tomato.adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
@@ -65,8 +67,15 @@ public class FloatingWhiteListAdapter extends RecyclerView.Adapter<FloatingWhite
 //
 
                 Log.i("THE PACKAGEEEE", "The package is "+appInfo.getPackageName() + " The name is "+ appInfo.getLabel());
-                //Toast.makeText(mcontext,"The Package is"+ appInfo.getLabel(),Toast.LENGTH_SHORT).show();
+                Context context;
+                PackageManager packageManager = mcontext.getPackageManager();
+                Intent launchIntent = packageManager.getLaunchIntentForPackage(appInfo.getPackageName());
 
+                if (launchIntent != null) {
+                    mcontext.startActivity(launchIntent);
+                } else {
+                    Toast.makeText(mcontext, "无法启动应用程序：" + appInfo.getLabel(), Toast.LENGTH_SHORT).show();
+                }
             }
 
 
