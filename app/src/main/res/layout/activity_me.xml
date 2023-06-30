@@ -39,6 +39,15 @@
                 android:scaleType="centerCrop"
                 tools:srcCompat="@tools:sample/avatars" />
 
+            <Button
+                android:id="@+id/btn_changeAvatar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="更换头像"
+                android:layout_below="@id/imageView"
+                android:layout_alignLeft="@id/imageView"
+                android:layout_alignRight="@id/imageView"
+                android:layout_marginTop="8dp" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -98,11 +107,10 @@
                     android:paddingLeft="10dp">
 
                     <ImageView
-
-                        android:layout_width="30dp"
+                        android:layout_width="60dp"
                         android:layout_height="30dp"
-                        android:src="@drawable/good" />
-
+                        android:src="@drawable/potion"
+                        />
                     <TextView
                         android:id="@+id/scoreTextView"
                         android:layout_width="0dp"
@@ -128,6 +136,7 @@
                 android:id="@+id/infoButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="登录"
                 android:layout_below="@id/imageView"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="20dp"

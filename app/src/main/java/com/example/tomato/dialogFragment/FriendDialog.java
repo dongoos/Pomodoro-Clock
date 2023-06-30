@@ -46,25 +46,25 @@ public class FriendDialog extends DialogFragment {
         btn_findFriend.setOnClickListener(view12 -> {
             ServerHelper serverHelper =new ServerHelper();
             Log.i("RequestSend-uid", String.valueOf(User.getUid()));
-//            serverHelper.getScore()
-//                    .thenAccept(complete -> {
-//                        Log.i("complete", String.valueOf(complete));
-//                        if (complete != null) {
-//                            Log.i("分数", complete);
-//
-//                        } else {
-//                            Log.i("分数", "失败");
-//                        }
-//                    });
-            serverHelper.setScore("200")
+            serverHelper.getScore()
                     .thenAccept(complete -> {
                         Log.i("complete", String.valueOf(complete));
-                        if (complete) {
-                            Log.i("分数","设置成功" );
+                        if (complete != null) {
+                            Log.i("分数", complete);
+
                         } else {
                             Log.i("分数", "失败");
                         }
                     });
+//            serverHelper.setScore("200")
+//                    .thenAccept(complete -> {
+//                        Log.i("complete", String.valueOf(complete));
+//                        if (complete) {
+//                            Log.i("分数","设置成功" );
+//                        } else {
+//                            Log.i("分数", "失败");
+//                        }
+//                    });
         });
         lv_friend.setAdapter(adapter);
         return view;

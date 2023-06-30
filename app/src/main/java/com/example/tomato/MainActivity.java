@@ -10,6 +10,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -24,6 +26,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.NumberPicker;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
@@ -39,10 +42,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.donkingliang.imageselector.utils.ImageSelector;
 import com.example.tomato.adapter.EventListAdapter;
 import com.example.tomato.model.Model;
 import com.example.tomato.tool.AppCheckService;
 import com.example.tomato.util.DatabaseHandler;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +57,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     static final int RESULT_ENABLE = 1 ;
     DevicePolicyManager deviceManger ;
     ComponentName compName ;
+    public static ImageView iv_avatar;
+
     private AlertDialog dialog;
     private ViewPager mViewPager;
     private RadioGroup mRadioGroup;
@@ -636,5 +643,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             return mViews.get(position);
         }
     }
+
+
 }
 
