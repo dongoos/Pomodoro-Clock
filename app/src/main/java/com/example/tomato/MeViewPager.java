@@ -110,6 +110,7 @@ public class MeViewPager {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             String selectedAvatar = availableAvatarList.get(which);
+                            Log.i("icccon",selectedAvatar);
                             int avatarResourceId = context.getResources().getIdentifier(selectedAvatar, "drawable", context.getPackageName());
 
                             Drawable avatarDrawable = ContextCompat.getDrawable(context, avatarResourceId);

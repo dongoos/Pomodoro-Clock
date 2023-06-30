@@ -16,6 +16,7 @@ import com.example.tomato.tool.ServerHelper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class FriendListAdapter extends ArrayAdapter<FriendInfo> {
     private ArrayList<FUser> friendList;
@@ -44,7 +45,7 @@ public class FriendListAdapter extends ArrayAdapter<FriendInfo> {
     public int getCount() {
         return friendList.size();
     }
-
+    private static String[] avatarList = {"avatar1", "avatar2", "avatar3"};
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
@@ -54,18 +55,30 @@ public class FriendListAdapter extends ArrayAdapter<FriendInfo> {
             holder.ivFriend = convertView.findViewById(R.id.icon);
             holder.tvName = convertView.findViewById(R.id.tv_name);
             holder.tvEmail = convertView.findViewById(R.id.tv_email);
+            holder.tvScore=convertView.findViewById(R.id.tv_score);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-
+int count=0;
         if (position >= 0 && position < friendList.size()) {
             FUser user = friendList.get(position);
             if (user != null) {
+
+
+                Random r = new Random();
+                int irand = r.nextInt(10);
                 FriendInfo friendInfo = getItem(position);
-                holder.ivFriend.setImageResource(friendInfo.getIcon());
+
+                holder.ivFriend.setImageResource(R.drawable.avatar2);
+
+
                 holder.tvName.setText(user.getName());
                 holder.tvEmail.setText(user.getEmail());
+               Log.i("scorrr", String.valueOf(holder.tvScore));
+                holder.tvScore.setText(String.valueOf(irand+count));
+                count=12;
+
             }
         }
 
@@ -75,6 +88,6 @@ public class FriendListAdapter extends ArrayAdapter<FriendInfo> {
     static class ViewHolder {
         ImageView ivFriend;
         TextView tvName;
-        TextView tvEmail;
+        TextView tvEmail,tvScore;
     }
 }

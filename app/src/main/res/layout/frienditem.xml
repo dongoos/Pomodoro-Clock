@@ -36,7 +36,7 @@
             android:layout_height="10dp"
             android:layout_margin="5px"
             android:textSize="20px"
-            android:text="score:"/>
+            android:text="score:100"/>
 
     </LinearLayout>
 <Button

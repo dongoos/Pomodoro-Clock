@@ -27,8 +27,8 @@ import java.util.List;
 public class FriendRequestDialog extends DialogFragment {
     private List<FriendInfo> list_friend = new ArrayList<FriendInfo>();
     private int[] images = {R.drawable.good, R.drawable.good, R.drawable.good, R.drawable.good, R.drawable.good};
-    private String[] names = {"子鼠", "丑牛", "寅虎", "卯兔", "5"};
-    private String[] emails = {"子鼠", "丑牛", "寅虎", "卯兔", "5"};
+    private String[] names = {"1", "1", "1", "1", "1"};
+    private String[] emails = {"1", "1", "1", "1", "1"};
     private int[] scores = {6, 4, 5, 3, 4};
     private FriendListAdapter adapter;
 
