@@ -338,6 +338,104 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         dlgTime.show();
         Log.i("Testing","Ok so were here at least");
     }
+
+    public static void createTime(MainActivity activity, boolean update, int eid){
+        View dlgViewTime = LayoutInflater.from(activity).inflate(R.layout.dialog_time_only, null);
+
+        Button btn_evtSubmit = dlgViewTime.findViewById(R.id.submitEvent);
+        Button btn_cancel = dlgViewTime.findViewById(R.id.cancelEvent);
+
+        NumberPicker minPicker =dlgViewTime.findViewById(R.id.minutePicker);
+        minPicker.setMinValue(0);
+        minPicker.setMaxValue(41);
+
+        minPicker.setFormatter(new NumberPicker.Formatter() {
+            @Override
+            public String format(int i) {
+                return String.format("%02d",i>5?(i-5)*5:i);
+            }
+        });
+
+        minPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker numberPicker, int i, int i1) {
+                min = i;
+            }
+        });
+
+        NumberPicker secPicker =dlgViewTime.findViewById(R.id.secPicker);
+        secPicker.setMinValue(0);
+        secPicker.setMaxValue(59);
+
+        secPicker.setFormatter(new NumberPicker.Formatter() {
+            @Override
+            public String format(int i) {
+                return String.format("%02d",i);
+            }
+        });
+
+        secPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker numberPicker, int i, int i1) {
+                sec = i;
+            }
+        });
+
+        minPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker numberPicker, int i, int i1) {
+                if(i1>5){
+                    min = (i1-5)*5;
+                }else{
+                    min = i1;
+                }
+
+            }
+        });
+        secPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker numberPicker, int i, int i1) {
+                sec = i1;
+            }
+        });
+
+
+        btn_evtSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                long milliseconds = (min*60000)+(sec*1000);
+                if(Timer.isTimerRunning()){
+                    Toast.makeText(activity,"Timer is still running",Toast.LENGTH_SHORT).show();
+                }else{
+                    MainActivity.setTimeMili(milliseconds);
+                    String timeLeftFormatted = String.format("%02d:%02d", min, sec);
+                    timer.setText(timeLeftFormatted);
+                    Timer.setSoFar(0);
+                    progress.setProgress(0);
+                    bt_time.setText("Start Timer");
+                }
+
+                Log.i("dbTest","This is the local arraylist"+eventList.toString());
+//                Log.i("dbTest","This is the database"+db.getAllEvents().toString());
+
+                dlgTime.dismiss();
+
+            }
+        });
+
+        btn_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dlgTime.dismiss();
+            }
+        });
+        dlgTime = new AlertDialog.Builder(activity)
+                .setView(dlgViewTime)
+                .create();
+        dlgTime.show();
+        Log.i("Testing","Ok so were here at least");
+    }
 //Permissions for Alert Window --> Floating Window must be in main activity
     private void requestOverlayDisplayPermission() {
         // An AlertDialog is created
@@ -517,7 +615,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             @Override
             public void onClick(View view) {
 
-                createEvent(MainActivity.this, false,0);
+                createTime(MainActivity.this, false,0);
             }
 
         });
