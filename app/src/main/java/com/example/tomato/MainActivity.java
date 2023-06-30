@@ -398,7 +398,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
             final int position = viewHolder.getAdapterPosition();
             if(direction == ItemTouchHelper.RIGHT){
-                androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(MainActivity.this);
+                androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(context);
                 builder.setTitle("Delete Event");
                 builder.setMessage("Are you sure you want to delete this event?");
                 builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
