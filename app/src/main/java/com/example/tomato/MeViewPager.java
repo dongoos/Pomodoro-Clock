@@ -1,11 +1,11 @@
 package com.example.tomato;
 
-import android.app.Activity;
+
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -13,11 +13,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
 
 import com.example.tomato.dialogFragment.FriendDialog;
-
-
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -91,9 +89,12 @@ public class MeViewPager {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             String selectedAvatar = availableAvatarList.get(which);
-                            // 在这里处理选择头像后的逻辑
-                            Toast.makeText(context, "您选择了：" + selectedAvatar, Toast.LENGTH_SHORT).show();
-                            avatar.setImageDrawable(context.getResources().getDrawable(context.getResources().getIdentifier(selectedAvatar, "drawable", context.getPackageName())));
+                            int avatarResourceId = context.getResources().getIdentifier(selectedAvatar, "drawable", context.getPackageName());
+
+                            Drawable avatarDrawable = ContextCompat.getDrawable(context, avatarResourceId);
+                            // 设置用户的新头像
+                            avatar.setImageDrawable(avatarDrawable);
+                            Log.i("选择","good");
                         }
                     });
                 } else {
