@@ -221,12 +221,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         NumberPicker minPicker =dlgViewTime.findViewById(R.id.minutePicker);
         minPicker.setMinValue(0);
-        minPicker.setMaxValue(36);
+        minPicker.setMaxValue(41);
 
         minPicker.setFormatter(new NumberPicker.Formatter() {
             @Override
             public String format(int i) {
-                return String.format("%02d",i*5);
+                return String.format("%02d",i>5?(i-5)*5:i);
             }
         });
 
@@ -259,13 +259,18 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         db.openDatabase();
         if(update){
             newEventTitle.setText(eventList.get(eid).getTask());
-            minPicker.setValue(eventList.get(eid).getTimeMinute()/5);
+            minPicker.setValue(eventList.get(eid).getTimeMinute()>5?(eventList.get(eid).getTimeMinute()+5)/5:eventList.get(eid).getTimeMinute());
             secPicker.setValue(eventList.get(eid).getTimeSec());
         }
         minPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker numberPicker, int i, int i1) {
-                min = i1*5;
+                if(i1>5){
+                    min = (i1-5)*5;
+                }else{
+                    min = i1;
+                }
+
             }
         });
         secPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
@@ -393,7 +398,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
             final int position = viewHolder.getAdapterPosition();
             if(direction == ItemTouchHelper.RIGHT){
-                androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(context);
+                androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(MainActivity.this);
                 builder.setTitle("Delete Event");
                 builder.setMessage("Are you sure you want to delete this event?");
                 builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
@@ -454,8 +459,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         eventList = new ArrayList<>();
 
         whiteListDisplay= mViews.get(0).findViewById(R.id.whitelist);
-        whiteListDisplay.setAdapter(wladapter2);
+
         wladapter2 = new SmallWhiteListAdapter(whiteListApp,MainActivity.this);
+        whiteListDisplay.setAdapter(wladapter2);
 
         eventRecyclerView = mViews.get(0).findViewById(R.id.eventList);
         eventRecyclerView.setLayoutManager(new LinearLayoutManager(this));

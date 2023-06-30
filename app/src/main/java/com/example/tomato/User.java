@@ -38,12 +38,12 @@ public class User {
         User.score = score;
     }
     // User session methods
-    public static void setUserSession(String name, String email, int uid, String password,String score,String avatar) {
+    public static void setUserSession(String name, String email, int uid, int score, String avatar) {
         setEmail(email);
         setName(name);
         setUid(uid);
-        setPassword(password);
         setAvatar(avatar);
+        setScore(score);
     }
 
     public static void clearUserSession() {

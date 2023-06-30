@@ -7,30 +7,14 @@
     android:background="#d3d3d3"
     android:orientation="vertical">
 
-    <com.google.android.material.textview.MaterialTextView
-        android:layout_marginTop="20dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:layout_gravity="center"
-        android:textSize="24sp"
-        android:shadowColor="#ff000000"
-        android:shadowRadius="10"
-        android:shadowDx="10"
-        android:shadowDy="10"
-        android:text="Welcome use"/>
+
 
     <LinearLayout
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="60dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center">
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:tooltipText="haha"/>
 
         <com.google.android.material.textview.MaterialTextView
             android:layout_marginLeft="10dp"
@@ -71,8 +55,7 @@
             app:met_floatingLabelText="Username"
             app:met_hideUnderline="true"
             app:met_iconPadding="10dp"
-            app:met_maxCharacters="18"
-            app:met_minCharacters="5"
+
             app:met_primaryColor="#0056d3" />
         <com.rengwuxian.materialedittext.MaterialEditText
             android:id="@+id/et_email"
@@ -93,8 +76,7 @@
             app:met_floatingLabelText="Email"
             app:met_hideUnderline="true"
             app:met_iconPadding="10dp"
-            app:met_maxCharacters="18"
-            app:met_minCharacters="5"
+
             app:met_primaryColor="#0056d3" />
 
         <com.rengwuxian.materialedittext.MaterialEditText
@@ -116,8 +98,7 @@
             app:met_floatingLabelText="Password"
             app:met_hideUnderline="true"
             app:met_iconPadding="10dp"
-            app:met_maxCharacters="18"
-            app:met_minCharacters="5"
+
             app:met_primaryColor="#0056d3" />
 
 
@@ -140,8 +121,7 @@
             app:met_floatingLabelText="Password"
             app:met_hideUnderline="true"
             app:met_iconPadding="10dp"
-            app:met_maxCharacters="18"
-            app:met_minCharacters="5"
+
             app:met_primaryColor="#0056d3" />
 
         <LinearLayout
@@ -158,7 +138,7 @@
                 android:layout_marginRight="10dp"
                 android:layout_weight="5"
                 android:gravity="center"
-                android:hint="Code"
+                android:hint="验证码"
                 android:inputType="text"
                 android:singleLine="true"
                 android:textSize="20sp"
@@ -175,7 +155,7 @@
                 android:text="发送验证码"
                 android:textSize="24sp"
                 android:textColor="@color/black"
-                android:textStyle="italic"/>
+                />
         </LinearLayout>
 
 
@@ -186,9 +166,9 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="450dp"
             android:layout_marginRight="10dp"
-            android:text="sign up"
+            android:text="注册"
             android:textSize="24sp"
-            android:textStyle="italic" />
+             />
     </com.google.android.material.card.MaterialCardView>
 
 

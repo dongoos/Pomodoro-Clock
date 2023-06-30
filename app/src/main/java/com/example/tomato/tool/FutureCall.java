@@ -67,6 +67,8 @@ public class FutureCall {
                     Log.i("responseBody",responseBody);
                 try {
                     JSONObject jsonObject = new JSONObject(responseBody);
+                    user.setScore(Integer.parseInt(jsonObject.getString("score")));
+                    user.setAvatar(jsonObject.getString("avatar"));
                     user.setUid(jsonObject.getInt("uid"));
                     user.setName(jsonObject.getString("name"));
                     user.setEmail(jsonObject.getString("email"));
@@ -74,7 +76,7 @@ public class FutureCall {
                     throw new RuntimeException(e);
                 }
 
-                Log.i("callbackUser_user",User.getName()+User.getEmail()+User.getUid());
+                Log.i("callbackUser_user",User.getScore()+User.getName()+User.getEmail()+User.getUid());
 
                 future.complete(user);
 

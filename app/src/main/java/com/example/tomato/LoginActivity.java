@@ -16,10 +16,10 @@ import com.example.tomato.tool.ServerHelper;
 
 public class LoginActivity extends Activity {
 
-    private EditText et_email,et_password,et_verification;
-    Button btn_login,btn_verification;
+    private EditText et_email,et_password;
+    Button btn_login;
     String email,password;
-    TextView btn_signup;
+    TextView btv_signup,btv_forgetPwd;
 
     String verification = achieveCode();
 
@@ -29,10 +29,9 @@ public class LoginActivity extends Activity {
         setContentView(R.layout.login);
          et_email=findViewById(R.id.et_email);
          et_password=findViewById(R.id.et_pwd);
-         btn_verification=findViewById(R.id.btn_verification);
          btn_login=findViewById(R.id.btn_login);
-         btn_signup = findViewById(R.id.tv_signup);
-         et_verification = findViewById(R.id.login_code);
+        btv_signup = findViewById(R.id.tv_signup);
+        btv_forgetPwd=findViewById(R.id.tv_forgetPwd);
          btn_login.setOnClickListener(view -> {
 
              email=et_email.getText().toString();
@@ -40,7 +39,6 @@ public class LoginActivity extends Activity {
              ServerHelper serverHelper =new ServerHelper();
              Log.i("email",email);
              Log.i("pwd",password);
-             if (verification.equals(et_verification.getText().toString())){
                  serverHelper.login(email, password)
                          .thenAccept(complete -> {
                              Log.i("complete", String.valueOf(complete));
@@ -51,7 +49,7 @@ public class LoginActivity extends Activity {
                                          .thenAccept(user ->{
                                              if(user!=null){
                                                  Log.i("配置信息","started");
-                                                 User.setUserSession(user.getName(),user.getEmail(),user.getUid(),password,null,user.getAvatar());
+                                                 User.setUserSession(user.getName(),user.getEmail(),user.getUid(), user.getScore(),user.getAvatar());
                                                  Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                                  startActivity(intent);
                                                  Log.i("name,email,uid",User.getName()+User.getEmail()+User.getUid());
@@ -66,41 +64,17 @@ public class LoginActivity extends Activity {
                                  toast.show();
                              }
                          });
-             }else {
-                 Toast toast = Toast.makeText(LoginActivity.this, "验证码有误，请重新输入", Toast.LENGTH_SHORT);
-                 toast.show();
-             }
+
          });
 
 
-        btn_verification.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (et_email != null && !et_email.getText().toString().equals("")&&
-                        et_password != null&& !et_password.getText().toString().equals("")){
-                        Toast toast = Toast.makeText(LoginActivity.this, "成功发送验证码", Toast.LENGTH_SHORT);
-                        toast.show();
-                }else {
-                    Toast toast = Toast.makeText(LoginActivity.this, "请正确输入账号和密码", Toast.LENGTH_SHORT);
-                    toast.show();
-                }
-            }
-        });
-//        btn_forgetPwd.setOnClickListener(view -> {
-//            ServerHelper serverHelper=new ServerHelper();
-//            serverHelper.setScore("200")
-//                    .thenAccept(complete -> {
-//                        Log.i("complete", String.valueOf(complete));
-//                        if (complete) {
-//                            Log.i("分数","设置成功" );
-//                        } else {
-//                            Log.i("分数", "失败");
-//                        }
-//                    });
-//
-//        });
 
-        btn_signup.setOnClickListener(view -> {
+        btv_forgetPwd.setOnClickListener(view -> {
+            Intent intent = new Intent(LoginActivity.this,ChangePwd.class);
+            startActivity(intent);
+        });
+
+        btv_signup.setOnClickListener(view -> {
             Intent intent = new Intent(LoginActivity.this,RegisterActivity.class);
             startActivity(intent);
         });
