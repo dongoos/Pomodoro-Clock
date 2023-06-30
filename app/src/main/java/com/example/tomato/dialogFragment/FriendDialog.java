@@ -46,25 +46,6 @@ public class FriendDialog extends DialogFragment {
         btn_findFriend.setOnClickListener(view12 -> {
             ServerHelper serverHelper =new ServerHelper();
             Log.i("RequestSend-uid", String.valueOf(User.getUid()));
-            serverHelper.getScore()
-                    .thenAccept(complete -> {
-                        Log.i("complete", String.valueOf(complete));
-                        if (complete != null) {
-                            Log.i("分数", complete);
-
-                        } else {
-                            Log.i("分数", "失败");
-                        }
-                    });
-//            serverHelper.setScore("200")
-//                    .thenAccept(complete -> {
-//                        Log.i("complete", String.valueOf(complete));
-//                        if (complete) {
-//                            Log.i("分数","设置成功" );
-//                        } else {
-//                            Log.i("分数", "失败");
-//                        }
-//                    });
         });
         lv_friend.setAdapter(adapter);
         return view;
@@ -75,7 +56,7 @@ public class FriendDialog extends DialogFragment {
         super.onResume();
         // 设置弹窗的宽度和高度
         WindowManager.LayoutParams layoutParams = getDialog().getWindow().getAttributes();
-        layoutParams.width = (int) (getResources().getDisplayMetrics().widthPixels * 0.66);
+        layoutParams.width = (int) (getResources().getDisplayMetrics().widthPixels * 0.8);
         layoutParams.height = (int) (getResources().getDisplayMetrics().heightPixels * 0.66);
         // 设置弹窗的位置
         getDialog().getWindow().setGravity(Gravity.CENTER);

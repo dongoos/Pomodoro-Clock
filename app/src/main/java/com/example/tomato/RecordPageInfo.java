@@ -72,8 +72,7 @@ public class RecordPageInfo  {
             public void onClick(View view) {
                 if(style != StatisticsInfo.YEAR) {
                     style = StatisticsInfo.YEAR;
-                    Toast toast = Toast.makeText(activity, "nian", Toast.LENGTH_SHORT);
-                    toast.show();
+
                     openAccess.JudgmentAuthority(activity);
                     Refresh(activity);
                 }

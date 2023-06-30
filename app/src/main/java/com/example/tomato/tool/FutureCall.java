@@ -146,10 +146,6 @@ public class FutureCall {
                             user.setId(jsonObject.getInt("uid"));
                         } catch (JSONException e) {
                             throw new RuntimeException(e);
-                        } try {
-                            user.setAvatar(jsonObject.getString("avatar"));
-                        } catch (JSONException e) {
-                            throw new RuntimeException(e);
                         }
                         try {
                             user.setName(jsonObject.getString("name"));
@@ -158,6 +154,13 @@ public class FutureCall {
                         }
                         try {
                             user.setEmail(jsonObject.getString("email"));
+                            Log.i("email",jsonObject.getString("email"));
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }try {
+                            Log.i("avatar",jsonObject.getString("avatar"));
+
+                            user.setAvatar(jsonObject.getString("avatar"));
                         } catch (JSONException e) {
                             throw new RuntimeException(e);
                         }

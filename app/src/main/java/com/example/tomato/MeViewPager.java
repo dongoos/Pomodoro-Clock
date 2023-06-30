@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MeViewPager {
-    private static Button btn_info, btn_friend, btn_achievement, btn_setting,btn_changeAvatar;
+    private static Button btn_login, btn_friend, btn_achievement, btn_setting,btn_changeAvatar;
     private static ImageView ibtn_setting,avatar;
     private static TextView tv_name,tv_email,tv_score;
    private static Context context;
@@ -30,7 +30,7 @@ public class MeViewPager {
     public static void init(MainActivity activity) {
         View rootView;
         rootView = MainActivity.getView2();
-        btn_info=rootView.findViewById(R.id.infoButton);
+        btn_login=rootView.findViewById(R.id.infoButton);
         btn_friend=rootView.findViewById(R.id.btn_friend);
         btn_achievement=rootView.findViewById(R.id.btn_achievements);
         ibtn_setting=rootView.findViewById(R.id.ib_setting);
@@ -48,7 +48,7 @@ public class MeViewPager {
             }
         }
         if(User.getEmail()!=null){
-            btn_info.setVisibility(View.GONE);
+            btn_login.setVisibility(View.GONE);
             tv_name.setText(User.getName());
              tv_email.setText(User.getEmail());
              tv_score.setText(String.valueOf(User.getScore()));
@@ -62,21 +62,25 @@ public class MeViewPager {
             avatar.setImageDrawable(avatarDrawable);
         }
 
-        btn_info.setOnClickListener(view -> {
+        btn_login.setOnClickListener(view -> {
             Intent intent = new Intent(activity, LoginActivity.class);
             activity.startActivity(intent);
 
         });
 
         btn_friend.setOnClickListener(view -> {
+            if(User.getEmail()!=null) {
             FriendDialog friendDialog = new FriendDialog();
             friendDialog.show(activity.getSupportFragmentManager(), "Friend_dialog");
-
+            }else   Toast.makeText(activity, "请登录", Toast.LENGTH_SHORT).show();
         });
 
         btn_achievement.setOnClickListener(view -> {
-            Intent intent = new Intent(activity, AchievementActivity.class);
-            activity.startActivity(intent);
+            if(User.getEmail()!=null) {
+                Intent intent = new Intent(activity, AchievementActivity.class);
+                activity.startActivity(intent);
+            }else   Toast.makeText(activity, "请登录", Toast.LENGTH_SHORT).show();
+
         });
         btn_setting.setOnClickListener(view -> {
             Intent intent = new Intent(activity,SettingActivity.class);
@@ -87,7 +91,7 @@ public class MeViewPager {
             activity.startActivity(intent);
         });
         btn_changeAvatar.setOnClickListener(view -> {
-
+            if(User.getEmail()!=null) {
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setTitle("选择头像");
 
@@ -119,7 +123,7 @@ public class MeViewPager {
 
                 builder.show();
 
-        });
+            }else   Toast.makeText(activity, "请登录", Toast.LENGTH_SHORT).show(); });
     }
 
 
