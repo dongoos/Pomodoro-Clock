@@ -51,6 +51,7 @@ import com.example.tomato.appUsage.AppInformation;
 import com.example.tomato.appUsage.StatisticsInfo;
 import com.example.tomato.model.Model;
 import com.example.tomato.util.DatabaseHandler;
+import com.mikhaellopez.circularfillableloaders.CircularFillableLoaders;
 
 
 import java.util.ArrayList;
@@ -77,6 +78,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private static AlertDialog dlgTime;
     private static long setTime;
     private RecyclerView eventRecyclerView;
+    private CircularFillableLoaders progressFill;
     private RecyclerView whiteListDisplay;
     private static EventListAdapter elAdapter;
     private static SmallWhiteListAdapter wladapter2;
@@ -458,6 +460,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         progress=mViews.get(0).findViewById(R.id.progressBar);
         eventList = new ArrayList<>();
 
+        //progressFill = mViews.get(0).findViewById(R.id.progressFIll);
+
         whiteListDisplay= mViews.get(0).findViewById(R.id.whitelist);
 
         wladapter2 = new SmallWhiteListAdapter(whiteListApp,MainActivity.this);
@@ -482,6 +486,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
 
         //ButtonListener
+
         btn_wl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -493,6 +498,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 //startLockTask();
             }
         });
+        //progressFill.setProgress(100);
         btn_event.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
