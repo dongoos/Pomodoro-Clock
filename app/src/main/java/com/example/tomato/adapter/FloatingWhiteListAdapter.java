@@ -63,20 +63,14 @@ public class FloatingWhiteListAdapter extends RecyclerView.Adapter<FloatingWhite
             public void onClick(View view) {
 
 //
-                Toast.makeText(mcontext,"The Package is"+ appInfo.getPackageName(),Toast.LENGTH_SHORT).show();
-                Log.i("THE PACKAGEEEE", "The package is "+appInfo.getPackageName() + " The name is "+ appInfo.getLabel());
 
+                Log.i("THE PACKAGEEEE", "The package is "+appInfo.getPackageName() + " The name is "+ appInfo.getLabel());
+                //Toast.makeText(mcontext,"The Package is"+ appInfo.getLabel(),Toast.LENGTH_SHORT).show();
 
             }
 
 
         });
-
-        if(MainActivity.whiteList.contains(position)){
-            holder.item.setCardBackgroundColor(mcontext.getResources().getColor(R.color.lavender));
-        }else{
-            holder.item.setCardBackgroundColor(mcontext.getResources().getColor(R.color.white));
-        }
 
 
     }

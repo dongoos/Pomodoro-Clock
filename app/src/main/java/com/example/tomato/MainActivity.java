@@ -520,7 +520,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         whiteListDisplay= mViews.get(0).findViewById(R.id.whitelist);
 
         eventRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        whiteListDisplay.setLayoutManager(new LinearLayoutManager(this));
+        //whiteListDisplay.setLayoutManager(new LinearLayoutManager(this));
 
         wladapter2 = new SmallWhiteListAdapter(whiteListApp,MainActivity.this);
         whiteListDisplay.setAdapter(wladapter2);

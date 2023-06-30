@@ -70,6 +70,7 @@ public class FloatingWindow extends Service {
     MainActivity activity;
     private static DatabaseHandler db;
     private RecyclerView recyclerView;
+    FloatingWhiteListAdapter wladapter;
 
     @Nullable
     @Override
@@ -107,7 +108,11 @@ public class FloatingWindow extends Service {
         timer = floatView.findViewById(R.id.timer);
         timeProgress =  floatView.findViewById(R.id.progressBar);
         eventName = floatView.findViewById(R.id.floatingName);
-        recyclerView = floatView.findViewById(R.id.whitelist);
+        recyclerView = floatView.findViewById(R.id.whiteList);
+
+        wladapter = new FloatingWhiteListAdapter(MainActivity.whiteListApp,activity);
+        recyclerView.setAdapter(wladapter);
+
 
 //        maximizeBtn = floatView.findViewById(R.id.buttonMaximize);
 //        toAPP = floatView.findViewById(R.id.buttonApp2);
@@ -132,8 +137,6 @@ public class FloatingWindow extends Service {
                 PixelFormat.TRANSLUCENT
         );
 
-//        SmallWhiteListAdapter wladapter = new SmallWhiteListAdapter(MainActivity.whiteListApp,activity);
-//        whitelist.setAdapter(wladapter);
 
         windowManager.addView(floatView, floatWindowLayoutParam);
         eventName.setText(MainActivity.getEventName());
