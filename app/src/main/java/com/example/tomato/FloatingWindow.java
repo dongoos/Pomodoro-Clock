@@ -60,7 +60,7 @@ public class FloatingWindow extends Service {
     private long max =1000;
 
     private static boolean justOpened = true;
-    MainActivity activity;
+    Context activity;
     private static DatabaseHandler db;
     private RecyclerView recyclerView;
     FloatingWhiteListAdapter wladapter;

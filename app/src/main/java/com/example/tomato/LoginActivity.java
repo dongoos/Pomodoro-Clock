@@ -37,8 +37,6 @@ public class LoginActivity extends Activity {
              email=et_email.getText().toString();
              password=et_password.getText().toString();
              ServerHelper serverHelper =new ServerHelper();
-             Log.i("email",email);
-             Log.i("pwd",password);
                  serverHelper.login(email, password)
                          .thenAccept(complete -> {
                              Log.i("complete", String.valueOf(complete));
@@ -52,9 +50,7 @@ public class LoginActivity extends Activity {
                                                  User.setUserSession(user.getName(),user.getEmail(),user.getUid(), user.getScore(),user.getAvatar());
                                                  Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                                  startActivity(intent);
-                                                 Log.i("name,email,uid",User.getName()+User.getEmail()+User.getUid());
                                              }else{
-                                                 Log.i("配置信息","wrong");
                                              }
                                          });
                              } else {

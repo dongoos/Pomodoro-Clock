@@ -32,15 +32,15 @@ public class FriendListAdapter extends ArrayAdapter<FriendInfo> {
                     Log.i("showFriend","start" );
                     Log.i("complete", String.valueOf(complete));
                     if (complete != null) {
-//                                     friendList = complete;
-//                                    for(FUser user:friendList){
-//                                        Log.i("friendInfo",user.getEmail());
-//                                    }
+                                     friendList = (ArrayList<FUser>) complete;
+                                    for(FUser user:friendList){
+                                        Log.i("friendInfo",user.getEmail());
+                                    }
                         Log.i("showFriend","yes" );
 
                     }
                     else {
-                        Log.i("登录", "失败");
+                        Log.i("showFriend", "失败");
                     }});
     }
     @Override

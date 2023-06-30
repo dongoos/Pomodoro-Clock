@@ -72,6 +72,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private static ProgressBar progress;
     private static AlertDialog dlgTime;
     private static long setTime;
+
+    private static boolean tempSet;
     private RecyclerView eventRecyclerView;
     private CircularFillableLoaders progressFill;
     private RecyclerView whiteListDisplay;
@@ -331,6 +333,105 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         dlgTime.show();
         Log.i("Testing","Ok so were here at least");
     }
+
+    public static void createTime(MainActivity activity, boolean update, int eid){
+        tempSet = true;
+        View dlgViewTime = LayoutInflater.from(activity).inflate(R.layout.dialog_time_only, null);
+
+        Button btn_evtSubmit = dlgViewTime.findViewById(R.id.submitEvent);
+        Button btn_cancel = dlgViewTime.findViewById(R.id.cancelEvent);
+
+        NumberPicker minPicker =dlgViewTime.findViewById(R.id.minutePicker);
+        minPicker.setMinValue(0);
+        minPicker.setMaxValue(41);
+
+        minPicker.setFormatter(new NumberPicker.Formatter() {
+            @Override
+            public String format(int i) {
+                return String.format("%02d",i>5?(i-4)*5:i);
+            }
+        });
+
+        minPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker numberPicker, int i, int i1) {
+                min = i;
+            }
+        });
+
+        NumberPicker secPicker =dlgViewTime.findViewById(R.id.secPicker);
+        secPicker.setMinValue(0);
+        secPicker.setMaxValue(59);
+
+        secPicker.setFormatter(new NumberPicker.Formatter() {
+            @Override
+            public String format(int i) {
+                return String.format("%02d",i);
+            }
+        });
+
+        secPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker numberPicker, int i, int i1) {
+                sec = i;
+            }
+        });
+
+        minPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker numberPicker, int i, int i1) {
+                if(i1>5){
+                    min = (i1-4)*5;
+                }else{
+                    min = i1;
+                }
+
+            }
+        });
+        secPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker numberPicker, int i, int i1) {
+                sec = i1;
+            }
+        });
+
+
+        btn_evtSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                long milliseconds = (min*60000)+(sec*1000);
+                if(Timer.isTimerRunning()){
+                    Toast.makeText(activity,"Timer is still running",Toast.LENGTH_SHORT).show();
+                }else{
+                    MainActivity.setTimeMili(milliseconds);
+                    String timeLeftFormatted = String.format("%02d:%02d", min, sec);
+                    timer.setText(timeLeftFormatted);
+                    Timer.setSoFar(0);
+                    progress.setProgress(0);
+                    bt_time.setText("Start Timer");
+                }
+
+                Log.i("dbTest","This is the local arraylist"+eventList.toString());
+//                Log.i("dbTest","This is the database"+db.getAllEvents().toString());
+
+                dlgTime.dismiss();
+
+            }
+        });
+
+        btn_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dlgTime.dismiss();
+            }
+        });
+        dlgTime = new AlertDialog.Builder(activity)
+                .setView(dlgViewTime)
+                .create();
+        dlgTime.show();
+        Log.i("Testing","Ok so were here at least");
+    }
 //Permissions for Alert Window --> Floating Window must be in main activity
     private void requestOverlayDisplayPermission() {
         // An AlertDialog is created
@@ -395,7 +496,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
             final int position = viewHolder.getAdapterPosition();
             if(direction == ItemTouchHelper.RIGHT){
-                androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(MainActivity.this);
+                androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(context);
                 builder.setTitle("Delete Event");
                 builder.setMessage("Are you sure you want to delete this event?");
                 builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
@@ -475,6 +576,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         wladapter2.setArrayList(whiteListApp);
 
         if(timeFinish){
+
             congrats(MainActivity.this);
             setTimeMili(0);
             timeFinish = false;
@@ -485,12 +587,17 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         btn_wl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                whiteList(MainActivity.this);
+                try {
+                    if(!OpenAccess.isStatAccessPermissionSet(MainActivity.this)){
+                        startActivity(new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS));
 
+                    }else{
+                        whiteList(MainActivity.this);
+                    }
+                } catch (PackageManager.NameNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
 
-
-                //Toast.makeText(context,"APOLOGIES THIS IS STILL IN DEVELOPMENT \nTHANK YOU FOR USING OUR APP", Toast.LENGTH_SHORT).show();
-                //startLockTask();
             }
         });
         //progressFill.setProgress(100);
@@ -505,7 +612,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             @Override
             public void onClick(View view) {
 
-                createEvent(MainActivity.this, false,0);
+                createTime(MainActivity.this, false,0);
             }
 
         });
@@ -528,19 +635,32 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
                                     if (checkOverlayDisplayPermission()) {
+                                        db = new DatabaseHandler(MainActivity.this);
+                                        db.openDatabase();
+                                        Model temp;
 
-                                        //
-                                    db = new DatabaseHandler(MainActivity.this);
-                                    db.openDatabase();
-                                    Model temp = db.getAllEvents().get(MainActivity.getEid());
+                                        if(tempSet){
+                                            temp = new Model();
+                                            temp.setTimeMinute(min);
+                                            temp.setTimeSec(sec);
+                                        }else{
 
-                                    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-                                        LocalDateTime now = LocalDateTime.now();
-                                        Log.i("Time right now!!", dtf.format(now));
-                                        temp.setDate( dtf.format(now));
-                                    db.insertStats(temp);
-                                    int x = db.getStats(true,true, dtf.format(now));
-                                    Log.i("okkkkkk so potion numtoday",""+x);
+                                            temp = db.getAllEvents().get(MainActivity.getEid());
+                                            temp.setTimeMinute(min);
+                                            temp.setTimeSec(sec);
+
+                                            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+                                            LocalDateTime now = LocalDateTime.now();
+                                            Log.i("Time right now!!", dtf.format(now));
+                                            temp.setDate( dtf.format(now));
+
+
+                                        }
+
+                                        db.insertStats(temp);
+
+                                   // int x = db.getStats(true,true, dtf.format(now));
+                                   // Log.i("okkkkkk so potion numtoday",""+x);
 
                                         startService(new Intent(MainActivity.this, FloatingWindow.class));
                                         finish();

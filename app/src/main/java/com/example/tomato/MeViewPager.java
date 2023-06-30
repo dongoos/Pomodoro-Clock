@@ -24,7 +24,9 @@ public class MeViewPager {
     private static ImageView ibtn_setting,avatar;
     private static TextView tv_name,tv_email,tv_score;
    private static Context context;
-
+   private static final List<String> availableAvatarList = new ArrayList<>();
+   private static int[] scoreThresholds = {0, 50, 100, 150};//分数阈值
+   private static String[] avatarList = {"avatar1", "avatar2", "avatar3"};
     public static void init(MainActivity activity) {
         View rootView;
         rootView = MainActivity.getView2();
@@ -37,12 +39,29 @@ public class MeViewPager {
         tv_name=rootView.findViewById(R.id.user_name);
         tv_email=rootView.findViewById(R.id.user_email);
         tv_score=rootView.findViewById(R.id.user_score);
-        tv_name.setText("用户");
-        tv_email.setText(User.getEmail());
-        tv_score.setText("");
         btn_changeAvatar=rootView.findViewById(R.id.btn_changeAvatar);
         context =activity;
         MainActivity.iv_avatar=rootView.findViewById(R.id.imageView);
+        for (int i = 0; i < avatarList.length; i++) {
+            if (User.getScore() >= scoreThresholds[i]) {
+                availableAvatarList.add(avatarList[i]);
+            }
+        }
+        if(User.getEmail()!=null){
+            btn_info.setVisibility(View.GONE);
+            tv_name.setText(User.getName());
+             tv_email.setText(User.getEmail());
+             tv_score.setText(String.valueOf(User.getScore()));
+            int avatarResourceId = context.getResources().getIdentifier("avatar1", "drawable", context.getPackageName());
+            Drawable avatarDrawable = ContextCompat.getDrawable(context, avatarResourceId);
+            // 设置用户的新头像
+            avatar.setImageDrawable(avatarDrawable);
+        }else{
+            int avatarResourceId = context.getResources().getIdentifier("nologin", "drawable", context.getPackageName());
+            Drawable avatarDrawable = ContextCompat.getDrawable(context, avatarResourceId);
+            avatar.setImageDrawable(avatarDrawable);
+        }
+
         btn_info.setOnClickListener(view -> {
             Intent intent = new Intent(activity, LoginActivity.class);
             activity.startActivity(intent);
@@ -68,15 +87,12 @@ public class MeViewPager {
             activity.startActivity(intent);
         });
         btn_changeAvatar.setOnClickListener(view -> {
-            int[] scoreThresholds = {0, 50, 100, 150};//分数阈值
-             String[] avatarList = {"avatar1", "avatar2", "avatar3"}; // 头像图片的文件名列表
+
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setTitle("选择头像");
 
                 // 根据分数确定可供选择的头像
                 int availableAvatars = 0;
-                final List<String> availableAvatarList = new ArrayList<>();
-
                 for (int i = 0; i < avatarList.length; i++) {
                     if (User.getScore() >= scoreThresholds[i]) {
                         availableAvatarList.add(avatarList[i]);

@@ -57,8 +57,8 @@ public class WhiteListAdapter extends RecyclerView.Adapter<WhiteListAdapter.Recy
             holder.item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
 //
+
                     index = position;
                     list.add(index);
                     if(MainActivity.whiteList.contains(index)){

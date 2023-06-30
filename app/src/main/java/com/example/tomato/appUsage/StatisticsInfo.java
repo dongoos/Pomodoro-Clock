@@ -269,6 +269,7 @@ public class StatisticsInfo {
     }
 
     public ArrayList<AppInformation> getShowList() {
+        Log.i("Showlist","SO im here?");
         return ShowList;
     }
 }

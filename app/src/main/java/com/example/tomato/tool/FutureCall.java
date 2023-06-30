@@ -124,43 +124,48 @@ public class FutureCall {
                 String responseBody = response.body().string();
                 Log.i("responseBody", responseBody);
                 JSONArray jsonArray = null;
-//                try {
-//                    jsonArray = new JSONArray(responseBody);
-//                } catch (JSONException e) {
-//                    throw new RuntimeException(e);
-//                }
-//                if (jsonArray.length() == 0) {
-//                    future.complete(null);
-//                } else {
-//
-//                    List<FUser> userList = new ArrayList<>();
-//                    for (int i = 0; i < jsonArray.length(); i++) {
-//                        JSONObject jsonObject = null;
-//                        try {
-//                            jsonObject = jsonArray.getJSONObject(i);
-//                        } catch (JSONException e) {
-//
-//                        }
-//                        FUser user = new FUser();
-//                        try {
-//                            user.setId(jsonObject.getInt("uid"));
-//                        } catch (JSONException e) {
-//                            throw new RuntimeException(e);
-//                        }
-//                        try {
-//                            user.setName(jsonObject.getString("name"));
-//                        } catch (JSONException e) {
-//                            throw new RuntimeException(e);
-//                        }
-//                        try {
-//                            user.setEmail(jsonObject.getString("email"));
-//                        } catch (JSONException e) {
-//                            throw new RuntimeException(e);
-//                        }
-//                        userList.add(user);
-//                    }
-//                    future.complete(userList);
-//                }
+                try {
+                    jsonArray = new JSONArray(responseBody);
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
+                if (jsonArray.length() == 0) {
+                    future.complete(null);
+                } else {
+
+                    List<FUser> userList = new ArrayList<>();
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject jsonObject = null;
+                        try {
+                            jsonObject = jsonArray.getJSONObject(i);
+                        } catch (JSONException e) {
+
+                        }
+                        FUser user = new FUser();
+                        try {
+                            user.setId(jsonObject.getInt("uid"));
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        } try {
+                            user.setAvatar(jsonObject.getString("avatar"));
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
+                        try {
+                            user.setName(jsonObject.getString("name"));
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
+                        try {
+                            user.setEmail(jsonObject.getString("email"));
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
+                        }
+
+                        userList.add(user);
+                    }
+                    future.complete(userList);
+                }
 
             }
 
