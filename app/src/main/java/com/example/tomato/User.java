@@ -8,8 +8,15 @@ public class User {
     private static String unLockId;
 
     private static int score;
+    private static String avatar;
 
+    public static String getAvatar() {
+        return avatar;
+    }
 
+    public static void setAvatar(String avatar) {
+        avatar = avatar;
+    }
 
     public User(String name, String email, int uid, String unLockId) {
         this.name = name;
@@ -17,7 +24,7 @@ public class User {
         this.email = email;
         this.uid = uid;
         this.unLockId = unLockId;
-
+        this.avatar="0";
     }
 
     public User() {
@@ -31,11 +38,12 @@ public class User {
         User.score = score;
     }
     // User session methods
-    public static void setUserSession(String name, String email, int uid, String password,String score) {
+    public static void setUserSession(String name, String email, int uid, String password,String score,String avatar) {
         setEmail(email);
         setName(name);
         setUid(uid);
         setPassword(password);
+        setAvatar(avatar);
     }
 
     public static void clearUserSession() {

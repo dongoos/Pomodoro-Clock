@@ -12,7 +12,6 @@ android {
         targetSdk 33
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -65,11 +64,6 @@ dependencies {
     implementation 'com.google.android.material:material:1.4.0'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation 'com.rengwuxian.materialedittext:library:2.1.4'
-
-<<<<<<< HEAD
-=======
-
     implementation 'com.mikhaellopez:circularfillableloaders:1.2.0'
 
->>>>>>> 1491b09fcbf2d7283885e5e3de583d4f75a9ae65
 }

@@ -42,6 +42,7 @@ public class RecordPageInfo  {
         buttonMonth = rootView.findViewById(R.id.monthbuttonlist3);
         buttonYear = rootView.findViewById(R.id.yearbuttonlist3);
         listView = rootView.findViewById(R.id.AppStatisticsList);
+
         // 获取视图元素
         this.style = StatisticsInfo.DAY;
         Refresh(activity);
