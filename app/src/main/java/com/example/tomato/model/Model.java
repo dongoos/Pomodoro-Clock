@@ -3,9 +3,10 @@ package com.example.tomato.model;
 import android.util.Log;
 
 public class Model {
-    private int id, status, timeMinute, timeSec;
+    private int id,  timeMinute, timeSec;
+    private boolean quit;
 
-    private String task;
+    private String task, date;
 
     public int getId() {
         return id;
@@ -23,12 +24,20 @@ public class Model {
         this.id = id;
     }
 
-    public int getStatus() {
-        return status;
+    public boolean isQuit() {
+        return quit;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    public void setQuit(boolean quit) {
+        this.quit = quit;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public int getTimeMinute() {
@@ -52,10 +61,11 @@ public class Model {
     public String toString() {
         return "Model{" +
                 "id=" + id +
-                ", status=" + status +
                 ", timeMinute=" + timeMinute +
                 ", timeSec=" + timeSec +
+                ", quit=" + quit +
                 ", task='" + task + '\'' +
+                ", date='" + date + '\'' +
                 '}';
     }
 }

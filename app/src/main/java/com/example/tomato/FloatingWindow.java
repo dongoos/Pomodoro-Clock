@@ -26,6 +26,7 @@ import com.example.tomato.model.Model;
 import com.example.tomato.util.DatabaseHandler;
 import com.mikhaellopez.circularfillableloaders.CircularFillableLoaders;
 
+
 public class FloatingWindow extends Service {
 
     // The reference variables for the
@@ -38,11 +39,14 @@ public class FloatingWindow extends Service {
     private WindowManager windowManager;
     Context context;
     Button stop;
-    private static ProgressBar timeProgress;
+    private static CircularFillableLoaders timeProgress;
     private static TextView timer;
     private TextView eventName;
 
     private RecyclerView whitelist;
+
+    private static int x;
+   // private CircularFillableLoaders progressFill;
 
 
 
@@ -119,7 +123,7 @@ public class FloatingWindow extends Service {
         }
 
         floatWindowLayoutParam = new WindowManager.LayoutParams(
-                (int) (width ),
+                (int) (width),
                 (int) (height ),
                 LAYOUT_TYPE,
                 WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
@@ -146,7 +150,8 @@ public class FloatingWindow extends Service {
 
 //        timeProgress.setMax((int)max);
 
-        max=1000;
+        max=100;
+       // timeProgress.setProgress(1000);
 
 
 
@@ -157,6 +162,7 @@ public class FloatingWindow extends Service {
         timerRunning = true;
         interval = ogTime/max;
         interval = (ogTime+interval)/max;
+//        timeProgress.setProgress(100);
 
 
         countDownTimer = new CountDownTimer(timeLeftInMillis, 100) {
@@ -182,8 +188,12 @@ public class FloatingWindow extends Service {
     private void updateCountdownText() {
         int minutes = (int) (timeLeftInMillis / 1000) / 60;
         int seconds = (int) (timeLeftInMillis / 1000) % 60;
-        int progress = (int) ((ogTime-timeLeftInMillis)/interval);
+        int ogSec = (int) (ogTime/1000);
+        int progress = (int) (100-(ogTime-timeLeftInMillis)/interval);
+        Log.i("Progress stuff", "The progress is"+progress);
 
+
+        //timeProgress.setProgress(progress);
         timeProgress.setProgress(progress);
         String timeLeftFormatted = String.format("%02d:%02d", minutes, seconds);
         timer.setText(timeLeftFormatted);

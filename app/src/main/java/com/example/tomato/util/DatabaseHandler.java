@@ -10,6 +10,8 @@ import android.util.Log;
 
 import com.example.tomato.model.Model;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,10 +34,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         Log.i("Database","-------------------------------Creating Tables--------------------------------");
         //table events is for the new events
         //add an unlock id in events later
-        db.execSQL("CREATE TABLE IF NOT EXISTS events( eid INTEGER PRIMARY KEY AUTOINCREMENT, eventName TEXT, timeMinutes INTEGER ,timeSecond INTEGER, unlockpw TEXT ) ");
+        db.execSQL("CREATE TABLE IF NOT EXISTS events( eid INTEGER PRIMARY KEY AUTOINCREMENT, eventName TEXT, timeMinutes INTEGER ,timeSecond INTEGER, unlockpw TEXT) ");
         //stats is to show the completed versions to check for achievements
-        db.execSQL("CREATE TABLE IF NOT EXISTS stats(id INTEGER PRIMARY KEY AUTOINCREMENT, eventName TEXT, timeMinutes INTEGER ,timeSecond INTEGER) ");
+        db.execSQL("CREATE TABLE IF NOT EXISTS stats(id INTEGER PRIMARY KEY AUTOINCREMENT, eventName TEXT, timeMinutes INTEGER ,timeSecond INTEGER, date TEXT ) ");
         db.execSQL("CREATE TABLE IF NOT EXISTS user(uid INTEGER PRIMARY KEY, email TEXT, name TEXT, password TEXT) ");
+
 
     }
 
@@ -83,6 +86,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         cv.put("eventName", evt.getTask());
         cv.put("timeMinutes",evt.getTimeMinute());
         cv.put("timeSecond",evt.getTimeSec());
+        cv.put("date",evt.getDate());
         long res = db.insertOrThrow("stats",null, cv);
         if(res == -1){
             Log.i("Database", "FAILED TO INSERT FUNCTION BEGIN CRYING IN 3.. 2.. 1..");
@@ -125,14 +129,22 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     @SuppressLint("Range")
-    public int getStats(boolean potions){
+    public int getStats(boolean potions,boolean today, String date){
         int sum = 0;
         int min = 0;
         int sec = 0;
+//        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+//        String date = dtf.format(LocalDateTime.now());
+
         Cursor cur = null;
         db.beginTransaction();
         try{
-            cur = db.query("stats",null,null,null,null,null,null,null);
+            if(today ){
+                cur = db.rawQuery("SELECT * FROM stats WHERE date=?",new String[] {date});
+            }else{
+                cur = db.query("stats",null,null,null,null,null,null,null);
+            }
+
             if(cur != null){
                 if(cur.moveToFirst()){
                     do{
