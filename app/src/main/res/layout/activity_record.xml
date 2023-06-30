@@ -14,18 +14,16 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="124dp"
-            android:layout_margin="20dp"
+            android:layout_height="30dp"
             android:orientation="horizontal">
 
-
-            <TextView
-                android:id="@+id/tv5"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_margin="5dp"
-                android:text="今日锁机次数" />
+        <TextView
+            android:id="@+id/tv5"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_margin="5dp"
+            android:text="今日锁机次数" />
 
             <TextView
                 android:id="@+id/tv6"
@@ -42,6 +40,39 @@
                 android:layout_weight="1"
                 android:layout_margin="5dp"
                 android:text="今日强行退出次数" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="124dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv10"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_margin="5dp"
+                android:gravity="center"
+                android:text="7"
+                android:textSize="80dp"/>
+
+            <TextView
+                android:id="@+id/tv18"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_margin="5dp"
+                android:gravity="center"
+                android:text="" />
+
+            <TextView
+                android:id="@+id/tv19"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_margin="5dp"
+                android:gravity="center"
+                android:text="" />
         </LinearLayout>
 
 
