@@ -36,6 +36,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         //stats is to show the completed versions to check for achievements
         db.execSQL("CREATE TABLE IF NOT EXISTS stats(id INTEGER PRIMARY KEY AUTOINCREMENT, eventName TEXT, timeMinutes INTEGER ,timeSecond INTEGER) ");
         db.execSQL("CREATE TABLE IF NOT EXISTS user(uid INTEGER PRIMARY KEY, email TEXT, name TEXT, password TEXT) ");
+
     }
 
     @Override
@@ -54,8 +55,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     //open the database duhh
     public void openDatabase(){
         db = this.getWritableDatabase();
-            // onCreate(db);
-             onUpgrade(db,1,2);
+             onCreate(db);
+             //onUpgrade(db,1,2);
     }
 
 

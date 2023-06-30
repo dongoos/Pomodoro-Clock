@@ -15,29 +15,52 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.tomato.util.DatabaseHandler;
+
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+
 public class Timer extends Activity {
-
-    //init variables
-    private TextView timer;
-    private Button btnStart;
-    private CountDownTimer countDownTimer;
-    private long timeLeftInMillis;
     private static boolean timerRunning;
-
-    private Button btnInfo;
-
-    private ProgressBar timeProgress;
-    private long interval;
-    private long ogTime;
     private static long soFar = 0;
     private long max =1000;
 
-    private AlertDialog dlg;
+    private static AlertDialog dlgTime;
+    static DatabaseHandler db;
     private AlertDialog dialog;
 
-    private View dlgView;
-    Button submitEvt;
-    MainActivity activity;
+
+//Display after timer finishes
+    public static void congrats(MainActivity activity){
+        View dlgViewTime = LayoutInflater.from(activity).inflate(R.layout.dialog_congrats, null);
+
+        Button finish = dlgViewTime.findViewById(R.id.finish);
+        TextView minTotal = dlgViewTime.findViewById(R.id.minNum);
+        TextView potionNum = dlgViewTime.findViewById(R.id.potionNum);
+
+        AchievementActivity achievementActivity = new AchievementActivity();
+        db = new DatabaseHandler(activity);
+        db.openDatabase();
+        //db.getStats(true);
+
+        minTotal.setText(""+db.getStats(false)+" total minutes");
+        potionNum.setText(""+db.getStats(true)+" potions");
+        achievementActivity.getAchievement();
+        finish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dlgTime.dismiss();
+            }
+        });
+        dlgTime = new AlertDialog.Builder(activity)
+                .setView(dlgViewTime)
+                .create();
+        dlgTime.show();
+
+    }
+
 
 
     public static void setSoFar(long sF) {
