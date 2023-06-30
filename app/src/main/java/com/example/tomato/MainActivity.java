@@ -492,12 +492,17 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         btn_wl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                whiteList(MainActivity.this);
+                try {
+                    if(!OpenAccess.isStatAccessPermissionSet(MainActivity.this)){
+                        startActivity(new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS));
 
+                    }else{
+                        whiteList(MainActivity.this);
+                    }
+                } catch (PackageManager.NameNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
 
-
-                //Toast.makeText(context,"APOLOGIES THIS IS STILL IN DEVELOPMENT \nTHANK YOU FOR USING OUR APP", Toast.LENGTH_SHORT).show();
-                //startLockTask();
             }
         });
         //progressFill.setProgress(100);

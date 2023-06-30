@@ -42,7 +42,7 @@ public class OpenAccess {
         });
     }
 
-    public boolean JudgmentAuthority(MainActivity activity) {
+    public static boolean JudgmentAuthority(MainActivity activity) {
         try {
             // 检查是否设置了应用统计的使用权限
             if (isStatAccessPermissionSet(activity)) {
@@ -62,7 +62,7 @@ public class OpenAccess {
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     // 检查是否设置了应用统计的使用权限
-    private boolean isStatAccessPermissionSet(Context c) throws PackageManager.NameNotFoundException {
+    static boolean isStatAccessPermissionSet(Context c) throws PackageManager.NameNotFoundException {
         PackageManager pm = c.getPackageManager();
         ApplicationInfo info = pm.getApplicationInfo(c.getPackageName(), 0);
         AppOpsManager aom = (AppOpsManager) c.getSystemService(Context.APP_OPS_SERVICE);
