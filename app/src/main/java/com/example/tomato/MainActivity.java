@@ -459,8 +459,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         eventList = new ArrayList<>();
 
         whiteListDisplay= mViews.get(0).findViewById(R.id.whitelist);
-        whiteListDisplay.setAdapter(wladapter2);
+
         wladapter2 = new SmallWhiteListAdapter(whiteListApp,MainActivity.this);
+        whiteListDisplay.setAdapter(wladapter2);
 
         eventRecyclerView = mViews.get(0).findViewById(R.id.eventList);
         eventRecyclerView.setLayoutManager(new LinearLayoutManager(this));
