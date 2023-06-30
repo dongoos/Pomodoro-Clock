@@ -1,7 +1,0 @@
-[
-{
-  "directory": "C:/Users/18761/Documents/GitHub/Pomodoro-Clock/app/.cxx/Debug/g1m6f6l2/x86",
-  "command": "D:\\sdk\\ndk\\25.1.8937393\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=i686-none-linux-android26 --sysroot=D:/sdk/ndk/25.1.8937393/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Dtomato_EXPORTS -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -o CMakeFiles\\tomato.dir\\tomato.cpp.o -c C:\\Users\\18761\\Documents\\GitHub\\Pomodoro-Clock\\app\\src\\main\\cpp\\tomato.cpp",
-  "file": "C:\\Users\\18761\\Documents\\GitHub\\Pomodoro-Clock\\app\\src\\main\\cpp\\tomato.cpp"
-}
-]

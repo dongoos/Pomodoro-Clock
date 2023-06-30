@@ -193,16 +193,9 @@
         package com.example.tomato.tool;
 
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.IBinder;
-
-import java.util.List;
-
-import androidx.annotation.Nullable;
-
-import com.example.tomato.R;
 
 public class AppCheckService extends Service {
     private Handler handler;
@@ -249,6 +242,9 @@ public class AppCheckService extends Service {
     }
 
     @Nullable
+        // 停止定时任务
+        handler.removeCallbacks(runnable);
+    }
         // 停止定时任务
         handler.removeCallbacks(runnable);
     }
@@ -332,3 +328,4 @@ public class AppCheckService extends Service {
 //    launchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //    startActivity(launchIntent);
 //}我要实现锁机，帮我整理代码，我要有个悬浮窗，在打开app之后，对app做监听，app关闭就回到悬浮窗
+}

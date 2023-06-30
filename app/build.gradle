@@ -14,11 +14,6 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        externalNativeBuild {
-            cmake {
-                cppFlags ''
-            }
-        }
     }
 
     buildTypes {
@@ -35,10 +30,6 @@ android {
         viewBinding true
     }
     externalNativeBuild {
-        cmake {
-            path file('src/main/cpp/CMakeLists.txt')
-            version '3.22.1'
-        }
     }
 }
 
@@ -63,7 +54,6 @@ dependencies {
     implementation files('libs\\activation.jar')
     implementation files('libs\\additionnal.jar')
     implementation files('libs\\mail.jar')
-    implementation files('libs\\mail.jar')
 
     //
     testImplementation 'junit:junit:4.13.2'
@@ -72,5 +62,9 @@ dependencies {
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
     implementation 'io.github.medyo:android-about-page:2.0.0'
     implementation 'com.yalantis:phoenix:1.2.3'
+    implementation 'com.google.android.material:material:1.4.0'
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+    implementation 'com.rengwuxian.materialedittext:library:2.1.4'
+
 
 }

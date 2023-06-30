@@ -3,12 +3,12 @@
     android:id="@+id/empty_cart_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffefebe7" >
+    android:background="#ffffff" >
 
     <RelativeLayout
         android:id="@+id/top_relative"
         android:layout_width="match_parent"
-        android:background="#106184"
+        android:background="#ffffff"
         android:layout_height="50.0dp" >
 
         <TextView
@@ -19,13 +19,13 @@
             android:padding="10.0dp"
             android:singleLine="true"
             android:text="设置"
-            android:textColor="@color/white"
-            android:textSize="15dp" />
+            android:textColor="@color/black"
+            android:textSize="25dp" />
     </RelativeLayout>
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="680dp"
         android:layout_below="@+id/top_relative"
         android:layout_marginTop="4dp"
         android:fadingEdge="none">
@@ -39,6 +39,7 @@
             android:paddingTop="10.0dp"
             android:paddingRight="10.0dp"
             android:paddingBottom="60.0dp">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -55,15 +56,15 @@
                         android:layout_width="match_parent"
                         android:layout_marginLeft="2.0dp"
                         android:layout_marginRight="2.0dp"
-
                         android:orientation="vertical"
                         android:paddingTop="8.0dp"
                         android:paddingBottom="16.0dp">
 
                         <Button
                             android:id="@+id/setting_individuation"
-                            android:layout_width="897dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="match_parent"
+                            android:background="@color/white"
                             android:drawablePadding="10.0dp"
                             android:gravity="center_vertical"
                             android:includeFontPadding="false"
@@ -71,14 +72,13 @@
                             android:text="个性化"
                             android:textColor="#ff333333"
                             android:textSize="16.0sp" />
-
                         <ImageView
                             android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
+                            android:layout_height="fill_parent"
                             android:layout_gravity="right"
                             android:gravity="center_vertical"
-                            android:paddingRight="20.0dp"
-                            />
+                            android:paddingRight="20.0dip" />
+
                     </TableRow>
                 </TableLayout>
             </LinearLayout>
@@ -93,7 +93,7 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="1.0dp"
                     android:shrinkColumns="0"
-                    android:stretchColumns="0"/>
+                    android:stretchColumns="0" />
             </LinearLayout>
 
             <LinearLayout
@@ -126,7 +126,8 @@
                             android:paddingLeft="17.0dp"
                             android:text="意见反馈"
                             android:textColor="#ff333333"
-                            android:textSize="16.0sp" />
+                            android:textSize="16.0sp"
+                            android:background="@color/white"/>
 
                         <ImageView
                             android:layout_width="wrap_content"
@@ -135,6 +136,7 @@
                             android:gravity="center_vertical"
                             android:paddingRight="20.0dip" />
                     </TableRow>
+
                     <TableRow
                         android:id="@+id/more_page_row9"
                         android:layout_width="fill_parent"
@@ -154,7 +156,8 @@
                             android:paddingLeft="17.0dp"
                             android:text="账号管理"
                             android:textColor="#ff333333"
-                            android:textSize="16.0sp" />
+                            android:textSize="16.0sp"
+                            android:background="@color/white"/>
 
                         <ImageView
                             android:layout_width="wrap_content"
@@ -183,7 +186,8 @@
                             android:paddingLeft="17.0dip"
                             android:text="检测更新"
                             android:textColor="#ff333333"
-                            android:textSize="16.0sp" />
+                            android:textSize="16.0sp"
+                            android:background="@color/white"/>
 
                         <ImageView
                             android:layout_width="wrap_content"
@@ -212,7 +216,8 @@
                             android:paddingLeft="17.0dip"
                             android:text="关于"
                             android:textColor="#ff333333"
-                            android:textSize="16.0sp" />
+                            android:textSize="16.0sp"
+                            android:background="@color/white"/>
 
                         <ImageView
                             android:layout_width="wrap_content"
@@ -226,5 +231,5 @@
                 </TableLayout>
             </LinearLayout>
         </LinearLayout>
-    </ScrollView>
+    </LinearLayout>
 </RelativeLayout>
