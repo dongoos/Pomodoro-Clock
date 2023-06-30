@@ -9,19 +9,17 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.donkingliang.imageselector.utils.ImageSelector;
 import com.example.tomato.dialogFragment.FriendDialog;
 
 
 import java.io.File;
 
 public class MeViewPager {
-    private static Button btn_info, btn_friend, btn_achievement, btn_setting;
+    private static Button btn_info, btn_friend, btn_achievement, btn_setting,btn_changeAvatar;
     private static ImageView ibtn_setting;
     private static TextView tv_name,tv_email,tv_score;
 
     public static void init(MainActivity activity) {
-        context =activity;
         View rootView;
         rootView = MainActivity.getView2();
         btn_info=rootView.findViewById(R.id.infoButton);

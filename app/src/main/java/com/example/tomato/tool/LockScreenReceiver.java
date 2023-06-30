@@ -22,8 +22,6 @@ public class LockScreenReceiver extends BroadcastReceiver {
             if (whitelist.contains(currentPackageName)) {
                 // 在白名单中，执行逻辑
                 // 启动服务来检查当前运行的应用程序是否在白名单中
-                Intent serviceIntent = new Intent(context, AppCheckService.class);
-                context.startService(serviceIntent);
             }
         }
     }

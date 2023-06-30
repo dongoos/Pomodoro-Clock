@@ -140,7 +140,6 @@
                 android:layout_below="@id/imageView"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="20dp"
-                android:text="登录"
                 android:background="@color/white"
                 />
         </RelativeLayout>
