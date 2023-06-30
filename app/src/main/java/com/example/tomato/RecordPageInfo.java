@@ -10,11 +10,15 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.tomato.appUsage.AppInformation;
 import com.example.tomato.appUsage.StatisticsInfo;
+import com.example.tomato.util.DatabaseHandler;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,6 +31,8 @@ public class RecordPageInfo  {
     private Button buttonDay,buttonMonth,buttonYear;
     private ListView listView;
     private final Context context;
+    private TextView tv_lock_time,tv_lock_times;
+    DatabaseHandler db;
 
     OpenAccess openAccess = new OpenAccess();
 
@@ -42,6 +48,16 @@ public class RecordPageInfo  {
         buttonMonth = rootView.findViewById(R.id.monthbuttonlist3);
         buttonYear = rootView.findViewById(R.id.yearbuttonlist3);
         listView = rootView.findViewById(R.id.AppStatisticsList);
+        tv_lock_time = rootView.findViewById(R.id.tv_lock_time);
+        tv_lock_times = rootView.findViewById(R.id.tv_lock_times);
+        db = new DatabaseHandler(activity);
+        db.openDatabase();
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        LocalDateTime now = LocalDateTime.now();
+        int lock_times = db.getStats(true,true,dtf.format(now));
+        int lock_time = db.getStats(false,true,dtf.format(now));
+        tv_lock_time.setText(""+lock_time);
+        tv_lock_times.setText(""+lock_times);
         // 获取视图元素
         this.style = StatisticsInfo.DAY;
         Refresh(activity);

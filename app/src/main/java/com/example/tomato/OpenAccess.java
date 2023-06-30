@@ -33,6 +33,7 @@ public class OpenAccess {
                         toast.show();
                     }else{
                         Toast toast = Toast.makeText(activity, "已开启", Toast.LENGTH_SHORT);
+                        OpenButton.setVisibility(View.GONE);
                         toast.show();
                     }
                 } catch (PackageManager.NameNotFoundException e) {

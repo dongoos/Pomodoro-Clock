@@ -1,8 +1,6 @@
 package com.example.tomato;
 
 
-import android.app.ActivityManager;
-import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.app.admin.DevicePolicyManager;
 import android.content.ComponentName;
@@ -10,8 +8,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -25,7 +21,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.NumberPicker;
@@ -52,7 +47,6 @@ import com.example.tomato.appUsage.StatisticsInfo;
 import com.example.tomato.model.Model;
 import com.example.tomato.util.DatabaseHandler;
 import com.mikhaellopez.circularfillableloaders.CircularFillableLoaders;
-
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
