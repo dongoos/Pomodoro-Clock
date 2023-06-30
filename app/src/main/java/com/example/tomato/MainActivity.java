@@ -355,7 +355,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         minPicker.setFormatter(new NumberPicker.Formatter() {
             @Override
             public String format(int i) {
-                return String.format("%02d",i>5?(i-5)*5:i);
+                return String.format("%02d",i>5?(i-4)*5:i);
             }
         });
 
@@ -388,7 +388,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             @Override
             public void onValueChange(NumberPicker numberPicker, int i, int i1) {
                 if(i1>5){
-                    min = (i1-5)*5;
+                    min = (i1-4)*5;
                 }else{
                     min = i1;
                 }
