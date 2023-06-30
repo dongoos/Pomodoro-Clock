@@ -3,12 +3,14 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@android:color/white">
+    android:layout_height="match_parent">
     <LinearLayout
+    android:id="@+id/floatWindow"
+
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+    android:background="@color/white">
 
         <TextView
             android:id="@+id/floaterName"
@@ -68,7 +70,7 @@
                 android:translationY="10dp" />
 
 
-            <ProgressBar
+                        <ProgressBar
                 android:id="@+id/progressBar"
                 style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                 android:layout_width="match_parent"
@@ -89,11 +91,33 @@
 <!--                android:layout_gravity="bottom|center_horizontal"-->
 <!--                android:text="STOP" />-->
 
+<!--            <com.mikhaellopez.circularfillableloaders.CircularFillableLoaders-->
+<!--                android:id="@+id/progressBar"-->
+<!--                android:layout_width="170dp"-->
+<!--                android:layout_height="170dp"-->
+<!--                android:scaleType="centerCrop"-->
+<!--                app:cfl_border="true"-->
+<!--                app:cfl_border_width="8dp"-->
+<!--                app:cfl_progress="20"-->
+<!--                app:cfl_wave_amplitude=".06"-->
+<!--                app:cfl_wave_color="@color/lavender" />-->
+
+
 
         </FrameLayout>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/whiteList"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:layout_gravity="center_horizontal"
+            ></androidx.recyclerview.widget.RecyclerView>
+
 
     </LinearLayout>
 
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+

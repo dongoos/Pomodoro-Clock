@@ -18,8 +18,13 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.tomato.adapter.FloatingWhiteListAdapter;
+import com.example.tomato.adapter.SmallWhiteListAdapter;
+import com.example.tomato.model.Model;
 import com.example.tomato.util.DatabaseHandler;
+import com.mikhaellopez.circularfillableloaders.CircularFillableLoaders;
 
 public class FloatingWindow extends Service {
 
@@ -37,6 +42,8 @@ public class FloatingWindow extends Service {
     private static TextView timer;
     private TextView eventName;
 
+    private RecyclerView whitelist;
+
 
 
     private CountDownTimer countDownTimer;
@@ -51,6 +58,8 @@ public class FloatingWindow extends Service {
     private static boolean justOpened = true;
     MainActivity activity;
     private static DatabaseHandler db;
+    private RecyclerView recyclerView;
+    FloatingWhiteListAdapter wladapter;
 
     @Nullable
     @Override
@@ -88,6 +97,11 @@ public class FloatingWindow extends Service {
         timer = floatView.findViewById(R.id.timer);
         timeProgress =  floatView.findViewById(R.id.progressBar);
         eventName = floatView.findViewById(R.id.floatingName);
+        recyclerView = floatView.findViewById(R.id.whiteList);
+
+        wladapter = new FloatingWhiteListAdapter(MainActivity.whiteListApp,activity);
+        recyclerView.setAdapter(wladapter);
+
 
 //        maximizeBtn = floatView.findViewById(R.id.buttonMaximize);
 //        toAPP = floatView.findViewById(R.id.buttonApp2);
@@ -112,8 +126,10 @@ public class FloatingWindow extends Service {
                 PixelFormat.TRANSLUCENT
         );
 
+
         windowManager.addView(floatView, floatWindowLayoutParam);
         eventName.setText(MainActivity.getEventName());
+
 
 
 
@@ -128,10 +144,9 @@ public class FloatingWindow extends Service {
 
     private void startTimer() {
 
+//        timeProgress.setMax((int)max);
 
-        timeProgress.setMax((int)max);
-
-
+        max=1000;
 
 
 
