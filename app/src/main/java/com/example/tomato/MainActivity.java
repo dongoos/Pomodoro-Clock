@@ -144,7 +144,33 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         return setTime;
     }
 
+    public static void congrats(MainActivity activity){
+        View dlgViewTime = LayoutInflater.from(activity).inflate(R.layout.dialog_congrats, null);
 
+        Button finish = dlgViewTime.findViewById(R.id.finish);
+        TextView minTotal = dlgViewTime.findViewById(R.id.minNum);
+        TextView potionNum = dlgViewTime.findViewById(R.id.potionNum);
+
+        //AchievementActivity achievementActivity = new AchievementActivity();
+        db = new DatabaseHandler(activity);
+        db.openDatabase();
+        //db.getStats(true);
+
+        minTotal.setText(""+db.getStats(false)+" total minutes");
+        potionNum.setText(""+db.getStats(true)+" potions");
+        //achievementActivity.getAchievement();
+        finish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dlgTime.dismiss();
+            }
+        });
+        dlgTime = new AlertDialog.Builder(activity)
+                .setView(dlgViewTime)
+                .create();
+        dlgTime.show();
+
+    }
 
 //creating the whitelist
     public  void whiteList(MainActivity activity){
@@ -182,6 +208,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
 
     }
+
 //Creating the event list
     public static void createEvent(MainActivity activity, boolean update, int eid){
         View dlgViewTime = LayoutInflater.from(activity).inflate(R.layout.dialog_create_times, null);
@@ -443,7 +470,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         wladapter2.setArrayList(whiteListApp);
 
         if(timeFinish){
-            Timer.congrats(MainActivity.this);
+            congrats(MainActivity.this);
             setTimeMili(0);
             timeFinish = false;
         }
