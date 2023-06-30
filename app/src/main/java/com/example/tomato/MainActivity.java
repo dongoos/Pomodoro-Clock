@@ -79,6 +79,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private static ProgressBar progress;
     private static AlertDialog dlgTime;
     private static long setTime;
+
+    private static boolean tempSet;
     private RecyclerView eventRecyclerView;
     private CircularFillableLoaders progressFill;
     private RecyclerView whiteListDisplay;
@@ -340,6 +342,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     public static void createTime(MainActivity activity, boolean update, int eid){
+        tempSet = true;
         View dlgViewTime = LayoutInflater.from(activity).inflate(R.layout.dialog_time_only, null);
 
         Button btn_evtSubmit = dlgViewTime.findViewById(R.id.submitEvent);
@@ -580,6 +583,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         wladapter2.setArrayList(whiteListApp);
 
         if(timeFinish){
+
             congrats(MainActivity.this);
             setTimeMili(0);
             timeFinish = false;
@@ -638,19 +642,32 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
                                     if (checkOverlayDisplayPermission()) {
+                                        db = new DatabaseHandler(MainActivity.this);
+                                        db.openDatabase();
+                                        Model temp;
 
-                                        //
-                                    db = new DatabaseHandler(MainActivity.this);
-                                    db.openDatabase();
-                                    Model temp = db.getAllEvents().get(MainActivity.getEid());
+                                        if(tempSet){
+                                            temp = new Model();
+                                            temp.setTimeMinute(min);
+                                            temp.setTimeSec(sec);
+                                        }else{
 
-                                    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-                                        LocalDateTime now = LocalDateTime.now();
-                                        Log.i("Time right now!!", dtf.format(now));
-                                        temp.setDate( dtf.format(now));
-                                    db.insertStats(temp);
-                                    int x = db.getStats(true,true, dtf.format(now));
-                                    Log.i("okkkkkk so potion numtoday",""+x);
+                                            temp = db.getAllEvents().get(MainActivity.getEid());
+                                            temp.setTimeMinute(min);
+                                            temp.setTimeSec(sec);
+
+                                            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+                                            LocalDateTime now = LocalDateTime.now();
+                                            Log.i("Time right now!!", dtf.format(now));
+                                            temp.setDate( dtf.format(now));
+
+
+                                        }
+
+                                        db.insertStats(temp);
+
+                                   // int x = db.getStats(true,true, dtf.format(now));
+                                   // Log.i("okkkkkk so potion numtoday",""+x);
 
                                         startService(new Intent(MainActivity.this, FloatingWindow.class));
                                         finish();
