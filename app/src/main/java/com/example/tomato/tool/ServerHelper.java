@@ -18,9 +18,10 @@ public class ServerHelper {
     private String port = "8080";
     private boolean ok;
 
-    public CompletableFuture<Boolean> signup(String email, String password) {
+    public CompletableFuture<Boolean> signup(String email, String password,String name) {
         String url = "http://" + ip + ":" + port + "/server/Signup";
         RequestBody requestBody = new FormBody.Builder()
+                .add("name",name)
                 .add("email", email)
                 .add("password", password)
                 .build();

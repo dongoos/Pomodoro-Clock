@@ -18,13 +18,10 @@ public class LockScreenReceiver extends BroadcastReceiver {
         if (action != null && action.equals(Intent.ACTION_SCREEN_OFF)) {
             // 获取当前运行的应用程序包名
             String currentPackageName = getForegroundPackageName(context);
-
             // 检查当前包名是否在白名单中
             if (whitelist.contains(currentPackageName)) {
                 // 在白名单中，执行逻辑
                 // 启动服务来检查当前运行的应用程序是否在白名单中
-                Intent serviceIntent = new Intent(context, AppCheckService.class);
-                context.startService(serviceIntent);
             }
         }
     }

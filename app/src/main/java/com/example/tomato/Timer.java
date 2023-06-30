@@ -10,35 +10,27 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.provider.Settings;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.tomato.util.DatabaseHandler;
+
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+
 public class Timer extends Activity {
-
-    //init variables
-    private TextView timer;
-    private Button btnStart;
-    private CountDownTimer countDownTimer;
-    private long timeLeftInMillis;
     private static boolean timerRunning;
-
-    private Button btnInfo;
-
-    private ProgressBar timeProgress;
-    private long interval;
-    private long ogTime;
     private static long soFar = 0;
     private long max =1000;
 
-    private AlertDialog dlg;
+    private static AlertDialog dlgTime;
+    static DatabaseHandler db;
     private AlertDialog dialog;
-
-    private View dlgView;
-    Button submitEvt;
-    MainActivity activity;
-
 
     public static void setSoFar(long sF) {
         soFar = sF;
@@ -118,7 +110,7 @@ public class Timer extends Activity {
 //                                .setMessage("Are you sure you want to leave?")
 //                                        .setPositiveButton(android.R.string.yes, null).setNegativeButton(android.R.string.no,null)
 //                        .setIcon(android.R.drawable.ic_dialog_alert).show();
-
+//
 
     }
 

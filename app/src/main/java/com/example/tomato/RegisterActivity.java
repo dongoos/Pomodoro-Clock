@@ -17,15 +17,16 @@ import com.example.tomato.util.SendMailUtil;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    private EditText et_email,et_password,et_password_rePut,et_verification;
+    private EditText et_email,et_password,et_password_rePut,et_verification,et_name;
     Button btn_register,btn_sendVerificationCode;
-    String email,password,passwordRePut;
+    String email,password,passwordRePut,name;
     String verification = achieveCode();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         et_email = findViewById(R.id.et_email);
+        et_name =findViewById(R.id.et_username);
         et_password = findViewById(R.id.et_pwd);
         et_password_rePut = findViewById(R.id.et_pwd_rePut);
         btn_register = findViewById(R.id.btn_register);
@@ -53,25 +54,26 @@ public class RegisterActivity extends AppCompatActivity {
 
 
         btn_register.setOnClickListener(new View.OnClickListener() {
-                                 @Override
-                                 public void onClick(View view) {
-                                     email = et_email.getText().toString();
-                                     password = et_password.getText().toString();
-                                     passwordRePut = et_password_rePut.getText().toString();
-                                     if (verification.equals(et_verification.getText().toString())) {
-                                             ServerHelper serverHelper = new ServerHelper();
-                                             serverHelper.signup(email, password)
-                                                     .thenAccept(complete -> {
-                                                         Log.i("complete", String.valueOf(complete));
-                                                         // 处理异步操作结果
-                                                         if (complete != false) {
-                                                             Log.i("注册", "成功，: " + ", uid: ");
-                                                             Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                                                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                                             startActivity(intent);
-                                                         } else {
-                                                             // 登录失败
-                                                             Log.i("注册", "失败");
+                                            @Override
+                                            public void onClick(View view) {
+                                                name=et_name.getText().toString();
+                                                email = et_email.getText().toString();
+                                                password = et_password.getText().toString();
+                                                passwordRePut = et_password_rePut.getText().toString();
+                                                if (verification.equals(et_verification.getText().toString())) {
+                                                        ServerHelper serverHelper = new ServerHelper();
+                                                        serverHelper.signup(email, password,name)
+                                                                .thenAccept(complete -> {
+                                                                    Log.i("complete", String.valueOf(complete));
+                                                                    // 处理异步操作结果
+                                                                    if (complete != false) {
+                                                                        Log.i("注册", "成功，: " + ", uid: ");
+                                                                        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                                                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                                        startActivity(intent);
+                                                                    } else {
+                                                                        // 登录失败
+                                                                        Log.i("注册", "失败");
 
                                                                     }
                                                                 });

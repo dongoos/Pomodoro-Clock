@@ -10,6 +10,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -23,7 +25,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.GridLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.NumberPicker;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
@@ -33,6 +37,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -40,9 +45,13 @@ import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.tomato.adapter.EventListAdapter;
+import com.example.tomato.adapter.SmallWhiteListAdapter;
+import com.example.tomato.adapter.WhiteListAdapter;
+import com.example.tomato.appUsage.AppInformation;
+import com.example.tomato.appUsage.StatisticsInfo;
 import com.example.tomato.model.Model;
-import com.example.tomato.tool.AppCheckService;
 import com.example.tomato.util.DatabaseHandler;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,52 +61,35 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     static final int RESULT_ENABLE = 1 ;
     DevicePolicyManager deviceManger ;
     ComponentName compName ;
+    public static ImageView iv_avatar;
+
     private AlertDialog dialog;
     private ViewPager mViewPager;
     private RadioGroup mRadioGroup;
     private RadioButton tab1,tab2,tab3;
+
+
+
     private static Button bt_time,btn_wl;
     private static ImageButton btn_event;
-    //Widgets from Activity_lock
-
     private static TextView timer;
     private static ProgressBar progress;
     private static AlertDialog dlgTime;
     private static long setTime;
     private RecyclerView eventRecyclerView;
+    private RecyclerView whiteListDisplay;
     private static EventListAdapter elAdapter;
+    private static SmallWhiteListAdapter wladapter2;
     private static List<Model> eventList;
-
-   ItemTouchHelper itemTouchHelper;
-
+    public static ArrayList<Integer> whiteList = new ArrayList<>();
+    public static ArrayList<AppInformation> whiteListApp = new ArrayList<>();
+    ItemTouchHelper itemTouchHelper;
     private static boolean timeFinish = false;
-
-
-    private static ImageButton ibtn_setting;
-    private EventListAdapter adapter;
-
-    SwipeDelete swipeDelete;
-
-
-
     private static List<View> mViews;   //存放视图
-
-
-    //create instance of timer to allow for the clicklistener to be elsewhere
-    Timer timerButton = new Timer();
-
-    //lock inits
-    private DevicePolicyManager devicePolicyManager;
-    private ActivityManager activityManager;
-    private ComponentName componentName;
-    private ActivityOptions options;
-    private PackageManager packageManager;
     private Context context;
-    private Intent launchIntent;
     private static DatabaseHandler db;
     static int min = 0;
     static int sec = 0;
-
     private static int eid;
     private static String eventName;
 
@@ -106,23 +98,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();//初始化数据
-
-        Intent serviceIntent = new Intent(this, AppCheckService.class);
-        startService(serviceIntent);
-
-
-
-        //对单选按钮进行监听，选中、未选中
-        // lock device properties init
-        activityManager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
-        options = ActivityOptions.makeBasic();
-        context = MainActivity.this;
-        devicePolicyManager = (DevicePolicyManager) getSystemService(DEVICE_POLICY_SERVICE) ;
-        componentName = new ComponentName(this, MyAdmin.class);
-
-        //mRefSetActiveAdmin(componentName, false);
-
-
         mRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int id) {
@@ -141,34 +116,27 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public static Button getBtnT(){
         return bt_time;
     }
-
     public static String getEventName() {
         return eventName;
     }
-
     public static void setEventName(String eventName) {
         MainActivity.eventName = eventName;
     }
-
     public static int getEid() {
         return eid;
     }
-
     public static void setEid(int eid) {
         MainActivity.eid = eid;
     }
-
     public static TextView getTimer(){
         return timer;
     }
     public static ProgressBar getPB(){
         return progress;
     }
-
     public static void setTimeFinish(boolean timeFinish) {
         MainActivity.timeFinish = timeFinish;
     }
-
     public static void setTimeMili(long timeMili) {
         setTime = timeMili;
     }
@@ -176,21 +144,21 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         return setTime;
     }
 
-
     public static void congrats(MainActivity activity){
         View dlgViewTime = LayoutInflater.from(activity).inflate(R.layout.dialog_congrats, null);
 
         Button finish = dlgViewTime.findViewById(R.id.finish);
         TextView minTotal = dlgViewTime.findViewById(R.id.minNum);
         TextView potionNum = dlgViewTime.findViewById(R.id.potionNum);
-        AchievementActivity achievementActivity = new AchievementActivity();
+
+        //AchievementActivity achievementActivity = new AchievementActivity();
         db = new DatabaseHandler(activity);
         db.openDatabase();
         //db.getStats(true);
 
         minTotal.setText(""+db.getStats(false)+" total minutes");
         potionNum.setText(""+db.getStats(true)+" potions");
-        achievementActivity.getAchievement();
+        //achievementActivity.getAchievement();
         finish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -204,6 +172,44 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     }
 
+//creating the whitelist
+    public  void whiteList(MainActivity activity){
+        View dlgViewTime = LayoutInflater.from(activity).inflate(R.layout.whitelist, null);
+
+        RecyclerView recyclerView = dlgViewTime.findViewById(R.id.appList);
+        RecyclerView whitelist = dlgViewTime.findViewById(R.id.whitelist);
+        Button cancel = dlgViewTime.findViewById(R.id.cancelWL);
+        ArrayList <AppInformation> appInfo;
+        StatisticsInfo statisticsInfo = new StatisticsInfo(activity, 3);
+        appInfo = statisticsInfo.getShowList();
+
+        WhiteListAdapter wladapter = new WhiteListAdapter(appInfo,activity);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(activity,4);
+        recyclerView.setLayoutManager(gridLayoutManager);
+        recyclerView.setAdapter(wladapter);
+
+        SmallWhiteListAdapter wladapter2 = new SmallWhiteListAdapter(whiteListApp,activity);
+        whitelist.setAdapter(wladapter2);
+
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MainActivity.wladapter2.setArrayList(whiteListApp);
+                dlgTime.dismiss();
+            }
+        });
+
+
+        dlgTime = new AlertDialog.Builder(activity)
+                .setView(dlgViewTime)
+                .create();
+        dlgTime.show();
+
+
+    }
+
+//Creating the event list
     public static void createEvent(MainActivity activity, boolean update, int eid){
         View dlgViewTime = LayoutInflater.from(activity).inflate(R.layout.dialog_create_times, null);
 
@@ -248,13 +254,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 sec = i;
             }
         });
-        //minPicker.setOn
-        //ValueChangedListener( this);
 
-        //@Override
-//        public onValueChange(NumberPicker numberPicker, int i , int j){
-//
-//        }
         db = new DatabaseHandler(activity);
         db.openDatabase();
         if(update){
@@ -274,9 +274,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 sec = i1;
             }
         });
-
-
-
 
 
         btn_evtSubmit.setOnClickListener(new View.OnClickListener() {
@@ -332,9 +329,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         dlgTime.show();
         Log.i("Testing","Ok so were here at least");
     }
-
-
-  //Permissions...will put somewhere else later ig
+//Permissions for Alert Window --> Floating Window must be in main activity
     private void requestOverlayDisplayPermission() {
         // An AlertDialog is created
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -370,7 +365,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         // The Dialog will show in the screen
         dialog.show();
     }
-    //check for permissions
     private boolean checkOverlayDisplayPermission() {
         // Android Version is lesser than Marshmallow
         // or the API is lesser than 23
@@ -388,6 +382,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
     }
 
+    //Swipe to delete function - must be in main activity
     ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0,ItemTouchHelper.RIGHT) {
         @Override
         public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
@@ -426,9 +421,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
     };
 
-
-
-
     private void initView() {
         //初始化控件
         mViewPager=findViewById(R.id.viewpager);
@@ -453,47 +445,48 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         mViews.add(LayoutInflater.from(this).inflate(R.layout.activity_record,null));
         mViews.add(LayoutInflater.from(this).inflate(R.layout.activity_me,null));
 
+        //inits for Timer
         bt_time=mViews.get(0).findViewById(R.id.btnStart);
         btn_wl=mViews.get(0).findViewById(R.id.whiteListBtn);
         btn_event=mViews.get(0).findViewById(R.id.addEventBtn);
         timer=mViews.get(0).findViewById(R.id.timer);
         progress=mViews.get(0).findViewById(R.id.progressBar);
-
-
-
         eventList = new ArrayList<>();
+
+        whiteListDisplay= mViews.get(0).findViewById(R.id.whitelist);
+        whiteListDisplay.setAdapter(wladapter2);
+        wladapter2 = new SmallWhiteListAdapter(whiteListApp,MainActivity.this);
+
         eventRecyclerView = mViews.get(0).findViewById(R.id.eventList);
         eventRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         elAdapter = new EventListAdapter(db, this);
         eventRecyclerView.setAdapter(elAdapter);
         db = new DatabaseHandler(this);
         db.openDatabase();
-       eventList = db.getAllEvents();
+        eventList = db.getAllEvents();
         elAdapter.setEvent(eventList);
         itemTouchHelper = new ItemTouchHelper(simpleCallback);
         itemTouchHelper.attachToRecyclerView(eventRecyclerView);
+        wladapter2.setArrayList(whiteListApp);
 
         if(timeFinish){
             congrats(MainActivity.this);
+            setTimeMili(0);
             timeFinish = false;
         }
 
         //ButtonListener
-
-
-
         btn_wl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                whiteList(MainActivity.this);
 
 
 
-                Toast.makeText(context,"APOLOGIES THIS IS STILL IN DEVELOPMENT \nTHANK YOU FOR USING OUR APP", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context,"APOLOGIES THIS IS STILL IN DEVELOPMENT \nTHANK YOU FOR USING OUR APP", Toast.LENGTH_SHORT).show();
                 //startLockTask();
             }
         });
-
-
         btn_event.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -501,7 +494,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
             }
         });
-
         timer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -636,5 +628,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             return mViews.get(position);
         }
     }
+
+
 }
 
