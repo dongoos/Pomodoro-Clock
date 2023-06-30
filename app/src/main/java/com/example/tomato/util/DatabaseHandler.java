@@ -129,12 +129,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     }
 
     @SuppressLint("Range")
-    public int getStats(boolean potions,boolean today){
+    public int getStats(boolean potions,boolean today, String date){
         int sum = 0;
         int min = 0;
         int sec = 0;
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-        String date = dtf.format(LocalDateTime.now());
+//        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+//        String date = dtf.format(LocalDateTime.now());
 
         Cursor cur = null;
         db.beginTransaction();

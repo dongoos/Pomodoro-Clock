@@ -160,8 +160,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         db.openDatabase();
         //db.getStats(true);
 
-        minTotal.setText(""+db.getStats(false,false)+" total minutes");
-        potionNum.setText(""+db.getStats(true,false)+" potions");
+        minTotal.setText(""+db.getStats(false,false,null)+" total minutes");
+        potionNum.setText(""+db.getStats(true,false,null)+" potions");
         //achievementActivity.getAchievement();
         finish.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -546,7 +546,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                                         Log.i("Time right now!!", dtf.format(now));
                                         temp.setDate( dtf.format(now));
                                     db.insertStats(temp);
-                                    int x = db.getStats(true,true);
+                                    int x = db.getStats(true,true, dtf.format(now));
                                     Log.i("okkkkkk so potion numtoday",""+x);
 
                                         startService(new Intent(MainActivity.this, FloatingWindow.class));
