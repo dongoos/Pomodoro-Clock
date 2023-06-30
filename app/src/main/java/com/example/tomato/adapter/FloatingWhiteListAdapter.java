@@ -63,10 +63,13 @@ public class FloatingWhiteListAdapter extends RecyclerView.Adapter<FloatingWhite
         holder.item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String packageName = appInfo.getPackageName();
-                String appName = appInfo.getLabel();
+
+//
+
+                Log.i("THE PACKAGEEEE", "The package is "+appInfo.getPackageName() + " The name is "+ appInfo.getLabel());
+                Context context;
                 PackageManager packageManager = mcontext.getPackageManager();
-                Intent launchIntent = packageManager.getLaunchIntentForPackage(packageName);
+                Intent launchIntent = packageManager.getLaunchIntentForPackage(appInfo.getPackageName());
 
                 if (launchIntent != null) {
 
@@ -74,7 +77,7 @@ public class FloatingWhiteListAdapter extends RecyclerView.Adapter<FloatingWhite
                     Intent serviceIntent = new Intent(mcontext, FloatingWindow.class);
                     mcontext.stopService(serviceIntent);
                 } else {
-                    Toast.makeText(mcontext, "无法启动应用程序：" + appName, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mcontext, "无法启动应用程序：" + appInfo.getLabel(), Toast.LENGTH_SHORT).show();
                 }
             }
 
