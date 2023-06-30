@@ -1,17 +1,12 @@
 package com.example.tomato;
 
 
-import android.app.ActivityManager;
-import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.app.admin.DevicePolicyManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -25,7 +20,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.NumberPicker;
@@ -51,8 +45,10 @@ import com.example.tomato.appUsage.AppInformation;
 import com.example.tomato.appUsage.StatisticsInfo;
 import com.example.tomato.model.Model;
 import com.example.tomato.util.DatabaseHandler;
+import com.mikhaellopez.circularfillableloaders.CircularFillableLoaders;
 
-
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private static AlertDialog dlgTime;
     private static long setTime;
     private RecyclerView eventRecyclerView;
+    private CircularFillableLoaders progressFill;
     private RecyclerView whiteListDisplay;
     private static EventListAdapter elAdapter;
     private static SmallWhiteListAdapter wladapter2;
@@ -156,8 +153,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         db.openDatabase();
         //db.getStats(true);
 
-        minTotal.setText(""+db.getStats(false)+" total minutes");
-        potionNum.setText(""+db.getStats(true)+" potions");
+        minTotal.setText(""+db.getStats(false,false,null)+" total minutes");
+        potionNum.setText(""+db.getStats(true,false,null)+" potions");
         //achievementActivity.getAchievement();
         finish.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -458,6 +455,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         progress=mViews.get(0).findViewById(R.id.progressBar);
         eventList = new ArrayList<>();
 
+        //progressFill = mViews.get(0).findViewById(R.id.progressFIll);
+
         whiteListDisplay= mViews.get(0).findViewById(R.id.whitelist);
 
         wladapter2 = new SmallWhiteListAdapter(whiteListApp,MainActivity.this);
@@ -482,6 +481,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
 
         //ButtonListener
+
         btn_wl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -493,6 +493,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 //startLockTask();
             }
         });
+        //progressFill.setProgress(100);
         btn_event.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -532,10 +533,16 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                                     db = new DatabaseHandler(MainActivity.this);
                                     db.openDatabase();
                                     Model temp = db.getAllEvents().get(MainActivity.getEid());
+
+                                    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+                                        LocalDateTime now = LocalDateTime.now();
+                                        Log.i("Time right now!!", dtf.format(now));
+                                        temp.setDate( dtf.format(now));
                                     db.insertStats(temp);
+                                    int x = db.getStats(true,true, dtf.format(now));
+                                    Log.i("okkkkkk so potion numtoday",""+x);
 
                                         startService(new Intent(MainActivity.this, FloatingWindow.class));
-
                                         finish();
                                     } else {
 

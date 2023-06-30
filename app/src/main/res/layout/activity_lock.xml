@@ -42,7 +42,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
 
-                    android:layout_weight="2"
+                    android:layout_weight="1"
                     android:text="WhiteList" />
 
             </LinearLayout>
@@ -88,6 +88,7 @@
                 android:text="00:00"
                 tools:text="00 : 00"
                 android:padding="20dp"/>
+
 
 
         <ProgressBar
