@@ -22,7 +22,7 @@ public class AchievementActivity extends AppCompatActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         db = new DatabaseHandler(this);
         db.openDatabase();
-        db.getStats(true);
+        db.getStats(true,false);
         setContentView(R.layout.activity_achievement);
         gv_achievement = findViewById(R.id.gv_achievement);
         gv_achievement_not = findViewById(R.id.gv_achievement_not);
@@ -53,29 +53,29 @@ public class AchievementActivity extends AppCompatActivity implements View.OnCli
     }
 
     public void getAchievement(){
-        if (db.getStats(false)==1)
+        if (db.getStats(false,false)==1)
         {
             Achievement firstAchievement = achievementListNot.remove(0);
             achievementList.add(firstAchievement);
-        }else if (db.getStats(false) == 2 ){
+        }else if (db.getStats(false,false) == 2 ){
             Achievement secAchievement = achievementListNot.remove(0);
             achievementList.add(secAchievement);
-        }else if (db.getStats(false)== 3){
+        }else if (db.getStats(false,false)== 3){
             Achievement thirdAchievement = achievementListNot.remove(0);
             achievementList.add(thirdAchievement);
-        }else if (db.getStats(false) == 4){
+        }else if (db.getStats(false,false) == 4){
             Achievement fourthAchievement = achievementListNot.remove(0);
             achievementList.add(fourthAchievement);
-        }else if (db.getStats(false) == 5){
+        }else if (db.getStats(false,false) == 5){
             Achievement fifthAchievement = achievementListNot.remove(0);
             achievementList.add(fifthAchievement);
-        }else if (db.getStats(false) == 50 ){
+        }else if (db.getStats(false,false) == 50 ){
             Achievement sixthAchievement = achievementListNot.remove(0);
             achievementList.add(sixthAchievement);
-        }else if (db.getStats(false) == 60){
+        }else if (db.getStats(false,false) == 60){
             Achievement seventhAchievement = achievementListNot.remove(0);
             achievementList.add(seventhAchievement);
-        }else if (db.getStats(false) == 70){
+        }else if (db.getStats(false,false) == 70){
             Achievement eighthAchievement = achievementListNot.remove(0);
             achievementList.add(eighthAchievement);
        }

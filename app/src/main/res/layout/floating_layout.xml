@@ -72,7 +72,6 @@
                 android:scaleX=".53"
                 android:scaleY=".5"
                 app:cfl_border="false"
-
                 app:cfl_wave_amplitude="0.06"
                 app:cfl_wave_color="#926578E1"
                 android:translationX="13dp"

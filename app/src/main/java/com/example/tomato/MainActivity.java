@@ -54,6 +54,8 @@ import com.example.tomato.util.DatabaseHandler;
 import com.mikhaellopez.circularfillableloaders.CircularFillableLoaders;
 
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -158,8 +160,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         db.openDatabase();
         //db.getStats(true);
 
-        minTotal.setText(""+db.getStats(false)+" total minutes");
-        potionNum.setText(""+db.getStats(true)+" potions");
+        minTotal.setText(""+db.getStats(false,false)+" total minutes");
+        potionNum.setText(""+db.getStats(true,false)+" potions");
         //achievementActivity.getAchievement();
         finish.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -538,10 +540,16 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                                     db = new DatabaseHandler(MainActivity.this);
                                     db.openDatabase();
                                     Model temp = db.getAllEvents().get(MainActivity.getEid());
+
+                                    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+                                        LocalDateTime now = LocalDateTime.now();
+                                        Log.i("Time right now!!", dtf.format(now));
+                                        temp.setDate( dtf.format(now));
                                     db.insertStats(temp);
+                                    int x = db.getStats(true,true);
+                                    Log.i("okkkkkk so potion numtoday",""+x);
 
                                         startService(new Intent(MainActivity.this, FloatingWindow.class));
-
                                         finish();
                                     } else {
 
