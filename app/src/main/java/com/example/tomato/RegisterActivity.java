@@ -53,25 +53,25 @@ public class RegisterActivity extends AppCompatActivity {
 
 
         btn_register.setOnClickListener(new View.OnClickListener() {
-                                            @Override
-                                            public void onClick(View view) {
-                                                email = et_email.getText().toString();
-                                                password = et_password.getText().toString();
-                                                passwordRePut = et_password_rePut.getText().toString();
-                                                if (verification.equals(et_verification.getText().toString())) {
-                                                        ServerHelper serverHelper = new ServerHelper();
-                                                        serverHelper.signup(email, password)
-                                                                .thenAccept(complete -> {
-                                                                    Log.i("complete", String.valueOf(complete));
-                                                                    // 处理异步操作结果
-                                                                    if (complete != false) {
-                                                                        Log.i("注册", "成功，: " + ", uid: ");
-                                                                        Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                                                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                                                        startActivity(intent);
-                                                                    } else {
-                                                                        // 登录失败
-                                                                        Log.i("注册", "失败");
+                                 @Override
+                                 public void onClick(View view) {
+                                     email = et_email.getText().toString();
+                                     password = et_password.getText().toString();
+                                     passwordRePut = et_password_rePut.getText().toString();
+                                     if (verification.equals(et_verification.getText().toString())) {
+                                             ServerHelper serverHelper = new ServerHelper();
+                                             serverHelper.signup(email, password)
+                                                     .thenAccept(complete -> {
+                                                         Log.i("complete", String.valueOf(complete));
+                                                         // 处理异步操作结果
+                                                         if (complete != false) {
+                                                             Log.i("注册", "成功，: " + ", uid: ");
+                                                             Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                                                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                             startActivity(intent);
+                                                         } else {
+                                                             // 登录失败
+                                                             Log.i("注册", "失败");
 
                                                                     }
                                                                 });
@@ -80,6 +80,7 @@ public class RegisterActivity extends AppCompatActivity {
                                                         toast.show();
                                                     }
                                             }
+
                                         }
         );
 
